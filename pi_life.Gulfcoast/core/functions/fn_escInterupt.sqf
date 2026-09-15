@@ -23,7 +23,7 @@ private _escSync = {
     _abortButton ctrlEnable true;
 };
 private _canUseControls = {
-    (playerSide isEqualTo west) || {!((player getVariable ["restrained",false]) || {player getVariable ["Escorting",false]} || {player getVariable ["transporting",false]} || {life_is_arrested} || {life_istazed} || {life_isknocked})}
+    (life_side isEqualTo west) || {!((player getVariable ["restrained",false]) || {player getVariable ["Escorting",false]} || {player getVariable ["transporting",false]} || {life_is_arrested} || {life_istazed} || {life_isknocked})}
 };
 for "_i" from 0 to 1 step 0 do {
     waitUntil {!isNull (findDisplay 49)};

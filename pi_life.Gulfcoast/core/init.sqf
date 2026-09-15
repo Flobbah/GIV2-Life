@@ -34,45 +34,23 @@ diag_log "[Life Client] Server loading completed ";
 waitUntil {life_session_completed};
 0 cutText[localize "STR_Init_ClientFinish","BLACK FADED",99999999];
 [] spawn life_fnc_escInterupt;
-switch (playerSide) do {
-    case west: {
-		switch (call life_coplevel) do {
-			case 1: {life_paycheck =  1000;};
-			case 2: {life_paycheck = 1200;};
-			case 3: {life_paycheck = 1400;};
-			case 4: {life_paycheck = 1600;};
-			case 5: {life_paycheck = 1800;};
-			case 6: {life_paycheck = 2000;};
-			case 7: {life_paycheck = 2200;};
-			case 8: {life_paycheck = 2400;};
-			case 9: {life_paycheck = 2600;};
-			case 10: {life_paycheck = 2800;};
-			case 11: {life_paycheck = 3000;};
-			case 12: {life_paycheck = 3200;};
-			case 13: {life_paycheck = 3400;};
-		};
-        [] call life_fnc_initCop;
-    };
-    case civilian: {
-        life_paycheck = LIFE_SETTINGS(getNumber,"paycheck_civ");
-        [] call life_fnc_initCiv;
-    };
-    case independent: {
-        life_paycheck = LIFE_SETTINGS(getNumber,"paycheck_med");
-        [] call life_fnc_initMedic;
-    };
+[] call life_fnc_dutyPaycheck; //Gehalt nach Fraktion und Cop-Rang (auch nach Dienstwechsel)
+switch (life_side) do {
+    case west: {[] call life_fnc_initCop;};
+    case civilian: {[] call life_fnc_initCiv;};
+    case independent: {[] call life_fnc_initMedic;};
 };
-CONSTVAR(life_paycheck);
 player setVariable ["restrained", false, true];
 player setVariable ["Escorting", false, true];
 player setVariable ["transporting", false, true];
 player setVariable ["playerSurrender", false, true];
 player setVariable ["realname", profileName, true];
+player setVariable ["life_side", life_side, true]; //Dienst-System: Fraktion fuer Mitspieler und Server sichtbar
 diag_log "[Life Client] Past Settings Init";
 [] execFSM "core\fsm\client.fsm";
 diag_log "[Life Client] Executing client.fsm";
 (findDisplay 46) displayAddEventHandler ["KeyDown", "_this call life_fnc_keyHandler"];
-[player, life_settings_enableSidechannel, playerSide] remoteExecCall ["TON_fnc_manageSC", RSERV];
+[player, life_settings_enableSidechannel, life_side] remoteExecCall ["TON_fnc_manageSC", RSERV];
 [] spawn life_fnc_survival;
 0 cutText ["","BLACK IN"];
 [] spawn {
@@ -105,6 +83,9 @@ if (life_HC_isActive) then {
 } else {
     [getPlayerUID player, player getVariable ["realname", name player]] remoteExec ["life_fnc_wantedProfUpdate", RSERV];
 };
+[] call life_fnc_skillsInit;
+[] call life_fnc_navInit;
+[] call life_fnc_markerFilterApply;
 [] call life_fnc_hudSetup;
 while {true} do {
     sleep 1;

@@ -2,10 +2,13 @@
 /*
     File: fn_unimpound.sqf
     Author: Bryan "Tonic" Boardwine
+    Edited: freies Abstellen statt Spawnmarker (life_fnc_placementStart)
     Description:
-    Yeah... Gets the vehicle from the garage.
+    Holt das gewaehlte Fahrzeug aus der Garage. Der Spieler stellt es selbst ab; die Gebuehr wird
+    erst beim Bestaetigen abgebucht. Ist der Platz auf dem Server doch belegt, erstattet der Server
+    die Gebuehr (life_fnc_garageRefund).
 */
-private ["_vehicle","_vehicleLife","_vid","_pid","_unit","_price","_price","_storageFee","_purchasePrice"];
+private ["_vehicle","_vehicleLife","_vid","_pid","_price","_storageFee","_purchasePrice","_spawntext"];
 disableSerialization;
 if ((lbCurSel 2802) isEqualTo -1) exitWith {[ localize "STR_Global_NoSelection",true,"fast"] call life_fnc_notification_system};
 _vehicle = lbData[2802,(lbCurSel 2802)];
@@ -13,7 +16,6 @@ _vehicle = (call compile format ["%1",_vehicle]) select 0;
 _vehicleLife = _vehicle;
 _vid = lbValue[2802,(lbCurSel 2802)];
 _pid = getPlayerUID player;
-_unit = player;
 _spawntext = localize "STR_Garage_spawn_Success";
 if (isNil "_vehicle") exitWith {[ localize "STR_Garage_Selection_Error",true,"fast"] call life_fnc_notification_system};
 if (!isClass (missionConfigFile >> "LifeCfgVehicles" >> _vehicleLife)) then {
@@ -22,7 +24,8 @@ if (!isClass (missionConfigFile >> "LifeCfgVehicles" >> _vehicleLife)) then {
 };
 _price = M_CONFIG(getNumber,"LifeCfgVehicles",_vehicleLife,"price");
 _storageFee = LIFE_SETTINGS(getNumber,"vehicle_storage_fee_multiplier");
-switch (playerSide) do {
+_purchasePrice = _price;
+switch (life_side) do {
     case civilian: {_purchasePrice = _price * LIFE_SETTINGS(getNumber,"vehicle_purchase_multiplier_CIVILIAN");};
     case west: {_purchasePrice = _price * LIFE_SETTINGS(getNumber,"vehicle_purchase_multiplier_COP");};
     case independent: {_purchasePrice = _price * LIFE_SETTINGS(getNumber,"vehicle_purchase_multiplier_MEDIC");};
@@ -31,28 +34,18 @@ switch (playerSide) do {
 _price = _purchasePrice * _storageFee;
 if (!(_price isEqualType 0) || _price < 1) then {_price = 500;};
 if (BANK < _price) exitWith {[ format [(localize "STR_Garage_CashError"),[_price] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;};
-if (life_garage_sp isEqualType []) then {
-    if (life_HC_isActive) then {
-        [_vid,_pid,(life_garage_sp select 0),_unit,_price,(life_garage_sp select 1),_spawntext] remoteExec ["HC_fnc_spawnVehicle",HC_Life];
-    } else {
-        [_vid,_pid,(life_garage_sp select 0),_unit,_price,(life_garage_sp select 1),_spawntext] remoteExec ["TON_fnc_spawnVehicle",RSERV];
-    };
-} else {
-    if (life_garage_sp in ["medic_spawn_1","medic_spawn_2","medic_spawn_3"]) then {
-        if (life_HC_isActive) then {
-            [_vid,_pid,life_garage_sp,_unit,_price,0,_spawntext] remoteExec ["HC_fnc_spawnVehicle",HC_Life];
-        } else {
-            [_vid,_pid,life_garage_sp,_unit,_price,0,_spawntext] remoteExec ["TON_fnc_spawnVehicle",RSERV];
-        };
-    } else {
-        if (life_HC_isActive) then {
-            [_vid,_pid,(getMarkerPos life_garage_sp),_unit,_price,markerDir life_garage_sp,_spawntext] remoteExec ["HC_fnc_spawnVehicle",HC_Life];
-        } else {
-            [_vid,_pid,(getMarkerPos life_garage_sp),_unit,_price,markerDir life_garage_sp,_spawntext] remoteExec ["TON_fnc_spawnVehicle",RSERV];
-        };
-    };
-};
-[ localize "STR_Garage_SpawningVeh",false,"fast"] call life_fnc_notification_system;
-BANK = BANK - _price;
-[1] call SOCK_fnc_updatePartial;
 closeDialog 0;
+[_vehicle, {
+    params ["_args", "_pos", "_vDir", "_vUp", "_water"];
+    _args params ["_vid", "_pid", "_price", "_spawntext"];
+    if (BANK < _price) exitWith {[ format [(localize "STR_Garage_CashError"),[_price] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;};
+    private _placement = [_pos, _vDir, _vUp, _water];
+    if (life_HC_isActive) then {
+        [_vid,_pid,_placement,player,_price,0,_spawntext] remoteExec ["HC_fnc_spawnVehicle",HC_Life];
+    } else {
+        [_vid,_pid,_placement,player,_price,0,_spawntext] remoteExec ["TON_fnc_spawnVehicle",RSERV];
+    };
+    [ localize "STR_Garage_SpawningVeh",false,"fast"] call life_fnc_notification_system;
+    BANK = BANK - _price;
+    [1] call SOCK_fnc_updatePartial;
+}, {}, [_vid, _pid, _price, _spawntext]] call life_fnc_placementStart;

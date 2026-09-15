@@ -35,7 +35,7 @@ _shop = [_this,0,ObjNull,[ObjNull]] call BIS_fnc_param; //The object that has th
 _robber = [_this,1,ObjNull,[ObjNull]] call BIS_fnc_param; //Can you guess? Alright, it's the player, or the "caller". The object is 0, the person activating the object is 1
 _kassa = 1000; //The amount the shop has to rob, you could make this a parameter of the call (https://community.bistudio.com/wiki/addAction). Give it a try and post below ;)
 _action = [_this,2] call BIS_fnc_param;//Action name
-if (side _robber in [west, independent]) exitwith {
+if (SIDE_OF(_robber) in [west, independent]) exitwith {
 	if(getNumber(missionConfigFile >> "TankeRob_Master" >> "DE100_Notifiactionssytsem") isEqualTo 1) then {
 		[_FailText_1,"RED",10] spawn life_fnc_notification_system;
 	} else {
@@ -57,7 +57,7 @@ if (servertime < life_nextrob) exitWith {
 	};
 };
 _robdelay = _RoberDelay; // 900 Zeit die zwischen zwei Überfällen vergehen muss.
-if(side _robber != civilian) exitWith {
+if(SIDE_OF(_robber) != civilian) exitWith {
 	if(getNumber(missionConfigFile >> "TankeRob_Master" >> "DE100_Notifiactionssytsem") isEqualTo 1) then {
 		[_FailText_4,"RED",10] spawn life_fnc_notification_system;
 	} else {
@@ -87,7 +87,7 @@ if (currentWeapon _robber isEqualTo "") exitWith {
 		[ _FailText_6,true,"fast"] call life_fnc_notification_system;
 	};
 };
-_cops = (west countSide playableUnits);
+_cops = (({SIDE_OF(_x) isEqualTo west} count playableUnits));
 if(_cops < _Max_Police) exitWith{
 	if(getNumber(missionConfigFile >> "TankeRob_Master" >> "DE100_Notifiactionssytsem") isEqualTo 1) then {
 		[_PoliceText_Fail,"RED",10] spawn life_fnc_notification_system;

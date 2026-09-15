@@ -25,7 +25,7 @@ if (_class isEqualTo "") exitWith {[]}; //Bad class passed.
 private _config = configFile >> "CfgVehicles" >> _class;
 if (!isClass _config) exitWith {[]}; //Class doesn't exist in CfgVehicles
 private _scope = getNumber (_config >> "scope");
-private _picture = getText (_config >> "picture");
+private _picture = [_class] call life_fnc_vehiclePicture; //Platzhalter "pictureThing" durch Standard-Symbol ersetzen
 private _displayName = getText (_config >> "displayName");
 private _vehicleClass = getText (_config >> "vehicleClass");
 private _side = getNumber (_config >> "side");

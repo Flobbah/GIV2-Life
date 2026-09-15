@@ -26,9 +26,9 @@ for "_i" from 0 to (count life_vehicles)-1 do {
             _text = "";
         };
         _name = getText(configFile >> "CfgVehicles" >> (typeOf _veh) >> "displayName");
-        _pic = getText(configFile >> "CfgVehicles" >> (typeOf _veh) >> "picture");
+        _pic = [typeOf _veh] call life_fnc_vehiclePicture;
         _vehicles lbAdd format ["%1 %3 - [Distance: %2m]",_name,round(player distance _veh),_text];
-        if (_pic != "pictureStaticObject") then {
+        if !(_pic isEqualTo "") then {
             _vehicles lbSetPicture [(lbSize _vehicles)-1,_pic];
         };
         _vehicles lbSetData [(lbSize _vehicles)-1,str(_i)];
@@ -36,7 +36,7 @@ for "_i" from 0 to (count life_vehicles)-1 do {
 };
 {
     if (!isNull _x && alive _x && player distance _x < 20 && !(_x isEqualTo player)) then {
-        _plist lbAdd format ["%1 - %2",_x getVariable ["realname",name _x], side _x];
+        _plist lbAdd format ["%1 - %2",_x getVariable ["realname",name _x], SIDE_OF(_x)];
         _plist lbSetData [(lbSize _plist)-1,str(_x)];
     };
 } forEach _near_units;

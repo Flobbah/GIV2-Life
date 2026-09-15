@@ -15,7 +15,7 @@ private _inStatement = "";
 private _list = [];
 private _units = [];
 {
-    if (side _x isEqualTo civilian) then {_units pushBack (getPlayerUID _x)};
+    if ((_x getVariable ["life_side",side _x]) isEqualTo civilian) then {_units pushBack (getPlayerUID _x)};
     false
 } count playableUnits;
 if (count _units isEqualTo 0) exitWith {[_list] remoteExec ["life_fnc_wantedList",_ret];};

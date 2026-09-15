@@ -284,14 +284,14 @@ class Clothing {
             { "U_IG_leader", "", 15340, "" },
             { "U_O_PilotCoveralls", "", 15610, "" },
             { "U_O_SpecopsUniform_ocamo", "", 17500, "" },
-            { "U_O_GhillieSuit", "", 50000, "" },
-            { "U_B_T_Soldier_F", "", 50000, "" }, //Apex DLC
-            { "U_I_C_Soldier_Bandit_1_F", "", 50000, "" }, //Apex DLC
-            { "U_I_C_Soldier_Bandit_2_F", "", 51000, "" }, //Apex DLC
-            { "U_I_C_Soldier_Bandit_3_F", "", 50032, "" }, //Apex DLC
-            { "U_I_C_Soldier_Bandit_4_F", "", 50020, "" }, //Apex DLC
-            { "U_I_C_Soldier_Bandit_5_F", "", 50020, "" }, //Apex DLC
-            { "U_I_C_Soldier_Camo_F", "", 52000, "" } //Apex DLC
+            { "U_O_GhillieSuit", "", 25000, "" },
+            { "U_B_T_Soldier_F", "", 20000, "" }, //Apex DLC
+            { "U_I_C_Soldier_Bandit_1_F", "", 20000, "" }, //Apex DLC
+            { "U_I_C_Soldier_Bandit_2_F", "", 20000, "" }, //Apex DLC
+            { "U_I_C_Soldier_Bandit_3_F", "", 20000, "" }, //Apex DLC
+            { "U_I_C_Soldier_Bandit_4_F", "", 20000, "" }, //Apex DLC
+            { "U_I_C_Soldier_Bandit_5_F", "", 20000, "" }, //Apex DLC
+            { "U_I_C_Soldier_Camo_F", "", 20000, "" } //Apex DLC
         };
         headgear[] = {
             { "NONE", $STR_C_Remove_headgear, 0, "" },

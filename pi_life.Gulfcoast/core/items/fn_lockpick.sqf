@@ -20,6 +20,7 @@ if (!_isVehicle && !(_curTarget getVariable ["restrained",false])) exitWith {};
 if (_curTarget getVariable "NPC") exitWith {[ localize "STR_NPC_Protected",true,"fast"] call life_fnc_notification_system};
 _title = format [localize "STR_ISTR_Lock_Process",if (!_isVehicle) then {"Handcuffs"} else {getText(configFile >> "CfgVehicles" >> (typeOf _curTarget) >> "displayName")}];
 life_action_inUse = true; //Lock out other actions
+private _skillFactor = 1 - ((["lockpick"] call life_fnc_skillBonus) / 100); //Skill Dietrich
 //Setup the progress bar
 disableSerialization;
 "progressBar" cutRsc ["life_progress","PLAIN"];
@@ -29,13 +30,11 @@ _titleText = _ui displayCtrl 38202;
 _titleText ctrlSetText format ["%2 (1%1)...","%",_title];
 _progressBar progressSetPosition 0.01;
 _cP = 0.01;
+private _anim = if (_isVehicle) then {"Acts_carFixingWheel"} else {"Acts_TreatingWounded_loop"};
+["start",_anim] call life_fnc_actionAnim;
 for "_i" from 0 to 1 step 0 do {
-    if (animationState player != "AinvPknlMstpSnonWnonDnon_medic_1") then {
-        [player,"AinvPknlMstpSnonWnonDnon_medic_1",true] remoteExecCall ["life_fnc_animSync",RCLIENT];
-        player switchMove "AinvPknlMstpSnonWnonDnon_medic_1";
-        player playMoveNow "AinvPknlMstpSnonWnonDnon_medic_1";
-    };
-    uiSleep 0.26;
+    ["keep",_anim] call life_fnc_actionAnim;
+    uiSleep (0.26 * _skillFactor);
     if (isNull _ui) then {
         "progressBar" cutRsc ["life_progress","PLAIN"];
         _ui = uiNamespace getVariable "life_progress";
@@ -54,7 +53,7 @@ for "_i" from 0 to 1 step 0 do {
 };
 //Kill the UI display and check for various states
 "progressBar" cutText ["","PLAIN"];
-player playActionNow "stop";
+["stop"] call life_fnc_actionAnim;
 if (!alive player || life_istazed || life_isknocked) exitWith {life_action_inUse = false;};
 if (player getVariable ["restrained",false]) exitWith {life_action_inUse = false;};
 if (!isNil "_badDistance") exitWith {titleText[localize "STR_ISTR_Lock_TooFar","PLAIN"]; life_action_inUse = false;};
@@ -67,8 +66,9 @@ if (!_isVehicle) then {
     _curTarget setVariable ["transporting",false,true];
 } else {
     _dice = random(100);
-    if (_dice < 30) then {
+    if (_dice < (30 + (["lockpick","bonus2PerLevel"] call life_fnc_skillBonus))) then { //Skill Dietrich: Erfolgschance
         titleText[localize "STR_ISTR_Lock_Success","PLAIN"];
+        ["lockpick"] call life_fnc_skillAddXP;
         life_vehicles pushBack _curTarget;
         if (life_HC_isActive) then {
             [getPlayerUID player,profileName,"487"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
@@ -83,5 +83,6 @@ if (!_isVehicle) then {
         };
         [0,"STR_ISTR_Lock_FailedNOTF",true,[profileName]] remoteExecCall ["life_fnc_broadcast",west];
         titleText[localize "STR_ISTR_Lock_Failed","PLAIN"];
+        ["lockpick",1] call life_fnc_skillAddXP;
     };
 };

@@ -35,12 +35,10 @@ if (_action) then {
     _pgText ctrlSetText format ["%2 (1%1)...","%",_title];
     _progress progressSetPosition 0.01;
     _cP = 0.01;
+    private _anim = "Acts_carFixingWheel";
+    ["start",_anim] call life_fnc_actionAnim;
     for "_i" from 0 to 1 step 0 do {
-        if (animationState player != "AinvPknlMstpSnonWnonDnon_medic_1") then {
-            [player,"AinvPknlMstpSnonWnonDnon_medic_1",true] remoteExecCall ["life_fnc_animSync",RCLIENT];
-            player switchMove "AinvPknlMstpSnonWnonDnon_medic_1";
-            player playMoveNow "AinvPknlMstpSnonWnonDnon_medic_1";
-        };
+        ["keep",_anim] call life_fnc_actionAnim;
         uiSleep 0.2;
         if (isNull _ui) then {
             "progressBar" cutRsc ["life_progress","PLAIN"];
@@ -57,7 +55,7 @@ if (_action) then {
     };
     //Kill the UI display and check for various states
     "progressBar" cutText ["","PLAIN"];
-    player playActionNow "stop";
+    ["stop"] call life_fnc_actionAnim;
     if (!alive player || life_istazed || life_isknocked) exitWith {life_action_inUse = false;};
     if (player getVariable ["restrained",false]) exitWith {life_action_inUse = false;};
     if (!isNil "_badDistance") exitWith {titleText[localize "STR_ISTR_Lock_TooFar","PLAIN"]; life_action_inUse = false;};

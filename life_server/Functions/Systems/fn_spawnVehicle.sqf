@@ -5,6 +5,9 @@
     Description:
     Sends the query request to the database, if an array is returned then it creates
     the vehicle if it's not in use or dead.
+    Edited: freies Abstellen. _sp darf jetzt auch [PosASL, VectorDir, VectorUp, aufWasser] sein
+    (life_fnc_placementStart); dann wird Abstand zum Spieler geprueft, nur ein direkt ueberlappendes
+    Fahrzeug blockiert und das Fahrzeug exakt so ausgerichtet wie die Vorschau.
 */
 params [
     ["_vid", -1, [0]],
@@ -17,10 +20,22 @@ params [
 ];
 private _unit_return = _unit;
 private _name = name _unit;
-private _side = side _unit;
+private _side = (_unit getVariable ["life_side",side _unit]);
 _unit = owner _unit;
 if (_vid isEqualTo -1 || {_pid isEqualTo ""}) exitWith {};
 if (_vid in serv_sv_use) exitWith {};
+private _placed = (_sp isEqualTypeArray [[],[],[],true]) && {(_sp select 0) isEqualTypeArray [0,0,0]} && {(_sp select 1) isEqualTypeArray [0,0,0]} && {(_sp select 2) isEqualTypeArray [0,0,0]};
+private _badSp = !_placed && {_sp isEqualType []} && {!(_sp isEqualTypeArray [0,0,0])};
+if (_placed) then {
+    private _cfgPl = missionConfigFile >> "CfgVehiclePlacement";
+    private _plMax = ((getNumber (_cfgPl >> "maxDistanceCar")) max (getNumber (_cfgPl >> "maxDistanceAir")) max (getNumber (_cfgPl >> "maxDistanceShip"))) + 25;
+    if (((getPosASL _unit_return) distance2D (_sp select 0)) > _plMax) then {_badSp = true;};
+};
+if (_badSp) exitWith {
+    diag_log format ["[PLACEMENT] %1 (%2): Abstellplatz ungueltig oder zu weit entfernt, Fahrzeug %3 nicht erzeugt: %4", _name, _pid, _vid, _sp];
+    [_price,_unit_return] remoteExecCall ["life_fnc_garageRefund",_unit];
+    [1,"STR_PLC_ErrServer",true] remoteExecCall ["life_fnc_broadcast",_unit];
+};
 serv_sv_use pushBack _vid;
 private _servIndex = serv_sv_use find _vid;
 private _query = format ["SELECT id, side, classname, type, pid, alive, active, plate, color, inventory, gear, fuel, damage, blacklist FROM vehicles WHERE id='%1' AND pid='%2'",_vid,_pid];
@@ -46,10 +61,15 @@ if ((_vInfo select 6) isEqualTo 1) exitWith {
     [1,"STR_Garage_SQLError_Active",true,[_vInfo select 2]] remoteExecCall ["life_fnc_broadcast",_unit];
 };
 private "_nearVehicles";
-if !(_sp isEqualType "") then {
-    _nearVehicles = nearestObjects[_sp,["Car","Air","Ship"],10];
+if (_placed) then {
+    //der Client prueft den Platz genau; hier nur Schutz gegen Stapeln auf ein anderes Fahrzeug
+    _nearVehicles = nearestObjects [ASLToAGL (_sp select 0),["Car","Air","Ship","Tank"],2.5];
 } else {
-    _nearVehicles = [];
+    if !(_sp isEqualType "") then {
+        _nearVehicles = nearestObjects[_sp,["Car","Air","Ship"],10];
+    } else {
+        _nearVehicles = [];
+    };
 };
 if (count _nearVehicles > 0) exitWith {
     serv_sv_use deleteAt _servIndex;
@@ -64,6 +84,22 @@ private _wasIllegal = _vInfo select 13;
 _wasIllegal = if (_wasIllegal isEqualTo 1) then { true } else { false };
 [_query,1] call DB_fnc_asyncCall;
 private "_vehicle";
+if (_placed) then {
+    _sp params ["_pPos","_pDir","_pUp","_pWater"];
+    _pUp = vectorNormalized _pUp;
+    if ((_pUp select 2) < 0.5) then {_pUp = [0,0,1];};
+    _pDir = vectorNormalized (_pDir vectorDiff (_pUp vectorMultiply (_pDir vectorDotProduct _pUp)));
+    if ((vectorMagnitude _pDir) < 0.5) then {_pDir = [0,1,0];};
+    _vehicle = createVehicle [(_vInfo select 2),ASLToAGL _pPos,[],0,"CAN_COLLIDE"];
+    waitUntil {!isNil "_vehicle" && {!isNull _vehicle}};
+    _vehicle allowDamage false;
+    _vehicle setVectorDirAndUp [_pDir,_pUp];
+    if (_pWater) then {
+        _vehicle setPosASLW [_pPos select 0,_pPos select 1,0];
+    } else {
+        _vehicle setPosASL (_pPos vectorAdd [0,0,0.05]);
+    };
+} else {
 if (_sp isEqualType "") then {
     _vehicle = createVehicle[(_vInfo select 2),[0,0,999],[],0,"NONE"];
     waitUntil {!isNil "_vehicle" && {!isNull _vehicle}};
@@ -80,7 +116,13 @@ if (_sp isEqualType "") then {
     _vehicle setVectorUp (surfaceNormal _sp);
     _vehicle setDir _dir;
 };
-_vehicle allowDamage true;
+};
+if (_placed) then {
+    //Schaden erst nach dem Einschwingen der Federung wieder zulassen
+    [_vehicle] spawn {uiSleep 2; (_this select 0) allowDamage true;};
+} else {
+    _vehicle allowDamage true;
+};
 //Send keys over the network.
 [_vehicle] remoteExecCall ["life_fnc_addVehicle2Chain",_unit];
 [_pid,_side,_vehicle,1] call TON_fnc_keyManagement;
@@ -105,7 +147,11 @@ if (LIFE_SETTINGS(getNumber,"save_vehicle_virtualItems") isEqualTo 1) then {
     _vehicle setVariable ["Trunk",_trunk,true];
     
     if (_wasIllegal) then {
-        private _refPoint = if (_sp isEqualType "") then {getMarkerPos _sp;} else {_sp;};
+        private _refPoint = switch (true) do {
+            case (_placed): {ASLToAGL (_sp select 0)};
+            case (_sp isEqualType ""): {getMarkerPos _sp};
+            default {_sp};
+        };
         
         private _distance = 100000;
         private "_location";

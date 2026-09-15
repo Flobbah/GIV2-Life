@@ -26,6 +26,7 @@ life_cur_task = player createSimpleTask [format ["Delivery_%1",life_dp_point]];
 life_cur_task setSimpleTaskDescription [format [localize "STR_NOTF_DPStart",_dp],"Delivery Job",""];
 life_cur_task setTaskState "Assigned";
 player setCurrentTask life_cur_task;
+[life_dp_point, _dp, true] call life_fnc_navStart;
 ["DeliveryAssigned",[format [localize "STR_NOTF_DPTask",_dp]]] call bis_fnc_showNotification;
 [] spawn {
     waitUntil {!life_delivery_in_progress || !alive player};
@@ -35,5 +36,6 @@ player setCurrentTask life_cur_task;
         ["DeliveryFailed",[localize "STR_NOTF_DPFailed"]] call BIS_fnc_showNotification;
         life_delivery_in_progress = false;
         life_dp_point = nil;
+        [true] call life_fnc_navStop;
     };
 };

@@ -70,19 +70,36 @@ class Life_Client_Core {
     };
     class Admin {
         file = "core\admin";
+        class adminArsenal {};
         class adminCompensate {};
+        class adminCompReceive {};
         class adminDebugCon {};
+        class adminDeleteVeh {};
         class adminFreeze {};
         class admingetID {};
         class adminGodMode {};
+        class adminHeal {};
+        class adminHealed {};
         class adminid {};
         class admininfo {};
+        class adminLicenseReceive {};
+        class adminManage {};
+        class adminManageInfo {};
+        class adminManageResult {};
+        class adminQueryReply {};
+        class adminRankReceive {};
         class adminMarkers {};
         class adminMenu {};
         class adminQuery {};
+        class adminRepairVeh {};
         class adminSpectate {};
+        class adminTarget {};
         class adminTeleport {};
         class adminTpHere {};
+        class adminTpTo {};
+        class adminVehicleMenu {};
+        class adminVehicleSelect {};
+        class adminVehicleSpawn {};
     };
     class Civilian {
         file = "core\civilian";
@@ -164,6 +181,7 @@ class Life_Client_Core {
         class accType {};
         class actionKeyHandler {};
         class animSync {};
+        class actionAnim {};
         class calWeightDiff {};
         class notification_system {};
         class checkMap {};
@@ -173,6 +191,7 @@ class Life_Client_Core {
         class fetchCfgDetails {};
         class fetchDeadGear {};
         class fetchVehInfo {};
+        class vehiclePicture {};
         class isDamaged {};
         class giveDiff {};
         class handleDamage {};
@@ -283,6 +302,25 @@ class Life_Client_Core {
         class setFuel {};
         class soundDevice {};
     };
+    class Navigation {
+        file = "core\navigation";
+        class navCalc {};
+        class navDistText {};
+        class navHookMinimap {};
+        class navInit {};
+        class navLoop {};
+        class navMenu {};
+        class navMenuFilter {};
+        class navMenuStart {};
+        class navMiniMap {};
+        class navMiniMapCanvas {};
+        class navMiniMapDraw {};
+        class navMiniMapFrame {};
+        class navMiniMapGeo {};
+        class navSimplify {};
+        class navStart {};
+        class navStop {};
+    };
     class Player_Menu {
         file = "core\pmenu";
         class cellphone {};
@@ -291,9 +329,14 @@ class Life_Client_Core {
         class keyDrop {};
         class keyGive {};
         class keyMenu {};
+        class markerFilterApply {};
+        class markerFilterMenu {};
+        class markerFilterToggle {};
         class p_openMenu {};
+        class p_showPage {};
         class p_updateMenu {};
         class pardon {};
+        class phoneStatus {};
         class removeItem {};
         class s_onChar {};
         class s_onCheckedChange {};
@@ -305,6 +348,39 @@ class Life_Client_Core {
         class wantedInfo {};
         class wantedList {};
         class wantedMenu {};
+    };
+    class Skills {
+        file = "core\skills";
+        class skillAddXP {};
+        class skillBonus {};
+        class skillLevel {};
+        class skillMaxWeight {};
+        class skillsInit {};
+        class skillsMenu {};
+        class skillsReceive {};
+        class skillsSave {};
+    };
+    class Duty {
+        file = "core\duty";
+        class dutyInfoReceive {};
+        class dutyMenu {};
+        class dutyNearest {};
+        class dutyPaycheck {};
+        class dutyPoints {};
+        class dutyReceive {};
+        class dutySwitch {};
+        class dutyUpdate {};
+    };
+    class Placement {
+        file = "core\placement";
+        class garageInit {};
+        class placementCheck {};
+        class placementDraw {};
+        class placementEnd {};
+        class placementFrame {};
+        class placementKey {};
+        class placementPose {};
+        class placementStart {};
     };
     class Shops {
         file = "core\shops";

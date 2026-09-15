@@ -16,9 +16,32 @@
    - Added Bandages as vItems by "ToxicRageTv" edited by me.
    - Added Sell All button by "Basti | John Collins" edited by me.
    - Barrier System by "Blackfisch" (Native Servers) - Open Menu "Ö/;" | Place Barrier "Spacebar" | Abort Placing Barrier "ESC" | Delete placeable in front of player "DEL"
+   - Smartphone-style player menu (Z) with app tiles; every app is sized to the phone
+   - Economy rebalanced for casual play (license, vehicle and weapon prices, item payouts, paychecks)
+   - Paychecks and broadcasts shown via the notification system
+   - Map marker filter app with 8 categories (saved in the player profile)
+   - Navigation: road routes with a line on the map and GPS, automatic route for delivery missions, navi app with search, heading-up minimap
+   - Skill system: gathering, carrying, processing, lockpicking and repairing, 5 levels each (XP scales with quantity)
+   - Go on/off duty as police or EMS in-game without the lobby; money is shared, gear, licenses and keys are kept per faction
+   - Free vehicle placement for garages, vehicle shops and admin spawn (green/red ghost preview instead of spawn markers)
+   - Admin menu: manage players (licenses, cop/medic rank) and a vehicle spawn menu
   - Mod collection on steam: https://steamcommunity.com/sharedfiles/filedetails/?id=3426226140
 
 [![|Solid](https://i.imgur.com/5PFRHRN.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=3426226140)
+
+# Setup
+  - Database: import `altislife.sql`. The extDB3 section in `extdb3-conf.ini` must be named `[altislife]`
+    (`DatabaseName` in `description.ext`); the section can point to any database name.
+  - Updating an existing database from an older GIV2 version: add the skills column once
+    ```sql
+    ALTER TABLE `players` ADD COLUMN `skills` VARCHAR(512) NOT NULL DEFAULT '"[]"';
+    ```
+  - Community name: change it once in `pi_life.Gulfcoast/config/Config_Community.hpp`
+    (lobby, server list and loading screen; scripts use `COMMUNITY_NAME_TEXT`).
+  - New garage without spawn markers, in the object's init field:
+    `[this, "Car", west] call life_fnc_garageInit;` (`"Car"`, `"Air"` or `"Ship"`; side is optional).
+  - Feature settings: `config/Config_Skills.hpp`, `Config_Duty.hpp`, `Config_Placement.hpp`,
+    `Config_Navigation.hpp`, `Config_MarkerFilter.hpp`.
 
 # Fixed some minor issues
   - Fixed Cop/Medic Spawn/Init

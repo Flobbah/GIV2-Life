@@ -99,6 +99,15 @@ class new_HUD {
 		};
 	};
 	class controls {
+		class Nav_Hud: Life_RscStructuredText {
+			idc = 30;
+			text = "";
+			x = 0.34 * safezoneW + safezoneX;
+			y = 0.955 * safezoneH + safezoneY;
+			w = 0.32 * safezoneW;
+			h = 0.035 * safezoneH;
+			colorBackground[] = {0, 0, 0, 0};
+		};
 		class Info_Salute: Life_RscText {
 			colorBackground[] = {0.06,0.06,0.06,0};
 			idc = 4;

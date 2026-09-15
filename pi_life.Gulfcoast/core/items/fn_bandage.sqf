@@ -11,7 +11,7 @@ if (life_inv_bandage < 1) exitWith {[localize "STR_Bandage_Error_NoBandages",tru
 if (life_action_inUse) exitWith {[localize "STR_Bandage_Error_InAction",true,"fast"] call life_fnc_notification_system};
 if !(isNull objectParent player) exitWith {[localize "STR_Bandage_Error_InVehicle",true,"fast"] call life_fnc_notification_system};
 life_interrupted = false;
-_configSide = switch (side player) do {
+_configSide = switch (life_side) do {
 	case civilian: {"Civilian"};
 	case west: {"Cop"};
 	case independent: {"Medic"};
@@ -32,12 +32,10 @@ _pgText = _ui displayCtrl 38202;
 _pgText ctrlSetText format [localize "STR_Bandage_ProgressBar","%"];
 _progress progressSetPosition 0.01;
 _cP = 0.01;
+private _anim = "Acts_TreatingWounded_loop";
+["start",_anim] call life_fnc_actionAnim;
 for "_i" from 0 to 1 step 0 do {
-	if (animationState player != "AinvPknlMstpSnonWnonDnon_medic_1") then {
-		[player,"AinvPknlMstpSnonWnonDnon_medic_1",true] remoteExecCall ["life_fnc_animSync",RCLIENT];
-		player switchMove "AinvPknlMstpSnonWnonDnon_medic_1";
-		player playMoveNow "AinvPknlMstpSnonWnonDnon_medic_1";
-	};
+	["keep",_anim] call life_fnc_actionAnim;
 	uiSleep _sleepTime;
 	_cP = _cP + 0.01;
 	_progress progressSetPosition _cP;
@@ -49,7 +47,7 @@ for "_i" from 0 to 1 step 0 do {
 };
 life_action_inUse = false;
 "progressBar" cutText ["","PLAIN"];
-player playActionNow "stop";
+["stop"] call life_fnc_actionAnim;
 if (life_interrupted) exitWith {life_interrupted = false; [localize "STR_Bandage_Error_CancelBandage",true,"fast"] call life_fnc_notification_system; life_action_inUse = false;};
 if !(isNull objectParent player) exitWith {[localize "STR_Bandage_Error_CancelBandage_Vehicle",true,"fast"] call life_fnc_notification_system;};
 if (_bandageMode == 1) then {

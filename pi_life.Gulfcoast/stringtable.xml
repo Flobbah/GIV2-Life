@@ -754,16 +754,16 @@
 			<Chinesesimp>你已将 $%1 添加到你的账户上 。</Chinesesimp>
         </Key>
         <Key ID="STR_ANOTF_Fail">
-            <English>You can not go above $999,999</English>
-            <Czech>Nemůžete jít nad $ 999999</Czech>
-            <Spanish>No te puedes dar más de $999,999</Spanish>
-            <Italian>Non puoi superare i €999.999</Italian>
+            <English>You can not go above $%1</English>
+            <Czech>Nemůžete jít nad $%1</Czech>
+            <Spanish>No te puedes dar más de $%1</Spanish>
+            <Italian>Non puoi superare i €$%1</Italian>
             <Russian></Russian>
-            <German>Maximaler Wert $999,999!</German>
-            <French>Vous ne pouvez pas aller au-dessus $999,999 !</French>
-            <Portuguese>Você não pode ir além de $999,999!</Portuguese>
-            <Polish>Nie można obracać kwotami wyższymi niż $999,999!</Polish>
-			<Chinesesimp>你不能处理超过 $999,999 的资金</Chinesesimp>
+            <German>Maximaler Wert $%1!</German>
+            <French>Vous ne pouvez pas aller au-dessus $%1 !</French>
+            <Portuguese>Você não pode ir além de $%1!</Portuguese>
+            <Polish>Nie można obracać kwotami wyższymi niż $%1!</Polish>
+			<Chinesesimp>你不能处理超过 $%1 的资金</Chinesesimp>
         </Key>
         <Key ID="STR_ANOTF_Amount">
             <English>Please type in the amount to compensate.</English>
@@ -1104,16 +1104,16 @@
 			<Chinesesimp>转账</Chinesesimp>
         </Key>
         <Key ID="STR_ATM_GreaterThan">
-            <English>You can't deposit more then $999,999 at a time</English>
-            <Czech>Nemůžete vložit více než 999.999 $ najednou</Czech>
-            <Spanish>No puedes depositar mas de $999,999 a la vez</Spanish>
+            <English>You can't deposit more then $%1 at a time</English>
+            <Czech>Nemůžete vložit více než$%1 $ najednou</Czech>
+            <Spanish>No puedes depositar mas de $%1 a la vez</Spanish>
             <Russian></Russian>
-            <German>Du kannst nicht mehr als $999,999 gleichzeitig einzahlen.</German>
-            <French>Vous ne pouvez pas déposer plus de $999,999.</French>
-            <Italian>Non puoi depositare più di €999,999 alla volta</Italian>
-            <Portuguese>Você não pode transferir mais de R$999.999 em uma transação</Portuguese>
-            <Polish>Możesz jednorazowo zdeponować nie więcej niż $999,999 </Polish>
-			<Chinesesimp>您一次不能存入超过 $999,999 </Chinesesimp>
+            <German>Du kannst nicht mehr als $%1 gleichzeitig einzahlen.</German>
+            <French>Vous ne pouvez pas déposer plus de $%1.</French>
+            <Italian>Non puoi depositare più di €$%1 alla volta</Italian>
+            <Portuguese>Você não pode transferir mais de R$%1 em uma transação</Portuguese>
+            <Polish>Możesz jednorazowo zdeponować nie więcej niż $%1 </Polish>
+			<Chinesesimp>您一次不能存入超过 $%1 </Chinesesimp>
         </Key>
         <Key ID="STR_ATM_notnumeric">
             <English>The amount entered isn't a numeric value.</English>
@@ -1152,16 +1152,16 @@
 			<Chinesesimp>选定的玩家似乎不存在?</Chinesesimp>
         </Key>
         <Key ID="STR_ATM_TransferMax">
-            <English>You can't transfer more then $999,999</English>
-            <Czech>Nemůžete přenést více než 999.999 $</Czech>
-            <Spanish>No puedes transferir más de $999,999</Spanish>
+            <English>You can't transfer more then $%1</English>
+            <Czech>Nemůžete přenést více než$%1 $</Czech>
+            <Spanish>No puedes transferir más de $%1</Spanish>
             <Russian></Russian>
-            <German>Du kannst nicht mehr als $999,999 überweisen!</German>
-            <French>Vous ne pouvez pas transférer plus de $999,999.</French>
-            <Italian>Non puoi trasferire più di €999.000 alla volta</Italian>
-            <Portuguese>Você pode trasferir no máximo R$999.999.</Portuguese>
-            <Polish>Możesz jednorazowo przelać nie więcej niż $999,999</Polish>
-			<Chinesesimp>你转账不能超过 $999,999</Chinesesimp>
+            <German>Du kannst nicht mehr als $%1 überweisen!</German>
+            <French>Vous ne pouvez pas transférer plus de $%1.</French>
+            <Italian>Non puoi trasferire più di $%1 alla volta</Italian>
+            <Portuguese>Você pode trasferir no máximo R$%1.</Portuguese>
+            <Polish>Możesz jednorazowo przelać nie więcej niż $%1</Polish>
+			<Chinesesimp>你转账不能超过 $%1</Chinesesimp>
         </Key>
         <Key ID="STR_ATM_NotEnoughFunds">
             <English>You don't have that much in your bank account!</English>
@@ -1224,16 +1224,16 @@
 			<Chinesesimp>%1 通过电汇将 $%2 转账给你。</Chinesesimp>
         </Key>
         <Key ID="STR_ATM_WithdrawMax">
-            <English>You can't withdraw more then $999,999</English>
-            <Czech>Nemůžete zrušit více než 999.999 $</Czech>
-            <Spanish>No puedes retirar más de $999,999</Spanish>
+            <English>You can't withdraw more then $%1</English>
+            <Czech>Nemůžete zrušit více než$%1 $</Czech>
+            <Spanish>No puedes retirar más de $%1</Spanish>
             <Russian></Russian>
-            <German>Du kannst nicht mehr als $999,999 abheben.</German>
-            <French>Vous ne pouvez pas retirer plus de $999,999.</French>
-            <Italian>Non puoi prelevare più di €999.000 in una volta</Italian>
-            <Portuguese>Você pode sacar no máximo R$999.999</Portuguese>
-            <Polish>Możesz jednorazowo pobrać maks $999,999 </Polish>
-			<Chinesesimp>你不能取款大于 $999,999</Chinesesimp>
+            <German>Du kannst nicht mehr als $%1 abheben.</German>
+            <French>Vous ne pouvez pas retirer plus de $%1.</French>
+            <Italian>Non puoi prelevare più di $%1 in una volta</Italian>
+            <Portuguese>Você pode sacar no máximo R$%1</Portuguese>
+            <Polish>Możesz jednorazowo pobrać maks $%1 </Polish>
+			<Chinesesimp>你不能取款大于 $%1</Chinesesimp>
         </Key>
         <Key ID="STR_ATM_WithdrawMin">
             <English>You can't withdraw less then $100</English>
@@ -1373,7 +1373,7 @@
             <Czech>Textová zpráva:</Czech>
             <Spanish>Mensaje:</Spanish>
             <Russian></Russian>
-            <German>Nachricht:</German>
+            <German>Nachricht senden</German>
             <French>Message Texte :</French>
             <Italian>Msg Giocatore:</Italian>
             <Portuguese>Mensagem:</Portuguese>
@@ -2785,6 +2785,298 @@
             <Portuguese>Sincronizar Dados</Portuguese>
             <Polish>Synchronizuj</Polish>
 			<Chinesesimp>同步数据</Chinesesimp>
+        </Key>
+        <Key ID="STR_PM_App_Inventory">
+            <English>Inventory</English>
+            <German>Inventar</German>
+        </Key>
+        <Key ID="STR_PM_App_Licenses">
+            <English>Licenses</English>
+            <German>Lizenzen</German>
+        </Key>
+        <Key ID="STR_PM_App_Money">
+            <English>Money</English>
+            <German>Geld</German>
+        </Key>
+        <Key ID="STR_PM_App_Keys">
+            <English>Keys</English>
+            <German>Schlüssel</German>
+        </Key>
+        <Key ID="STR_PM_App_Phone">
+            <English>Phone</English>
+            <German>Telefon</German>
+        </Key>
+        <Key ID="STR_PM_App_Settings">
+            <English>Settings</English>
+            <German>Optionen</German>
+        </Key>
+        <Key ID="STR_PM_App_Gang">
+            <English>Gang</English>
+            <German>Gang</German>
+        </Key>
+        <Key ID="STR_PM_App_Wanted">
+            <English>Wanted</English>
+            <German>Fahndung</German>
+        </Key>
+        <Key ID="STR_PM_App_Admin">
+            <English>Admin</English>
+            <German>Admin</German>
+        </Key>
+        <Key ID="STR_PM_App_Sync">
+            <English>Save</English>
+            <German>Speichern</German>
+        </Key>
+        <Key ID="STR_PM_Back">
+            <English>Back</English>
+            <German>Zurück</German>
+        </Key>
+        <Key ID="STR_PM_Amount">
+            <English>Amount</English>
+            <German>Anzahl</German>
+        </Key>
+        <Key ID="STR_PM_AmountMoney">
+            <English>Amount</English>
+            <German>Betrag</German>
+        </Key>
+        <Key ID="STR_PM_Recipient">
+            <English>Recipient</English>
+            <German>Empfänger</German>
+        </Key>
+        <Key ID="STR_PM_Weight">
+            <English>Weight: %1 / %2</English>
+            <German>Gewicht: %1 / %2</German>
+        </Key>
+        <Key ID="STR_PM_Bank">
+            <English>Bank</English>
+            <German>Bank</German>
+        </Key>
+        <Key ID="STR_PM_Cash">
+            <English>Cash</English>
+            <German>Bargeld</German>
+        </Key>
+        <Key ID="STR_PM_NoLicenses">
+            <English>No licenses</English>
+            <German>Keine Lizenzen</German>
+        </Key>
+        <Key ID="STR_PM_InviteTarget">
+            <English>Player to invite</English>
+            <German>Spieler zum Einladen</German>
+        </Key>
+        <Key ID="STR_PM_App_Map">
+            <English>Map</English>
+            <German>Karte</German>
+        </Key>
+        <Key ID="STR_MF_Title">
+            <English>Map markers</English>
+            <German>Karten-Marker</German>
+        </Key>
+        <Key ID="STR_MF_Shops">
+            <English>Shops &amp; stores</English>
+            <German>Shops &amp; Läden</German>
+        </Key>
+        <Key ID="STR_MF_Vehicles">
+            <English>Vehicles &amp; garages</English>
+            <German>Fahrzeuge &amp; Garagen</German>
+        </Key>
+        <Key ID="STR_MF_Authorities">
+            <English>Authorities &amp; hospitals</English>
+            <German>Behörden &amp; Kliniken</German>
+        </Key>
+        <Key ID="STR_MF_Banks">
+            <English>Banks &amp; ATMs</English>
+            <German>Banken &amp; ATMs</German>
+        </Key>
+        <Key ID="STR_MF_Resources">
+            <English>Mining &amp; fields</English>
+            <German>Abbau &amp; Felder</German>
+        </Key>
+        <Key ID="STR_MF_Processing">
+            <English>Processing &amp; traders</English>
+            <German>Verarbeitung &amp; Händler</German>
+        </Key>
+        <Key ID="STR_MF_Illegal">
+            <English>Illegal &amp; rebels</English>
+            <German>Illegal &amp; Rebellen</German>
+        </Key>
+        <Key ID="STR_MF_Delivery">
+            <English>Delivery points</English>
+            <German>Lieferaufträge</German>
+        </Key>
+        <Key ID="STR_MF_ShowAll">
+            <English>Show all</English>
+            <German>Alle anzeigen</German>
+        </Key>
+        <Key ID="STR_MF_HideAll">
+            <English>Hide all</English>
+            <German>Alle ausblenden</German>
+        </Key>
+        <Key ID="STR_MF_Count">
+            <English>%1 (%2)</English>
+            <German>%1 (%2)</German>
+        </Key>
+        <Key ID="STR_MF_Hint">
+            <English>Only affects your own map. The selection is saved in your profile.</English>
+            <German>Wirkt nur auf deine eigene Karte. Die Auswahl wird in deinem Profil gespeichert.</German>
+        </Key>
+        <Key ID="STR_PM_App_Nav">
+            <English>Navi</English>
+            <German>Navi</German>
+        </Key>
+        <Key ID="STR_NAV_Title">
+            <English>Navigation</English>
+            <German>Navigation</German>
+        </Key>
+        <Key ID="STR_NAV_Destinations">
+            <English>Destinations (sorted by distance)</English>
+            <German>Ziele (nach Entfernung sortiert)</German>
+        </Key>
+        <Key ID="STR_NAV_Start">
+            <English>Start route</English>
+            <German>Route starten</German>
+        </Key>
+        <Key ID="STR_NAV_Stop">
+            <English>End route</English>
+            <German>Route beenden</German>
+        </Key>
+        <Key ID="STR_NAV_Hint">
+            <English>The route follows the roads and is drawn on the map (M). The distance is shown at the bottom of the screen.</English>
+            <German>Die Route folgt den Straßen und wird auf der Karte (M) als Linie gezeichnet. Die Entfernung steht unten in der Mitte des Bildschirms.</German>
+        </Key>
+        <Key ID="STR_NAV_NoRoute">
+            <English>No active route</English>
+            <German>Keine aktive Route</German>
+        </Key>
+        <Key ID="STR_NAV_Current">
+            <English>Destination: %1<br/>Straight line: %2 · Route: %3</English>
+            <German>Ziel: %1<br/>Luftlinie: %2 · Route: %3</German>
+        </Key>
+        <Key ID="STR_NAV_Select">
+            <English>Select a destination first.</English>
+            <German>Bitte zuerst ein Ziel auswählen.</German>
+        </Key>
+        <Key ID="STR_NAV_Started">
+            <English>Navigation to %1 started.</English>
+            <German>Navigation nach %1 gestartet.</German>
+        </Key>
+        <Key ID="STR_NAV_Calculated">
+            <English>Route calculated: %1 by road.</English>
+            <German>Route berechnet: %1 über Straße.</German>
+        </Key>
+        <Key ID="STR_NAV_NoRouteFound">
+            <English>No road route found, showing straight line.</English>
+            <German>Keine Straßenroute gefunden, Luftlinie wird angezeigt.</German>
+        </Key>
+        <Key ID="STR_NAV_Arrived">
+            <English>Destination %1 reached.</English>
+            <German>Ziel %1 erreicht.</German>
+        </Key>
+        <Key ID="STR_NAV_Stopped">
+            <English>Navigation ended.</English>
+            <German>Navigation beendet.</German>
+        </Key>
+        <Key ID="STR_NAV_HudPrefix">
+            <English>NAVI</English>
+            <German>NAVI</German>
+        </Key>
+        <Key ID="STR_NAV_TaskTitle">
+            <English>Navigation: %1</English>
+            <German>Navigation: %1</German>
+        </Key>
+        <Key ID="STR_NAV_TaskDesc">
+            <English>Follow the route to %1.</English>
+            <German>Folge der Route nach %1.</German>
+        </Key>
+        <Key ID="STR_NAV_DeliveryTarget">
+            <English>Delivery target: %1</English>
+            <German>Lieferziel: %1</German>
+        </Key>
+        <Key ID="STR_NAV_Search">
+            <English>Search</English>
+            <German>Suche</German>
+        </Key>
+        <Key ID="STR_NAV_SearchTip">
+            <English>Type to filter the destinations</English>
+            <German>Tippen, um die Ziele zu filtern</German>
+        </Key>
+        <Key ID="STR_NAV_NoMatch">
+            <English>No destination matches</English>
+            <German>Kein Ziel gefunden</German>
+        </Key>
+        <Key ID="STR_PM_App_Skills">
+            <English>Skills</English>
+            <German>Skills</German>
+        </Key>
+        <Key ID="STR_PM_App_Duty">
+            <English>Duty</English>
+            <German>Dienst</German>
+        </Key>
+        <Key ID="STR_SK_Title">
+            <English>Skills</English>
+            <German>Fähigkeiten</German>
+        </Key>
+        <Key ID="STR_SK_Gather">
+            <English>Mining and harvesting</English>
+            <German>Abbau</German>
+        </Key>
+        <Key ID="STR_SK_GatherDesc">
+            <English>+%1%3 yield when mining and harvesting</English>
+            <German>+%1%3 Ertrag beim Abbauen und Ernten</German>
+        </Key>
+        <Key ID="STR_SK_Carry">
+            <English>Carrying capacity</English>
+            <German>Tragkraft</German>
+        </Key>
+        <Key ID="STR_SK_CarryDesc">
+            <English>+%1 carrying capacity</English>
+            <German>+%1 Tragkraft</German>
+        </Key>
+        <Key ID="STR_SK_Process">
+            <English>Processing</English>
+            <German>Verarbeitung</German>
+        </Key>
+        <Key ID="STR_SK_ProcessDesc">
+            <English>%1%3 faster processing</English>
+            <German>%1%3 schnellere Verarbeitung</German>
+        </Key>
+        <Key ID="STR_SK_Lockpick">
+            <English>Lockpicking</English>
+            <German>Dietrich</German>
+        </Key>
+        <Key ID="STR_SK_LockpickDesc">
+            <English>%1%3 faster, +%2%3 success chance</English>
+            <German>%1%3 schneller, +%2%3 Erfolgschance</German>
+        </Key>
+        <Key ID="STR_SK_Repair">
+            <English>Repairing</English>
+            <German>Reparatur</German>
+        </Key>
+        <Key ID="STR_SK_RepairDesc">
+            <English>%1%3 faster vehicle repairs</English>
+            <German>%1%3 schnellere Reparatur</German>
+        </Key>
+        <Key ID="STR_SK_Level">
+            <English>Level %1</English>
+            <German>Stufe %1</German>
+        </Key>
+        <Key ID="STR_SK_LevelMax">
+            <English>Level %1 (max)</English>
+            <German>Stufe %1 (Maximum)</German>
+        </Key>
+        <Key ID="STR_SK_XP">
+            <English>%1 / %2 XP</English>
+            <German>%1 / %2 XP</German>
+        </Key>
+        <Key ID="STR_SK_LevelUp">
+            <English>%1: level %2 reached!</English>
+            <German>%1: Stufe %2 erreicht!</German>
+        </Key>
+        <Key ID="STR_SK_NoBonus">
+            <English>No bonus yet</English>
+            <German>Noch kein Bonus</German>
+        </Key>
+        <Key ID="STR_SK_Hint">
+            <English>You gain experience by doing the activity. Every level improves the bonus; progress is saved automatically.</English>
+            <German>Erfahrung sammelst du durch die jeweilige Tätigkeit. Jede Stufe verbessert den Bonus, der Fortschritt wird automatisch gespeichert.</German>
         </Key>
     </Package>
     <Package name="Settings_Menu">
@@ -5693,16 +5985,16 @@
 			<Chinesesimp>你没有输入正确的数字.</Chinesesimp>
         </Key>
         <Key ID="STR_Cop_TicketOver100">
-            <English>Tickets can not be more than $200,000!</English>
-            <Czech>Vstupenky nemůže být více než 200.000 $!</Czech>
-            <Spanish>Los tiquetes no pueden ser mas de $200,000!</Spanish>
+            <English>Tickets can not be more than $25,000!</English>
+            <Czech>Vstupenky nemůže být více než 25.000 $!</Czech>
+            <Spanish>Los tiquetes no pueden ser mas de $25,000!</Spanish>
             <Russian></Russian>
-            <German>Strafzettel können nicht mehr als $200.000 betragen!</German>
-            <French>Les amendes ne peuvent pas dépasser plus de $200,000 !</French>
-            <Italian>La multa non può essere più di $200.000!</Italian>
-            <Portuguese>A multa não pode ser maior que R$200.000!</Portuguese>
-            <Polish>Mandat nie może być wyższy niż $200.000!</Polish>
-			<Chinesesimp>罚单不能超过 $200,000！</Chinesesimp>
+            <German>Strafzettel können nicht mehr als $25.000 betragen!</German>
+            <French>Les amendes ne peuvent pas dépasser plus de $25,000 !</French>
+            <Italian>La multa non può essere più di $25.000!</Italian>
+            <Portuguese>A multa não pode ser maior que R$25.000!</Portuguese>
+            <Polish>Mandat nie może być wyższy niż $25.000!</Polish>
+			<Chinesesimp>罚单不能超过 $25,000！</Chinesesimp>
         </Key>
         <Key ID="STR_Cop_TicketGive">
             <English>%1 gave a ticket of $%2 to %3</English>
@@ -10780,7 +11072,7 @@
             <Portuguese>Loja de Caminhões</Portuguese>
             <Polish>Salon ciężarówek</Polish>
             <Italian>Concessionaria Camion</Italian>
-			<Chinesesimp>卡车商店</Origimnal>
+			<Chinesesimp>卡车商店</Chinesesimp>
         </Key>
         <Key ID="STR_MAR_Oil_Processing">
             <English>Oil Processing</English>
@@ -14019,6 +14311,436 @@
             <Russian></Russian>
             <German>Verband angelegt</German>
 			<Chinesesimp></Chinesesimp>
+        </Key>
+    </Package>
+    <Package name="Admin_Extended">
+        <Key ID="STR_Admin_Arsenal">
+            <English>Arsenal</English>
+            <German>Arsenal</German>
+        </Key>
+        <Key ID="STR_Admin_VehSpawn">
+            <English>Spawn Vehicle</English>
+            <German>Fahrzeug spawnen</German>
+        </Key>
+        <Key ID="STR_Admin_TpTo">
+            <English>TP to Player</English>
+            <German>TP zu Spieler</German>
+        </Key>
+        <Key ID="STR_Admin_HealSelf">
+            <English>Heal Self</English>
+            <German>Selbst heilen</German>
+        </Key>
+        <Key ID="STR_Admin_HealTarget">
+            <English>Heal Player</English>
+            <German>Spieler heilen</German>
+        </Key>
+        <Key ID="STR_Admin_RepairVeh">
+            <English>Repair Vehicle</English>
+            <German>Fahrzeug reparieren</German>
+        </Key>
+        <Key ID="STR_Admin_DeleteVeh">
+            <English>Delete Vehicle</English>
+            <German>Fahrzeug löschen</German>
+        </Key>
+        <Key ID="STR_Admin_TeleportHint">
+            <English>Select where you would like to teleport</English>
+            <German>Wähle auf der Karte, wohin du teleportiert werden willst</German>
+        </Key>
+        <Key ID="STR_Admin_CompSelf">
+            <English>To myself</English>
+            <German>An mich</German>
+        </Key>
+        <Key ID="STR_Admin_CompTarget">
+            <English>To player</English>
+            <German>An Spieler</German>
+        </Key>
+        <Key ID="STR_Admin_CompAccount">
+            <English>Account:</English>
+            <German>Konto:</German>
+        </Key>
+        <Key ID="STR_Admin_CompAccountBank">
+            <English>Bank</English>
+            <German>Bank</German>
+        </Key>
+        <Key ID="STR_Admin_CompAccountCash">
+            <English>Cash</English>
+            <German>Bargeld</German>
+        </Key>
+        <Key ID="STR_Admin_CompInfo">
+            <English>Maximum per transaction: $%1&lt;br/&gt;Selected player: %2</English>
+            <German>Maximal pro Vorgang: $%1&lt;br/&gt;Ausgewählter Spieler: %2</German>
+        </Key>
+        <Key ID="STR_ANOTF_CompTargetWarn">
+            <English>You are about to give %1 $%2 (%3). Continue?</English>
+            <German>Du bist dabei, %1 $%2 zu geben (%3). Fortfahren?</German>
+        </Key>
+        <Key ID="STR_ANOTF_CompSent">
+            <English>You compensated %1 with $%2 (%3).</English>
+            <German>Du hast %1 mit $%2 entschädigt (%3).</German>
+        </Key>
+        <Key ID="STR_ANOTF_CompSelf">
+            <English>You received $%1 (%2).</English>
+            <German>Dir wurden $%1 gutgeschrieben (%2).</German>
+        </Key>
+        <Key ID="STR_ANOTF_CompReceived">
+            <English>Admin %1 compensated you with $%2 (%3).</English>
+            <German>Admin %1 hat dich mit $%2 entschädigt (%3).</German>
+        </Key>
+        <Key ID="STR_ANOTF_NoTarget">
+            <English>No player selected.</English>
+            <German>Kein Spieler ausgewählt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_Healed">
+            <English>You have been healed by admin %1.</English>
+            <German>Du wurdest von Admin %1 geheilt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_HealedSelf">
+            <English>You healed yourself.</English>
+            <German>Du hast dich geheilt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_HealedTarget">
+            <English>%1 has been healed.</English>
+            <German>%1 wurde geheilt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_TpTo">
+            <English>Teleported to %1.</English>
+            <German>Zu %1 teleportiert.</German>
+        </Key>
+        <Key ID="STR_ANOTF_NoVehicle">
+            <English>No vehicle within 25m in sight and you are not in a vehicle.</English>
+            <German>Kein Fahrzeug im Visier (max. 25m) und du sitzt in keinem Fahrzeug.</German>
+        </Key>
+        <Key ID="STR_ANOTF_VehRepaired">
+            <English>%1 repaired and refueled.</English>
+            <German>%1 repariert und aufgetankt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_VehDeleted">
+            <English>%1 deleted.</English>
+            <German>%1 gelöscht.</German>
+        </Key>
+        <Key ID="STR_ANOTF_VehOccupied">
+            <English>The vehicle is occupied.</English>
+            <German>Das Fahrzeug ist besetzt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_VehSpawned">
+            <English>%1 spawned - the key is in your keychain.</English>
+            <German>%1 gespawnt - der Schlüssel liegt in deinem Schlüsselbund.</German>
+        </Key>
+        <Key ID="STR_ANOTF_VehSpawnFail">
+            <English>Invalid vehicle class.</English>
+            <German>Ungültige Fahrzeugklasse.</German>
+        </Key>
+        <Key ID="STR_ANOTF_ArsenalSaved">
+            <English>Arsenal closed, gear saved.</English>
+            <German>Arsenal geschlossen, Ausrüstung gespeichert.</German>
+        </Key>
+        <Key ID="STR_AdminVeh_Title">
+            <English>Admin - Spawn Vehicle</English>
+            <German>Admin - Fahrzeug spawnen</German>
+        </Key>
+        <Key ID="STR_AdminVeh_Search">
+            <English>Search / classname:</English>
+            <German>Suche / Klassenname:</German>
+        </Key>
+        <Key ID="STR_AdminVeh_Color">
+            <English>Color:</English>
+            <German>Farbe:</German>
+        </Key>
+        <Key ID="STR_AdminVeh_Persistent">
+            <English>Save to garage (database)</English>
+            <German>In Garage speichern (Datenbank)</German>
+        </Key>
+        <Key ID="STR_AdminVeh_Spawn">
+            <English>Spawn</English>
+            <German>Spawnen</German>
+        </Key>
+        <Key ID="STR_AdminVeh_Count">
+            <English>%1 vehicles</English>
+            <German>%1 Fahrzeuge</German>
+        </Key>
+        <Key ID="STR_Admin_Manage">
+            <English>Manage Player</English>
+            <German>Spieler verwalten</German>
+        </Key>
+        <Key ID="STR_Admin_ManageInfo">
+            <English>Player: %1 (%2)</English>
+            <German>Spieler: %1 (%2)</German>
+        </Key>
+        <Key ID="STR_Admin_ManageUID">
+            <English>UID: %1</English>
+            <German>UID: %1</German>
+        </Key>
+        <Key ID="STR_Admin_ManageRanks">
+            <English>Cop rank: %1 / Medic rank: %2</English>
+            <German>Cop-Rang: %1 / Medic-Rang: %2</German>
+        </Key>
+        <Key ID="STR_Admin_ManageLoading">
+            <English>Loading data...</English>
+            <German>Lade Daten...</German>
+        </Key>
+        <Key ID="STR_Admin_ManageLicense">
+            <English>License (current side of the player)</English>
+            <German>Lizenz (aktuelle Seite des Spielers)</German>
+        </Key>
+        <Key ID="STR_Admin_ManageGrant">
+            <English>Grant</English>
+            <German>Erteilen</German>
+        </Key>
+        <Key ID="STR_Admin_ManageRevoke">
+            <English>Revoke</English>
+            <German>Entziehen</German>
+        </Key>
+        <Key ID="STR_Admin_ManageCopRank">
+            <English>Cop rank</English>
+            <German>Cop-Rang</German>
+        </Key>
+        <Key ID="STR_Admin_ManageMedicRank">
+            <English>Medic rank</English>
+            <German>Medic-Rang</German>
+        </Key>
+        <Key ID="STR_Admin_ManageSet">
+            <English>Set</English>
+            <German>Setzen</German>
+        </Key>
+        <Key ID="STR_Admin_ManageHas">
+            <English>owned</English>
+            <German>vorhanden</German>
+        </Key>
+        <Key ID="STR_Admin_ManageMissing">
+            <English>missing</English>
+            <German>fehlt</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageNoLicense">
+            <English>Select a license first.</English>
+            <German>Bitte zuerst eine Lizenz auswählen.</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageGranted">
+            <English>granted</English>
+            <German>erteilt</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageRevoked">
+            <English>revoked</English>
+            <German>entzogen</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageLicenseDone">
+            <English>%1: license %2 %3.</English>
+            <German>%1: Lizenz %2 %3.</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageRankDone">
+            <English>%1: %2 set to %3.</English>
+            <German>%1: %2 auf %3 gesetzt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageRankWarn">
+            <English>Set %2 of %1 to %3?</English>
+            <German>%2 von %1 auf %3 setzen?</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageOffline">
+            <English>The player is no longer online.</English>
+            <German>Der Spieler ist nicht mehr online.</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageSideMismatch">
+            <English>The player changed side, data reloaded.</English>
+            <German>Der Spieler hat die Seite gewechselt, Daten neu geladen.</German>
+        </Key>
+        <Key ID="STR_ANOTF_ManageDenied">
+            <English>No permission for this action.</English>
+            <German>Keine Berechtigung für diese Aktion.</German>
+        </Key>
+        <Key ID="STR_ANOTF_LicenseGranted">
+            <English>Admin %1 granted you the license: %2</English>
+            <German>Admin %1 hat dir die Lizenz „%2“ erteilt.</German>
+        </Key>
+        <Key ID="STR_ANOTF_LicenseRevoked">
+            <English>Admin %1 revoked your license: %2</English>
+            <German>Admin %1 hat dir die Lizenz „%2“ entzogen.</German>
+        </Key>
+        <Key ID="STR_ANOTF_RankSet">
+            <English>Admin %1 set your %2 to %3. Re-login so everything applies (e.g. paycheck).</English>
+            <German>Admin %1 hat deinen %2 auf %3 gesetzt. Melde dich neu an, damit alles greift (z. B. Gehalt).</German>
+        </Key>
+        <Key ID="STR_DUTY_Title">
+            <English>Duty</English>
+            <German>Dienst</German>
+        </Key>
+        <Key ID="STR_DUTY_StatusLabel">
+            <English>You are currently</English>
+            <German>Du bist aktuell</German>
+        </Key>
+        <Key ID="STR_DUTY_StationLabel">
+            <English>Nearest duty stations</English>
+            <German>Nächste Dienststellen</German>
+        </Key>
+        <Key ID="STR_DUTY_SideCiv">
+            <English>Civilian (off duty)</English>
+            <German>Zivilist (außer Dienst)</German>
+        </Key>
+        <Key ID="STR_DUTY_SideCop">
+            <English>Police, rank %1</English>
+            <German>Polizei, Rang %1</German>
+        </Key>
+        <Key ID="STR_DUTY_SideMed">
+            <English>EMS, rank %1</English>
+            <German>Rettungsdienst, Rang %1</German>
+        </Key>
+        <Key ID="STR_DUTY_Ranks">
+            <English>Clearance: police rank %1, EMS rank %2</English>
+            <German>Freigaben: Polizei Rang %1, Rettungsdienst Rang %2</German>
+        </Key>
+        <Key ID="STR_DUTY_Checking">
+            <English>Checking clearance ...</English>
+            <German>Freigaben werden geprüft ...</German>
+        </Key>
+        <Key ID="STR_DUTY_Police">
+            <English>Police</English>
+            <German>Polizeiwache</German>
+        </Key>
+        <Key ID="STR_DUTY_Hospital">
+            <English>Hospital</English>
+            <German>Krankenhaus</German>
+        </Key>
+        <Key ID="STR_DUTY_None">
+            <English>none</English>
+            <German>keine</German>
+        </Key>
+        <Key ID="STR_DUTY_BtnCop">
+            <English>Start police duty</English>
+            <German>Polizeidienst antreten</German>
+        </Key>
+        <Key ID="STR_DUTY_BtnMed">
+            <English>Start EMS duty</English>
+            <German>Rettungsdienst antreten</German>
+        </Key>
+        <Key ID="STR_DUTY_BtnOff">
+            <English>End duty (civilian)</English>
+            <German>Dienst beenden (Zivilist)</German>
+        </Key>
+        <Key ID="STR_DUTY_Hint">
+            <English>Switching is only possible at a duty station (police HQ or hospital). Gear, licenses and vehicle keys are stored per faction, money is shared. Items that are not saved anyway are lost like on relog.</English>
+            <German>Der Wechsel geht nur an einer Dienststelle (Polizeiwache bzw. Krankenhaus). Ausrüstung, Lizenzen und Fahrzeugschlüssel werden je Fraktion gespeichert, Geld ist gemeinsam. Nicht speicherbare Gegenstände gehen wie beim Neueinloggen verloren.</German>
+        </Key>
+        <Key ID="STR_DUTY_Saving">
+            <English>Saving your data ...</English>
+            <German>Daten werden gespeichert ...</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrCooldown">
+            <English>Please wait %1 more seconds.</English>
+            <German>Bitte warte noch %1 Sekunden.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrBusy">
+            <English>You are busy right now.</English>
+            <German>Du bist gerade beschäftigt.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrRestrained">
+            <English>Not possible while restrained, escorted or arrested.</English>
+            <German>Gefesselt, eskortiert oder verhaftet geht das nicht.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrVehicle">
+            <English>Leave the vehicle first.</English>
+            <German>Steig zuerst aus dem Fahrzeug aus.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrStation">
+            <English>You have to be at a duty station: %1</English>
+            <German>Du musst an einer Dienststelle sein: %1</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrDistance">
+            <English>No duty station within %1 m.</English>
+            <German>Keine Dienststelle im Umkreis von %1 m.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrWanted">
+            <English>Wanted persons cannot go on duty.</English>
+            <German>Gesuchte Personen können keinen Dienst antreten.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrLevel">
+            <English>You are not cleared for this faction.</English>
+            <German>Du bist für diese Fraktion nicht freigeschaltet.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrBlacklist">
+            <English>You are banned from police duty.</English>
+            <German>Du bist für den Polizeidienst gesperrt.</German>
+        </Key>
+        <Key ID="STR_DUTY_ErrServer">
+            <English>The server did not complete the switch. Please try again.</English>
+            <German>Der Server hat den Wechsel nicht abgeschlossen. Bitte erneut versuchen.</German>
+        </Key>
+        <Key ID="STR_DUTY_DoneCop">
+            <English>You are now on police duty.</English>
+            <German>Du bist jetzt im Polizeidienst.</German>
+        </Key>
+        <Key ID="STR_DUTY_DoneMed">
+            <English>You are now on EMS duty.</English>
+            <German>Du bist jetzt im Rettungsdienst.</German>
+        </Key>
+        <Key ID="STR_DUTY_DoneCiv">
+            <English>You are now off duty.</English>
+            <German>Du bist jetzt außer Dienst.</German>
+        </Key>
+        <Key ID="STR_PLC_Ok">
+            <English>Space is free: press Enter or Space to park</English>
+            <German>Platz frei: Enter oder Leertaste zum Abstellen</German>
+        </Key>
+        <Key ID="STR_PLC_Help">
+            <English>Look = position · Q/E or mouse wheel = rotate (Shift = fine) · Backspace = cancel</English>
+            <German>Blick = Position · Q/E oder Mausrad = drehen (Umschalt = fein) · Rücktaste = abbrechen</German>
+        </Key>
+        <Key ID="STR_PLC_Checking">
+            <English>Checking space ...</English>
+            <German>Platz wird geprüft ...</German>
+        </Key>
+        <Key ID="STR_PLC_ErrObject">
+            <English>Something is in the way.</English>
+            <German>Etwas steht im Weg.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrVehicle">
+            <English>A vehicle is in the way.</English>
+            <German>Ein Fahrzeug steht im Weg.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrPerson">
+            <English>A person is in the way.</English>
+            <German>Eine Person steht im Weg.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrTerrain">
+            <English>The ground is too uneven.</English>
+            <German>Der Boden ist zu uneben.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrSlope">
+            <English>Too steep.</English>
+            <German>Zu steil.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrWater">
+            <English>Not in the water.</English>
+            <German>Nicht im Wasser.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrNoWater">
+            <English>Boats can only be placed on water.</English>
+            <German>Boote nur auf dem Wasser abstellen.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrShallow">
+            <English>The water is too shallow.</English>
+            <German>Das Wasser ist zu flach.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrHeight">
+            <English>Too far above or below you.</English>
+            <German>Zu weit über oder unter dir.</German>
+        </Key>
+        <Key ID="STR_PLC_ErrServer">
+            <English>The spot is too far away from you. Fee refunded.</English>
+            <German>Der Platz ist zu weit von dir entfernt. Gebühr erstattet.</German>
+        </Key>
+        <Key ID="STR_PLC_Cancelled">
+            <English>Parking cancelled.</English>
+            <German>Abstellen abgebrochen.</German>
+        </Key>
+        <Key ID="STR_PLC_CancelDistance">
+            <English>You walked too far away, parking cancelled.</English>
+            <German>Zu weit weggelaufen, Abstellen abgebrochen.</German>
+        </Key>
+        <Key ID="STR_PLC_CancelTimeout">
+            <English>Time is up, parking cancelled.</English>
+            <German>Zeit abgelaufen, Abstellen abgebrochen.</German>
+        </Key>
+        <Key ID="STR_PLC_Busy">
+            <English>You are already parking a vehicle.</English>
+            <German>Du stellst bereits ein Fahrzeug ab.</German>
         </Key>
     </Package>
 </Project>

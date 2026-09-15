@@ -7,7 +7,8 @@
 */
 private ["_value"];
 _value = parseNumber(ctrlText 2702);
-if (_value > 999999) exitWith {[ localize "STR_ATM_WithdrawMax",true,"fast"] call life_fnc_notification_system;};
+private _limit = LIFE_SETTINGS(getNumber,"bank_transactionLimit");
+if (_value > _limit) exitWith {[ format [localize "STR_ATM_WithdrawMax",[_limit] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;};
 if (_value < 0) exitWith {};
 if (!([str(_value)] call TON_fnc_isnumber)) exitWith {[ localize "STR_ATM_notnumeric",true,"fast"] call life_fnc_notification_system};
 if (_value > BANK) exitWith {[ localize "STR_ATM_NotEnoughFunds",true,"fast"] call life_fnc_notification_system};

@@ -10,7 +10,7 @@ private _control = CONTROL(39400,39402);
 private _price = _control lbValue (lbCurSel _control);
 private _vehicle = objectFromNetId (_control lbData (lbCurSel _control));
 if (isNull _vehicle) exitWith {};
-systemChat localize "STR_Shop_ChopShopSelling";
+[localize "STR_Shop_ChopShopSelling",false,"fast"] call life_fnc_notification_system;
 life_action_inUse = true;
 if (life_HC_isActive) then {
     [player,_vehicle,_price] remoteExecCall ["HC_fnc_chopShopSell",HC_Life];

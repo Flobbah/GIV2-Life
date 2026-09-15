@@ -78,7 +78,7 @@ _unit spawn {
     };
 };
 //Make the killer wanted
-if (!isNull _killer && {!(_killer isEqualTo _unit)} && {!(side _killer isEqualTo west)} && {alive _killer}) then {
+if (!isNull _killer && {!(_killer isEqualTo _unit)} && {!(SIDE_OF(_killer) isEqualTo west)} && {alive _killer}) then {
     if (vehicle _killer isKindOf "LandVehicle") then {
         if (life_HC_isActive) then {
             [getPlayerUID _killer,_killer getVariable ["realname",name _killer],"187V"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
@@ -107,7 +107,7 @@ if (LIFE_SETTINGS(getNumber,"drop_weapons_onDeath") isEqualTo 0) then {
     _unit removeWeapon (secondaryWeapon _unit);
 };
 //Killed by cop stuff...
-if (side _killer isEqualTo west && !(playerSide isEqualTo west)) then {
+if (SIDE_OF(_killer) isEqualTo west && !(life_side isEqualTo west)) then {
     life_copRecieve = _killer;
     //Did I rob the federal reserve?
     if (!life_use_atm && {CASH > 0}) then {
@@ -126,9 +126,9 @@ life_carryWeight = 0;
 CASH = 0;
 life_is_alive = false;
 [] call life_fnc_hudUpdate; //Get our HUD updated.
-[player,life_settings_enableSidechannel,playerSide] remoteExecCall ["TON_fnc_manageSC",RSERV];
+[player,life_settings_enableSidechannel,life_side] remoteExecCall ["TON_fnc_manageSC",RSERV];
 [0] call SOCK_fnc_updatePartial;
 [3] call SOCK_fnc_updatePartial;
-if (playerSide isEqualTo civilian) then {
+if (life_side isEqualTo civilian) then {
     [4] call SOCK_fnc_updatePartial;
 };

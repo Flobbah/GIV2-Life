@@ -10,7 +10,7 @@ private _shopSide = M_CONFIG(getText,"WeaponShops",(_this select 3),"side");
 private _conditions = M_CONFIG(getText,"WeaponShops",(_this select 3),"conditions");
 private _exit = false;
 if !(_shopSide isEqualTo "") then {
-    private _flag = switch (playerSide) do {case west: {"cop"}; case independent: {"med"}; default {"civ"};};
+    private _flag = switch (life_side) do {case west: {"cop"}; case independent: {"med"}; default {"civ"};};
     if !(_flag isEqualTo _shopSide) then {_exit = true;};
 };
 if (_exit) exitWith {};

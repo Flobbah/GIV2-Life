@@ -1,11 +1,14 @@
 disableChannels[] = {{0,true,true},{1,true,true},{2,true,true}};    // Disabled text and voice for global, side, and command channels. Syntax: disableChannels[] = {{channelID<number>, disableChat<bool>, disableVoice<bool>}};
+#include "config\Config_Community.hpp"
+onLoadName = COMMUNITY_MISSION_NAME;    // Name im Ladebildschirm (zentral in config\Config_Community.hpp)
+briefingName = COMMUNITY_MISSION_NAME;  // Name in Lobby und Serverliste (zentral in config\Config_Community.hpp)
 overviewText = "$STR_MISC_overviewText";    // Text to be displayed below the overviewPicture on the mission selection screen when the mission is available to play.
 unsafeCVL = 1; // Allows createVehicleLocal to be executed in Multiplayer
 #include "CfgRemoteExec.hpp"
 #include "dialog\MasterHandler.hpp"
 #include "config\Config_Master.hpp"
 class CfgServer {
-    DatabaseName = "pilife"; //Config name that'll be grep in the extdb-conf.ini. Default: [pilife]
+    DatabaseName = "altislife"; //Config name that'll be grep in the extdb-conf.ini. Default: [altislife]
     DebugMode = 0; //Enable many server/hc debugging logs. Default: 0 (1 = Enabled / 0 = Disabled)
     HeadlessSupport = 0; //Enable/Disable Headless client support. Default: 1 (1 = Enabled / 0 = Disabled)
     /*
@@ -18,6 +21,8 @@ class RscTitles {
     #include "dialog\hud_nameTags.hpp"
     //#include "dialog\hud_stats.hpp"
 	#include "dialog\new_HUD.hpp"
+    #include "dialog\placement_hud.hpp"
+    #include "dialog\nav_minimap.hpp"
 };
 class CfgFunctions {
     #include "Functions.hpp"

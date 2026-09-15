@@ -50,6 +50,7 @@ if (!(_section isEqualType "") || {!isClass(configFile >> _section >> _className
 _config = configFile >> _section >> _className;
 _displayName = getText(_config >> "displayName");
 _picture = getText(_config >> "picture");
+if (_section isEqualTo "CfgVehicles") then {_picture = [_className] call life_fnc_vehiclePicture;}; //Platzhalter "pictureThing" abfangen
 _desc = getText(_config >> "descriptionshort");
 _base = inheritsFrom _config;
 switch (_section) do

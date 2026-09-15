@@ -51,6 +51,13 @@ class CfgFunctions {
         tag = "TON";
         class Systems {
             file = "\life_server\Functions\Systems";
+            class adminManageAuth {};
+            class adminManageQuery {};
+            class adminManageAction {};
+            class skillsLoad {};
+            class skillsSave {};
+            class dutyInfo {};
+            class dutySwitch {};
             class managesc {};
             class cleanup {};
             class huntingZone {};

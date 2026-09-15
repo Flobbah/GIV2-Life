@@ -57,12 +57,12 @@ for "_i" from 0 to 1 step 0 do {
     if ((time - _foodTime) > 850 && {!life_god}) then {[] call _fnc_food; _foodTime = time;};
     /* Adjustment of carrying capacity based on backpack changes */
     if (backpack player isEqualTo "") then {
-        life_maxWeight = LIFE_SETTINGS(getNumber,"total_maxWeight");
+        life_maxWeight = [] call life_fnc_skillMaxWeight;
         _bp = backpack player;
     } else {
         if (!(backpack player isEqualTo "") && {!(backpack player isEqualTo _bp)}) then {
             _bp = backpack player;
-            life_maxWeight = LIFE_SETTINGS(getNumber,"total_maxWeight") + round(FETCH_CONFIG2(getNumber,"CfgVehicles",_bp,"maximumload") / 4);
+            life_maxWeight = [] call life_fnc_skillMaxWeight;
         };
     };
     /* Check if the player's state changed? */

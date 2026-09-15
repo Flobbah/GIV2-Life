@@ -5,7 +5,7 @@
     Master addAction file handler for all client-based actions.
 */
 life_actions = [];
-switch (playerSide) do {
+switch (life_side) do {
     //Civilian
     case civilian: {
         //Drop fishing net

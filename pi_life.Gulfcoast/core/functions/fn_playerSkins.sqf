@@ -6,7 +6,7 @@
     Sets skins for players by their side and uniform.
 */
 private ["_skinName"];
-switch (playerSide) do {
+switch (life_side) do {
     case civilian: {
         if (LIFE_SETTINGS(getNumber,"civ_skins") isEqualTo 1) then {
             if (uniform player isEqualTo "U_C_Poloshirt_blue") then {

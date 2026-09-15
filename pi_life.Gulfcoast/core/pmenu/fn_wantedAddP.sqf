@@ -4,7 +4,7 @@
     Author:
     Description:
 */
-if !(playerSide isEqualTo west) exitWith {[ localize "STR_Cop_wantedList_notCop",true,"fast"] call life_fnc_notification_system;};
+if !(life_side isEqualTo west) exitWith {[ localize "STR_Cop_wantedList_notCop",true,"fast"] call life_fnc_notification_system;};
 if ((lbCurSel 2406) isEqualTo -1) exitWith {[ localize "STR_Cop_wantedList_noPlayerSelected",true,"fast"] call life_fnc_notification_system;};
 if ((lbCurSel 2407) isEqualTo -1) exitWith {[ localize "STR_Cop_wantedList_noCrimeSelected",true,"fast"] call life_fnc_notification_system;};
 private _unit = lbData [2406,lbCurSel 2406];

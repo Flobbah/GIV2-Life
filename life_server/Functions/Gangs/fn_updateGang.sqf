@@ -55,7 +55,7 @@ switch (_mode) do {
             };
         };
         _query = format ["UPDATE gangs SET bank='%1' WHERE id='%2'",([_funds] call DB_fnc_numberSafe),_groupID];
-        [getPlayerUID _unit,side _unit,_cash,0] call DB_fnc_updatePartial;
+        [getPlayerUID _unit,(_unit getVariable ["life_side",side _unit]),_cash,0] call DB_fnc_updatePartial;
     };
     case 2: {
         _query = format ["UPDATE gangs SET maxmembers='%1' WHERE id='%2'",(_group getVariable ["gang_maxMembers",8]),_groupID];

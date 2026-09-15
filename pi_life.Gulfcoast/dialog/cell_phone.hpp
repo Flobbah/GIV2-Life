@@ -1,130 +1,78 @@
+/*
+    File: cell_phone.hpp
+    Description:
+    Nachrichten-App im Telefonrahmen (siehe phone.hpp). IDCs unveraendert (3001-3022).
+*/
 class Life_cell_phone {
     idd = 3000;
     name= "life_cell_phone";
     movingEnable = 0;
     enableSimulation = 1;
-    onLoad = "[] spawn life_fnc_cellphone";
+    onLoad = "[] spawn life_fnc_cellphone; [_this select 0] call life_fnc_phoneStatus;";
     class controlsBackground {
-        class Life_RscTitleBackground: Life_RscText {
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"};
-            idc = -1;
-            x = 0.1;
-            y = 0.2;
-            w = 0.64;
-            h = (1 / 25);
-        };
-        class MainBackground: Life_RscText {
-            colorBackground[] = {0, 0, 0, 0.7};
-            idc = -1;
-            x = 0.1;
-            y = 0.2 + (11 / 250);
-            w = 0.64;
-            h = 0.3 - (5 / 250);
-        };
+        PHONE_FRAME
     };
     class controls {
-        class Title: Life_RscTitle {
-            colorBackground[] = {0, 0, 0, 0};
-            idc = 3001;
-            text = "$STR_CELL_Title";
-            x = 0.1;
-            y = 0.2;
-            w = 0.6;
-            h = (1 / 25);
-        };
-        class TextToSend: Life_RscTitle {
-            colorBackground[] = {0, 0, 0, 0};
+        PHONE_APPBAR(3001,"$STR_CELL_Title","closeDialog 0;")
+        class TextToSend : Life_RscPhoneLabel {
             idc = 3002;
             text = "$STR_CELL_TextToSend";
-            x = 0.1;
-            y = 0.25;
-            w = 0.6;
-            h = (1 / 25);
+            y = PH_Y(2.8);
         };
-        class textEdit: Life_RscEdit {
+        class textEdit : Life_RscPhoneEdit {
             idc = 3003;
             text = "";
-            sizeEx = 0.030;
-            x = 0.11;
-            y = 0.3;
-            w = 0.62;
-            h = 0.03;
+            x = PH_X(0.6);
+            y = PH_Y(3.7);
+            w = PH_W(9.3);
+            h = PH_H(1.0);
         };
-        class TextMsgButton: Life_RscButtonMenu {
+        class RecipientLabel : Life_RscPhoneLabel {
+            text = "$STR_PM_Recipient";
+            y = PH_Y(5.0);
+        };
+        class PlayerList : Life_RscPhoneCombo {
+            idc = 3004;
+            x = PH_X(0.6);
+            y = PH_Y(5.9);
+            w = PH_W(9.3);
+        };
+        class TextMsgButton : Life_RscPhoneButton {
             idc = 3015;
             text = "$STR_CELL_TextMSGBtn";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
+            y = PH_Y(7.3);
             onButtonClick = "[] call TON_fnc_cell_textmsg";
-            x = 0.11;
-            y = 0.35;
-            w = 0.2;
-            h = (1 / 25);
         };
-        class PlayerList: Life_RscCombo {
-            idc = 3004;
-            x = 0.11;
-            y = 0.4;
-            w = 0.2;
-            h = (1 / 25);
-        };
-        class TextCopButton: Life_RscButtonMenu {
+        class TextCopButton : Life_RscPhoneButtonAlt {
             idc = 3016;
             text = "$STR_CELL_TextPolice";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
+            y = PH_Y(8.7);
             onButtonClick = "[] call TON_fnc_cell_textcop";
-            x = 0.32;
-            y = 0.35;
-            w = 0.2;
-            h = (1 / 25);
         };
-        class TextAdminButton: Life_RscButtonMenu {
-            idc = 3017;
-            text = "$STR_CELL_TextAdmins";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call TON_fnc_cell_textadmin";
-            x = 0.53;
-            y = 0.35;
-            w = 0.2;
-            h = (1 / 25);
-        };
-        class AdminMsgButton: Life_RscButtonMenu {
-            idc = 3020;
-            text = "$STR_CELL_AdminMsg";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call TON_fnc_cell_adminmsg";
-            x = 0.32;
-            y = 0.4;
-            w = 0.2;
-            h = (1 / 25);
-        };
-        class AdminMsgAllButton: Life_RscButtonMenu {
-            idc = 3021;
-            text = "$STR_CELL_AdminMSGAll";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call TON_fnc_cell_adminmsgall";
-            x = 0.53;
-            y = 0.4;
-            w = 0.2;
-            h = (1 / 25);
-        };
-        class EMSRequest: Life_RscButtonMenu {
+        class EMSRequest : Life_RscPhoneButtonAlt {
             idc = 3022;
             text = "$STR_CELL_EMSRequest";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
+            y = PH_Y(10.1);
             onButtonClick = "[] call TON_fnc_cell_emsrequest";
-            x = 0.11;
-            y = 0.45;
-            w = 0.2;
-            h = (1 / 25);
         };
-        class CloseButtonKey: Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_Global_Close";
-            onButtonClick = "closeDialog 0;";
-            x = -0.06 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
-            y = 0.51 + (1 / 50);
-            w = (6.25 / 40);
-            h = (1 / 25);
+        class TextAdminButton : Life_RscPhoneButtonAlt {
+            idc = 3017;
+            text = "$STR_CELL_TextAdmins";
+            y = PH_Y(11.5);
+            onButtonClick = "[] call TON_fnc_cell_textadmin";
+        };
+        // Nur fuer Admins sichtbar (siehe fn_cellphone.sqf)
+        class AdminMsgButton : Life_RscPhoneButtonDanger {
+            idc = 3020;
+            text = "$STR_CELL_AdminMsg";
+            y = PH_Y(13.5);
+            onButtonClick = "[] call TON_fnc_cell_adminmsg";
+        };
+        class AdminMsgAllButton : Life_RscPhoneButtonDanger {
+            idc = 3021;
+            text = "$STR_CELL_AdminMSGAll";
+            y = PH_Y(14.9);
+            onButtonClick = "[] call TON_fnc_cell_adminmsgall";
         };
     };
 };

@@ -22,7 +22,7 @@ if (_localize) exitWith {
     if (_type isEqualType []) then {
         {
             switch (_x) do {
-                case 0: {systemChat _msg;};
+                case 0: {[ _msg,false,"fast"] call life_fnc_notification_system;}; // frueher grauer systemChat
                 case 1: {[ _msg,false,"fast"] call life_fnc_notification_system;};
                 case 2: {titleText[_msg,"PLAIN"];};
             };
@@ -30,7 +30,7 @@ if (_localize) exitWith {
         } count _type;
     } else {
         switch (_type) do {
-            case 0: {systemChat _msg;};
+            case 0: {[ _msg,false,"fast"] call life_fnc_notification_system;}; // frueher grauer systemChat
             case 1: {[ _msg,false,"fast"] call life_fnc_notification_system;};
             case 2: {titleText[_msg,"PLAIN"];};
         };
@@ -39,7 +39,7 @@ if (_localize) exitWith {
 if (_type isEqualType []) then {
     {
         switch (_x) do {
-            case 0: {systemChat _message};
+            case 0: {[ format ["%1", _message],false,"fast"] call life_fnc_notification_system}; // frueher grauer systemChat
             case 1: {[ format ["%1", _message],false,"fast"] call life_fnc_notification_system};
             case 2: {titleText[format ["%1",_message],"PLAIN"];};
             case 3: {[ parseText format ["%1", _message],false,"fast"] call life_fnc_notification_system};
@@ -48,7 +48,7 @@ if (_type isEqualType []) then {
     } count _type;
 } else {
     switch (_type) do {
-        case 0: {systemChat _message};
+        case 0: {[ format ["%1", _message],false,"fast"] call life_fnc_notification_system}; // frueher grauer systemChat
         case 1: {[ format ["%1", _message],false,"fast"] call life_fnc_notification_system};
         case 2: {titleText[format ["%1",_message],"PLAIN"];};
         case 3: {[ parseText format ["%1", _message],false,"fast"] call life_fnc_notification_system};

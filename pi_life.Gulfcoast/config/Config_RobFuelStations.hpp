@@ -8,8 +8,8 @@
 #define true 1
 class TankeRob_Master {
     DE100_Notifiactionssytsem = false; //Only switch to True if you have the DE100_Notifiactionssytsem
-    Max_Money_Rob = 20000; //How much the player should get
-    Max_Money_Rob_Random = 10000; //How much the player should get in addition (RANDOM!!)
+    Max_Money_Rob = 8000; //How much the player should get
+    Max_Money_Rob_Random = 7000; //How much the player should get in addition (RANDOM!!)
     Max_Distance = 5; //How high the distance to the victim should be
     Max_Distance_Shop = 10.5; //How high the distance should be when the raid is in full swing
     Max_Police = 0; //How many police officers must be on duty

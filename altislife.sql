@@ -12,11 +12,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Creates database `pilife` unless it already exists and uses `pilife`
+-- Creates database `altislife` unless it already exists and uses `altislife`
 -- Default Schema
 --
-CREATE DATABASE IF NOT EXISTS `pilife` DEFAULT CHARACTER SET utf8mb4;
-USE `pilife`;
+CREATE DATABASE IF NOT EXISTS `altislife` DEFAULT CHARACTER SET utf8mb4;
+USE `altislife`;
 
 --
 -- Drop procedures to ensure no conflicts
@@ -97,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `players` (
     `civ_alive`    TINYINT NOT NULL DEFAULT 0,
     `civ_position` VARCHAR(32) NOT NULL DEFAULT '"[]"',
     `playtime`     VARCHAR(32) NOT NULL DEFAULT '"[0,0,0]"',
+    `skills`       VARCHAR(512) NOT NULL DEFAULT '"[]"',
     `insert_time`  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `last_seen`    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
@@ -240,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `wanted` (
 --
 
 CREATE USER IF NOT EXISTS `arma3`@`localhost` IDENTIFIED BY 'changeme';
-GRANT SELECT, UPDATE, INSERT, EXECUTE ON `pilife`.* TO 'arma3'@'localhost';
+GRANT SELECT, UPDATE, INSERT, EXECUTE ON `altislife`.* TO 'arma3'@'localhost';
 FLUSH PRIVILEGES;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

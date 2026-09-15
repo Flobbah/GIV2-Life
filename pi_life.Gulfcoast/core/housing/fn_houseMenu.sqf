@@ -19,7 +19,7 @@ disableSerialization;
 _curTarget = param [0,objNull,[objNull]];
 if (isNull _curTarget) exitWith {}; //Bad target
 _houseCfg = [(typeOf _curTarget)] call life_fnc_houseConfig;
-if (count _houseCfg isEqualTo 0 && playerSide isEqualTo civilian) exitWith {};
+if (count _houseCfg isEqualTo 0 && life_side isEqualTo civilian) exitWith {};
 if (!dialog) then {
     createDialog "pInteraction_Menu";
 };
@@ -37,7 +37,7 @@ if (_curTarget in life_hideoutBuildings) exitWith {
     closeDialog 0;
     [ localize "STR_House_Hideout",true,"fast"] call life_fnc_notification_system;
 };
-if (_curTarget isKindOf "House_F" && playerSide isEqualTo west) exitWith {
+if (_curTarget isKindOf "House_F" && life_side isEqualTo west) exitWith {
     private _vaultHouse = [[["Gulfcoast", "Land_Research_house_V1_F"], ["Tanoa", "Land_Medevac_house_V1_F"]]] call TON_fnc_terrainSort;
     private _altisArray = [14778.333,12362.36,0];
     private _tanoaArray = [11074.2,11501.5,0.00137329];

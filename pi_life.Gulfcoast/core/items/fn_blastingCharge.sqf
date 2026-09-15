@@ -11,7 +11,7 @@ if (isNull _vault) exitWith {}; //Bad object
 if (typeOf _vault != "Land_CargoBox_V1_F") exitWith {[ localize "STR_ISTR_Blast_VaultOnly",true,"fast"] call life_fnc_notification_system};
 if (_vault getVariable ["chargeplaced",false]) exitWith {[ localize "STR_ISTR_Blast_AlreadyPlaced",true,"fast"] call life_fnc_notification_system};
 if (_vault getVariable ["safe_open",false]) exitWith {[ localize "STR_ISTR_Blast_AlreadyOpen",true,"fast"] call life_fnc_notification_system};
-if (west countSide playableUnits < (LIFE_SETTINGS(getNumber,"minimum_cops"))) exitWith {
+if (({SIDE_OF(_x) isEqualTo west} count playableUnits) < (LIFE_SETTINGS(getNumber,"minimum_cops"))) exitWith {
      [ format [localize "STR_Civ_NotEnoughCops",(LIFE_SETTINGS(getNumber,"minimum_cops"))],true,"fast"] call life_fnc_notification_system;
 };
 private _vaultHouse = [[["Gulfcoast", "Land_Research_house_V1_F"], ["Tanoa", "Land_Medevac_house_V1_F"]]] call TON_fnc_terrainSort;

@@ -10,7 +10,7 @@ if (life_session_completed) exitWith {}; //Why did this get executed when the cl
 cutText[localize "STR_Session_QueryFail","BLACK FADED"];
 0 cutFadeOut 9999999;
 private ["_bank"];
-switch (playerSide) do {
+switch (life_side) do {
     case west: {
         _bank = LIFE_SETTINGS(getNumber,"bank_cop");
     };

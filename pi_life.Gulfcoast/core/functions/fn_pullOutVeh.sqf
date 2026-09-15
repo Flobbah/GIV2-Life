@@ -3,7 +3,7 @@
     Author: Bryan "Tonic" Boardwine
     Description:
 */
-if (playerSide isEqualTo west || (isNull objectParent player)) exitWith {};
+if (life_side isEqualTo west || (isNull objectParent player)) exitWith {};
 if (player getVariable "restrained") then {
     detach player;
     player setVariable ["Escorting",false,true];

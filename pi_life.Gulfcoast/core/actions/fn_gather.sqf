@@ -40,6 +40,7 @@ if (_requiredItem != "") then {
 };
 if (_exit) exitWith {life_action_inUse = false;};
 _amount = round(random(_maxGather)) + 1;
+_amount = round (_amount * (1 + ((["gather"] call life_fnc_skillBonus) / 100))); //Skill Abbau
 _diff = [_resource,_amount,life_carryWeight,life_maxWeight] call life_fnc_calWeightDiff;
 if (_diff isEqualTo 0) exitWith {
     [ localize "STR_NOTF_InvFull",true,"fast"] call life_fnc_notification_system;
@@ -55,6 +56,7 @@ for "_i" from 0 to 4 do {
     sleep 0.5;
 };
 if ([true,_resource,_diff] call life_fnc_handleInv) then {
+    ["gather"] call life_fnc_skillAddXP;
     _itemName = M_CONFIG(getText,"VirtualItems",_resource,"displayName");
     titleText[format [localize "STR_NOTF_Gather_Success",(localize _itemName),_diff],"PLAIN"];
 };

@@ -6,11 +6,9 @@
     Spectate the chosen player.
 */
 if (FETCH_CONST(life_adminlevel) < 3) exitWith {closeDialog 0;};
-private _unit = lbData[2902,lbCurSel (2902)];
-_unit = call compile format ["%1", _unit];
-if (isNil "_unit") exitWith {};
-if (isNull _unit) exitWith {};
-if (_unit == player) exitWith {[ localize "STR_ANOTF_Error",true,"fast"] call life_fnc_notification_system;};
+private _unit = [] call life_fnc_adminTarget;
+if (isNull _unit) exitWith {[ localize "STR_ANOTF_NoTarget",true,"fast"] call life_fnc_notification_system;};
+if (_unit isEqualTo player) exitWith {[ localize "STR_ANOTF_Error",true,"fast"] call life_fnc_notification_system;};
 closeDialog 0;
 _unit switchCamera "INTERNAL";
 [ format [localize "STR_NOTF_nowSpectating",_unit getVariable ["realname",name _unit]],true,"fast"] call life_fnc_notification_system;

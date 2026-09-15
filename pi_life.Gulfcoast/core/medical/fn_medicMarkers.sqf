@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_medicMarkers.sqf
     Author: Bryan "Tonic" Boardwine
@@ -11,7 +12,7 @@ _units = [];
 _medics = [];
 sleep 0.25;
 if (visibleMap) then {
-    {if (side _x isEqualTo independent) then {_medics pushBack _x;}} forEach playableUnits; //Fetch list of cops / blufor
+    {if (SIDE_OF(_x) isEqualTo independent) then {_medics pushBack _x;}} forEach playableUnits; //Fetch list of cops / blufor
     {
         _name = _x getVariable "name";
         _down = _x getVariable ["Revive",false];
@@ -45,7 +46,7 @@ if (visibleMap) then {
             };
         } forEach _markersMedecin;
         if (!visibleMap) exitWith {};
-        sleep 0.02;
+        sleep 0.1;
     };
     {deleteMarkerLocal (_x select 0);} forEach _markersMedecin;
     _markersMedecin = [];

@@ -12,7 +12,7 @@ _item = [_this,2,"",[""]] call BIS_fnc_param;
 if (isNull _unit || _item isEqualTo "") exitWith {}; //Bad thingies?
 _restrictedClothing = LIFE_SETTINGS(getArray,"restricted_uniforms");
 _restrictedWeapons = LIFE_SETTINGS(getArray,"restricted_weapons");
-switch (playerSide) do
+switch (life_side) do
 {
     case west: {
         if (_item in ["U_Rangemaster"]) then {

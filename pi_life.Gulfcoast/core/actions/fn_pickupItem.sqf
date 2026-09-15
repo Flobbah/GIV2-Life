@@ -15,7 +15,7 @@ _itemName = ITEM_NAME(_itemInfo select 0);
 if (isLocalized _itemName) then {
     _itemName = (localize _itemName);
 };
-if (playerSide isEqualTo west && _illegal isEqualTo 1) exitWith {
+if (life_side isEqualTo west && _illegal isEqualTo 1) exitWith {
     titleText[format [localize "STR_NOTF_PickedEvidence",_itemName,[round(ITEM_SELLPRICE(_itemInfo select 0) / 2)] call life_fnc_numberText],"PLAIN"];
     BANK = BANK + round(ITEM_SELLPRICE(_itemInfo select 0) / 2);
     deleteVehicle _this;

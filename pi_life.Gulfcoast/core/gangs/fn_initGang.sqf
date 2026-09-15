@@ -6,7 +6,7 @@
     Main initialization for gangs.
 */
 private ["_exitLoop","_group","_wait"];
-if !(playerSide isEqualTo civilian) exitWith {}; //What in the hell?
+if !(life_side isEqualTo civilian) exitWith {}; //What in the hell?
 [player] join (createGroup civilian);
 if (count life_gangData isEqualTo 0) exitWith {}; //Dafuq?
 _wait = round(random(8));

@@ -20,7 +20,7 @@ if (!isClass (missionConfigFile >> "LifeCfgVehicles" >> _vehicleLife)) then {
     diag_log format ["%1: LifeCfgVehicles class doesn't exist",_vehicle];
 };
 _price = M_CONFIG(getNumber,"LifeCfgVehicles",_vehicleLife,"price");
-switch (playerSide) do {
+switch (life_side) do {
     case civilian: {
         _multiplier = LIFE_SETTINGS(getNumber,"vehicle_sell_multiplier_CIVILIAN");
         _purchasePrice = _price * LIFE_SETTINGS(getNumber,"vehicle_purchase_multiplier_CIVILIAN");

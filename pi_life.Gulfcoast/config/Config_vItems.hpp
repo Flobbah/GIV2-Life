@@ -132,8 +132,8 @@ class VirtualItems {
         variable = "pickaxe";
         displayName = "STR_Item_Pickaxe";
         weight = 2;
-        buyPrice = 750;
-        sellPrice = 350;
+        buyPrice = 500;
+        sellPrice = 200;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -154,8 +154,8 @@ class VirtualItems {
         variable = "bandage";
         displayName = "STR_Item_Bandage";
         weight = 1;
-        buyPrice = 750;
-        sellPrice = 350;
+        buyPrice = 150;
+        sellPrice = 50;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -187,8 +187,8 @@ class VirtualItems {
         variable = "fuelFull";
         displayName = "STR_Item_FuelF";
         weight = 5;
-        buyPrice = 850;
-        sellPrice = 500;
+        buyPrice = 400;
+        sellPrice = 100;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -221,7 +221,7 @@ class VirtualItems {
         displayName = "STR_Item_GoldBar";
         weight = 12;
         buyPrice = -1;
-        sellPrice = 95000;
+        sellPrice = 50000;
         illegal = true;
         edible = -1;
         drinkable = -1;
@@ -231,8 +231,8 @@ class VirtualItems {
         variable = "blastingCharge";
         displayName = "STR_Item_BCharge";
         weight = 15;
-        buyPrice = 35000;
-        sellPrice = 10000;
+        buyPrice = 25000;
+        sellPrice = 5000;
         illegal = true;
         edible = -1;
         drinkable = -1;
@@ -242,7 +242,7 @@ class VirtualItems {
         variable = "boltCutter";
         displayName = "STR_Item_BCutter";
         weight = 5;
-        buyPrice = 7500;
+        buyPrice = 5000;
         sellPrice = 1000;
         illegal = true;
         edible = -1;
@@ -264,8 +264,8 @@ class VirtualItems {
         variable = "storageSmall";
         displayName = "STR_Item_StorageBS";
         weight = 5;
-        buyPrice = 75000;
-        sellPrice = 50000;
+        buyPrice = 40000;
+        sellPrice = 20000;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -275,8 +275,8 @@ class VirtualItems {
         variable = "storageBig";
         displayName = "STR_Item_StorageBL";
         weight = 10;
-        buyPrice = 150000;
-        sellPrice = 125000;
+        buyPrice = 90000;
+        sellPrice = 45000;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -299,7 +299,7 @@ class VirtualItems {
         displayName = "STR_Item_OilP";
         weight = 6;
         buyPrice = -1;
-        sellPrice = 3200;
+        sellPrice = 600;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -321,7 +321,7 @@ class VirtualItems {
         displayName = "STR_Item_CopperIngot";
         weight = 3;
         buyPrice = -1;
-        sellPrice = 1500;
+        sellPrice = 350;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -343,7 +343,7 @@ class VirtualItems {
         displayName = "STR_Item_IronIngot";
         weight = 3;
         buyPrice = -1;
-        sellPrice = 3200;
+        sellPrice = 700;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -365,7 +365,7 @@ class VirtualItems {
         displayName = "STR_Item_SaltR";
         weight = 1;
         buyPrice = -1;
-        sellPrice = 1450;
+        sellPrice = 350;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -387,7 +387,7 @@ class VirtualItems {
         displayName = "STR_Item_Glass";
         weight = 1;
         buyPrice = -1;
-        sellPrice = 1450;
+        sellPrice = 330;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -398,7 +398,7 @@ class VirtualItems {
         displayName = "STR_Item_DiamondU";
         weight = 4;
         buyPrice = -1;
-        sellPrice = 750;
+        sellPrice = 250;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -409,7 +409,7 @@ class VirtualItems {
         displayName = "STR_Item_DiamondC";
         weight = 2;
         buyPrice = -1;
-        sellPrice = 2000;
+        sellPrice = 650;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -431,7 +431,7 @@ class VirtualItems {
         displayName = "STR_Item_CementBag";
         weight = 5;
         buyPrice = -1;
-        sellPrice = 1950;
+        sellPrice = 650;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -454,8 +454,8 @@ class VirtualItems {
         variable = "heroinProcessed";
         displayName = "STR_Item_HeroinP";
         weight = 4;
-        buyPrice = 3500;
-        sellPrice = 2560;
+        buyPrice = 1500;
+        sellPrice = 1000;
         illegal = true;
         edible = -1;
         drinkable = -1;
@@ -477,8 +477,8 @@ class VirtualItems {
         variable = "marijuana";
         displayName = "STR_Item_Marijuana";
         weight = 3;
-        buyPrice = 2800;
-        sellPrice = 2350;
+        buyPrice = 700;
+        sellPrice = 450;
         illegal = true;
         edible = -1;
         drinkable = -1;
@@ -501,7 +501,7 @@ class VirtualItems {
         displayName = "STR_Item_CocaineP";
         weight = 4;
         buyPrice = -1;
-        sellPrice = 5000;
+        sellPrice = 750;
         illegal = true;
         edible = -1;
         drinkable = -1;
@@ -512,8 +512,8 @@ class VirtualItems {
         variable = "redgull";
         displayName = "STR_Item_RedGull";
         weight = 1;
-        buyPrice = 1500;
-        sellPrice = 200;
+        buyPrice = 250;
+        sellPrice = 50;
         illegal = false;
         edible = -1;
         drinkable = 50;
@@ -547,7 +547,7 @@ class VirtualItems {
         displayName = "STR_Item_Apple";
         weight = 1;
         buyPrice = 65;
-        sellPrice = 50;
+        sellPrice = 22;
         illegal = false;
         edible = 10;
         drinkable = -1;
@@ -558,7 +558,7 @@ class VirtualItems {
         displayName = "STR_Item_Peach";
         weight = 1;
         buyPrice = 68;
-        sellPrice = 55;
+        sellPrice = 25;
         illegal = false;
         edible = 10;
         drinkable = -1;
@@ -591,7 +591,7 @@ class VirtualItems {
         displayName = "STR_Item_RabbitRaw";
         weight = 2;
         buyPrice = -1;
-        sellPrice = 95;
+        sellPrice = 150;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -745,7 +745,7 @@ class VirtualItems {
         displayName = "STR_Item_TurtleRaw";
         weight = 6;
         buyPrice = -1;
-        sellPrice = 3000;
+        sellPrice = 1200;
         illegal = true;
         edible = -1;
         drinkable = -1;
@@ -755,8 +755,8 @@ class VirtualItems {
         variable = "turtleSoup";
         displayName = "STR_Item_TurtleSoup";
         weight = 2;
-        buyPrice = 1000;
-        sellPrice = 750;
+        buyPrice = 600;
+        sellPrice = 300;
         illegal = false;
         edible = 100;
         drinkable = -1;
@@ -767,7 +767,7 @@ class VirtualItems {
         displayName = "STR_Item_HenRaw";
         weight = 1;
         buyPrice = -1;
-        sellPrice = 65;
+        sellPrice = 120;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -789,7 +789,7 @@ class VirtualItems {
         displayName = "STR_Item_RoosterRaw";
         weight = 1;
         buyPrice = -1;
-        sellPrice = 65;
+        sellPrice = 120;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -798,7 +798,7 @@ class VirtualItems {
     class rooster {
         variable = "rooster";
         displayName = "STR_Item_Rooster";
-        weight = 115;
+        weight = 1;
         buyPrice = 90;
         sellPrice = 85;
         illegal = false;
@@ -811,7 +811,7 @@ class VirtualItems {
         displayName = "STR_Item_SheepRaw";
         weight = 2;
         buyPrice = -1;
-        sellPrice = 95;
+        sellPrice = 200;
         illegal = false;
         edible = -1;
         drinkable = -1;
@@ -833,7 +833,7 @@ class VirtualItems {
         displayName = "STR_Item_GoatRaw";
         weight = 2;
         buyPrice = -1;
-        sellPrice = 115;
+        sellPrice = 250;
         illegal = false;
         edible = -1;
         drinkable = -1;

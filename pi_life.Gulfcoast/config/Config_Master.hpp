@@ -40,7 +40,7 @@ class Life_Settings {
     total_maxWeight = 24; //Static variable for the maximum weight allowed without having a backpack
     respawn_timer = 30; //How many seconds a player should wait, before being able to respawn. Minimum 5 seconds.
     /* Channel 7 News Station Configurations */
-    news_broadcast_cost = 150000; //Cost for a player to send a news station broadcast.
+    news_broadcast_cost = 25000; //Cost for a player to send a news station broadcast.
     news_broadcast_cooldown = 20; //Time in minutes that is required between news station broadcasts. (Default = 20 minutes)
     news_broadcast_header_length = 60; //Number of characters that a header can consist of. Anything over this may clip. This depends on the font size and various other factors. Adjust with caution.
     /* Clothing System Configurations */
@@ -55,18 +55,18 @@ class Life_Settings {
     escapeMenu_displayText = "Thanks for playing!"; //Text displayed in the escape menu. Make it short.. around 20 characters.
     /* Fuel System Configurations */
     pump_service = false; //Allow users to use pump service on the map. Default = false
-    fuel_cost = 80; //Cost of fuel per liter at fuel stations (if not defined for the vehicle already).
+    fuel_cost = 15; //Cost of fuel per liter at fuel stations (if not defined for the vehicle already).
     service_chopper = 1000; //Cost to service chopper at chopper service station(Repair/Refuel).
-    fuelCan_refuel = 250; //Cost to refuel an empty fuel canister at the fuel station pumps. (Be wary of your buy/sell prices on fuel cans to prevent exploits...)
+    fuelCan_refuel = 150; //Cost to refuel an empty fuel canister at the fuel station pumps. (Be wary of your buy/sell prices on fuel cans to prevent exploits...)
     /* Gang System Configurations */
-    gang_price = 75000; //Gang creation price. --Remember they are persistent so keep it reasonable to avoid millions of gangs.
+    gang_price = 40000; //Gang creation price. --Remember they are persistent so keep it reasonable to avoid millions of gangs.
     gang_upgradeBase = 10000; //The base cost for purchasing additional slots in a gang
     gang_upgradeMultiplier = 2.5; //CURRENTLY NOT IN USE
     gang_area[] = {"gang_area_1","gang_area_2","gang_area_3"}; //Variable of gang zone markers
     /* Housing System Configurations */
     house_limit = 5; //Maximum number of houses a player can own.
-    houseGarage_buyPrice = 1000000;
-    houseGarage_sellPrice = 350000;
+    houseGarage_buyPrice = 250000;
+    houseGarage_sellPrice = 100000;
     /* Hunting & Fishing System Configurations */
     animaltypes_fish[] = { "Salema_F", "Ornate_random_F", "Mackerel_F", "Tuna_F", "Mullet_F", "CatShark_F", "Turtle_F" }; //Classnames of fish you can catch
     animaltypes_hunting[] = { "Sheep_random_F", "Goat_random_F", "Hen_random_F", "Cock_random_F", "Rabbit_F" }; //Classnames of aniamls you can hunt/gut
@@ -89,14 +89,19 @@ class Life_Settings {
     revive_fee = 1000; //Revive fee that players have to pay and medics only EMS(independent) are rewarded with this amount.
     hospital_heal_fee = 100; //Fee to heal at a hospital NPC
     /* Paycheck & Bank System Configurations */
-    bank_cop = 3000; //Amount of cash in bank for new cops
-    bank_civ = 3000; //Amount of cash in bank for new civillians
-    bank_med = 3000; //Amount of cash in bank for new medics
-    paycheck_cop = 600; //Payment for cops
-    paycheck_civ = 450; //Payment for civillians
-    paycheck_med = 800; //Payment for medics
+    bank_cop = 5000; //Amount of cash in bank for new cops
+    bank_civ = 5000; //Amount of cash in bank for new civillians
+    bank_med = 5000; //Amount of cash in bank for new medics
+    paycheck_cop = 900; //Payment for cops
+    paycheck_civ = 500; //Payment for civillians
+    paycheck_med = 1000; //Payment for medics
     paycheck_period = 5; //Scaled in minutes
     bank_transferTax = .00; //Tax that player pays when transferring money from ATM. Tax = Amount * multiplier
+    bank_transactionLimit = 10000000; //Maximum amount per ATM deposit / withdraw / transfer and per gang bank transaction (was hard-coded 999999).
+                                      //NOTE: Arma numbers are 32-bit floats - integer math is only exact up to 16,777,216. Keep this limit (and ideally all balances) below that.
+    /* Admin Menu Configurations */
+    admin_compensateLimit = 10000000; //Maximum amount an admin can compensate per transaction (to himself or to the selected player). Same float limit as above applies.
+    admin_vehicleSpawn_persistent = true; //Allow admins to save spawned vehicles into the database (garage) via the checkbox in the spawn dialog. false = spawned vehicles are always temporary.
     /* Player Job System Configurations */
     delivery_points[] = { "dp_1", "dp_2", "dp_3", "dp_4", "dp_5", "dp_6", "dp_7", "dp_8", "dp_9", "dp_10", "dp_11", "dp_12", "dp_13", "dp_14", "dp_15", "dp_15", "dp_16", "dp_17", "dp_18", "dp_19", "dp_20", "dp_21", "dp_22", "dp_23", "dp_24", "dp_25" };
     fuelTank_winMultiplier = 1; //Win Multiplier in FuelTank Missions. Increase for greater payout. Default = 1
@@ -122,12 +127,12 @@ class Life_Settings {
     vehicle_rental_multiplier_MEDIC = .3; //Medic Vehicle Rental Price = Config_Vehicle price * multiplier
     vehicle_rental_multiplier_OPFOR = -1; // -- NOT IN USE -- Simply left in for east support.
     /* Vehicle Sell Prices */
-    vehicle_sell_multiplier_CIVILIAN = .75; //Civilian Vehicle Garage Sell Price = Vehicle Buy Price * multiplier
-    vehicle_sell_multiplier_COP = .75; //Cop Vehicle Garage Sell Price = Vehicle Buy Price * multiplier
-    vehicle_sell_multiplier_MEDIC = .75; //Medic Vehicle Garage Sell Price = Vehicle Buy Price * multiplier
+    vehicle_sell_multiplier_CIVILIAN = .6; //Civilian Vehicle Garage Sell Price = Vehicle Buy Price * multiplier
+    vehicle_sell_multiplier_COP = .6; //Cop Vehicle Garage Sell Price = Vehicle Buy Price * multiplier
+    vehicle_sell_multiplier_MEDIC = .6; //Medic Vehicle Garage Sell Price = Vehicle Buy Price * multiplier
     vehicle_sell_multiplier_OPFOR = -1; // -- NOT IN USE -- Simply left in for east support.
     /* "Other" Vehicle Prices */
-    vehicle_chopShop_multiplier = .25; //Chop Shop price for vehicles. TO AVOID EXPLOITS NEVER SET HIGHER THAN A PURCHASE/RENTAL multipler!   Payout = Config_vehicle Price * multiplier
+    vehicle_chopShop_multiplier = .15; //Chop Shop price for vehicles. TO AVOID EXPLOITS NEVER SET HIGHER THAN A PURCHASE/RENTAL multipler!   Payout = Config_vehicle Price * multiplier
     vehicle_storage_fee_multiplier = .0; //Pull from garage cost --> Cost takes the playersides Buy Price * multiplier
     vehicle_cop_impound_multiplier = .01; //TO AVOID EXPLOITS NEVER SET HIGHER THAN A PURCHASE/RENTAL multipler!   Payout = Config_vehicle Price * multiplier
     disableCommanderView = true; //false - Group leaders can access the commander view. true [default] - Group leaders cannot access the commander view.
@@ -197,3 +202,8 @@ class Life_Settings {
 #include "Config_Loadouts.hpp"
 #include "Config_RobFuelStations.hpp"
 #include "Config_Bandage.hpp"
+#include "Config_MarkerFilter.hpp"
+#include "Config_Skills.hpp"
+#include "Config_Duty.hpp"
+#include "Config_Placement.hpp"
+#include "Config_Navigation.hpp"

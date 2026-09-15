@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_copMarkers.sqf
     Author: Bryan "Tonic" Boardwine
@@ -9,7 +10,7 @@ _markers = [];
 _cops = [];
 sleep 0.5;
 if (visibleMap) then {
-    {if (side _x isEqualTo west) then {_cops pushBack _x;}} forEach playableUnits; //Fetch list of cops / blufor
+    {if (SIDE_OF(_x) isEqualTo west) then {_cops pushBack _x;}} forEach playableUnits; //Fetch list of cops / blufor
     //Create markers
     {
         if !(_x isEqualTo player) then {
@@ -29,7 +30,7 @@ if (visibleMap) then {
             };
         } forEach _markers;
         if (!visibleMap) exitWith {};
-        sleep 0.02;
+        sleep 0.1;
     };
     {deleteMarkerLocal (_x select 0);} forEach _markers;
     _markers = [];

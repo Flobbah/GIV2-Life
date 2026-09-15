@@ -1625,7 +1625,7 @@ class LifeCfgVehicles {
     // Apex DLC
     class C_Boat_Transport_02_F {
         vItemSpace = 100;
-        conditions = "license_civ_boat || {!(playerSide isEqualTo civilian)}";
+        conditions = "license_civ_boat || {!(life_side isEqualTo civilian)}";
         price = 2200;
         textures[] = {
             { "Civilian", "civ", {
@@ -1639,8 +1639,8 @@ class LifeCfgVehicles {
     // Apex DLC
     class C_Plane_Civil_01_F {
         vItemSpace = 75;
-        conditions = "license_civ_pilot || {!(playerSide isEqualTo civilian)}";
-        price = 15000;
+        conditions = "license_civ_pilot || {!(life_side isEqualTo civilian)}";
+        price = 25000;
         textures[] = {
             { "Racing (Tan Interior)", "civ", {
                 "A3\Air_F_Exp\Plane_Civil_01\Data\btt_ext_01_Racer_co.paa",
@@ -1695,7 +1695,7 @@ class LifeCfgVehicles {
     // Apex DLC
     class C_Scooter_Transport_01_F {
         vItemSpace = 30;
-        conditions = "license_civ_boat || {!(playerSide isEqualTo civilian)}";
+        conditions = "license_civ_boat || {!(life_side isEqualTo civilian)}";
         price = 2500;
         textures[] = {
             { "Black", "civ", {
@@ -1730,31 +1730,31 @@ class LifeCfgVehicles {
     };
     class C_Rubberboat {
         vItemSpace = 45;
-        conditions = "license_civ_boat || {!(playerSide isEqualTo civilian)}";
+        conditions = "license_civ_boat || {!(life_side isEqualTo civilian)}";
         price = 5000;
         textures[] = { };
     };
     class B_Heli_Transport_01_F {
         vItemSpace = 200;
-        conditions = "license_cop_cAir || {!(playerSide isEqualTo west)}";
+        conditions = "license_cop_cAir || {!(life_side isEqualTo west)}";
         price = 20000;
         textures[] = {};
     };
     class MELB_MH6M {
         vItemSpace = 200;
-        conditions = "license_cop_cAir || {!(playerSide isEqualTo west)}";
+        conditions = "license_cop_cAir || {!(life_side isEqualTo west)}";
         price = 100000;
         textures[] = {};
     };
     class B_Boat_Armed_01_minigun_F {
         vItemSpace = 175;
-        conditions = "license_cop_cg || {!(playerSide isEqualTo west)}";
+        conditions = "license_cop_cg || {!(life_side isEqualTo west)}";
         price = 7500;
         textures[] = { };
     };
     class B_Boat_Transport_01_F {
         vItemSpace = 45;
-        conditions = "license_cop_cg || {!(playerSide isEqualTo west)}";
+        conditions = "license_cop_cg || {!(life_side isEqualTo west)}";
         price = 3000;
         textures[] = { };
     };
@@ -1778,25 +1778,25 @@ class LifeCfgVehicles {
     };
     class B_G_Offroad_01_armed_F {
         vItemSpace = 65;
-        conditions = "license_civ_rebel || {!(playerSide isEqualTo civilian)}";
+        conditions = "license_civ_rebel || {!(life_side isEqualTo civilian)}";
         price = 75000;
         textures[] = { };
     };
     class C_Boat_Civil_01_F {
         vItemSpace = 85;
-        conditions = "license_civ_boat || {!(playerSide isEqualTo civilian)}";
+        conditions = "license_civ_boat || {!(life_side isEqualTo civilian)}";
         price = 10000;
         textures[] = { };
     };
     class C_Boat_Civil_01_police_F {
         vItemSpace = 85;
-        conditions = "license_cop_cg || {!(playerSide isEqualTo west)}";
+        conditions = "license_cop_cg || {!(life_side isEqualTo west)}";
         price = 20000;
         textures[] = { };
     };
     class C_Kart_01_Blu_F {
         vItemSpace = 20;
-        conditions = "license_civ_driver || {!(playerSide isEqualTo civilian)}";
+        conditions = "license_civ_driver || {!(life_side isEqualTo civilian)}";
         price = 15000;
         textures[] = {};
     };
@@ -1869,16 +1869,16 @@ class LifeCfgVehicles {
 	class d3s_insurgent_gtav : Colors {
 		vItemSpace = 250;
 		conditions ="license_civ_rebel";
-		price = 1500000;
+		price = 500000;
 	};
-	class d3s_willys : d3s_insurgent_gtav {};
-	class d3s_QUA_Regalia_23_D : d3s_insurgent_gtav {};
-	class Cardinal_Grinder : d3s_insurgent_gtav {};
-	class Chevrolet_Advance_1953 : d3s_insurgent_gtav {};
-	class Ford_Mainline_1954 : d3s_insurgent_gtav {};
-	class Ford_Model_B_1932 : d3s_insurgent_gtav {};
-	class Holden_Coupe_Utility_1951 : d3s_insurgent_gtav {};
-	class Righteous_Spike : d3s_insurgent_gtav {};
+	class d3s_willys : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
+	class d3s_QUA_Regalia_23_D : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
+	class Cardinal_Grinder : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
+	class Chevrolet_Advance_1953 : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
+	class Ford_Mainline_1954 : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
+	class Ford_Model_B_1932 : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
+	class Holden_Coupe_Utility_1951 : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
+	class Righteous_Spike : d3s_insurgent_gtav { vItemSpace = 50; price = 45000; };
 	class d3s_kuruma_gtaV : Colors {
 		vItemSpace = 25;
 		conditions ="";
@@ -2052,7 +2052,7 @@ class LifeCfgVehicles {
 	class d3s_srthellcat_15_HELL : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 1000;
+		price = 85000;
 	};
 	class d3s_f87_17 : Colors {
 		vItemSpace = 25;
@@ -2067,12 +2067,12 @@ class LifeCfgVehicles {
 	class d3s_f90_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 117900;
+		price = 109000;
 	};
 	class d3s_f13_13 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 134900;
+		price = 117500;
 	};
 	class d3s_charger_15 : Colors {
 		vItemSpace = 25;
@@ -2147,12 +2147,12 @@ class LifeCfgVehicles {
 	class d3s_s600_17 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 187850;
+		price = 144000;
 	};
 	class d3s_s600_14 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 187850;
+		price = 144000;
 	};
 	class d3s_beetle_04 : Colors {
 		vItemSpace = 25;
@@ -2162,97 +2162,97 @@ class LifeCfgVehicles {
 	class d3s_urus_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 750000;
+		price = 360500;
 	};
 	class d3s_cullinan_19_II : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 1275000;
+		price = 514000;
 	};
 	class d3s_huracan_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 375000;
+		price = 227000;
 	};
 	class d3s_veneno_13 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 7500000;
+		price = 1200000;
 	};
 	class d3s_mclaren_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 2500000;
+		price = 800000;
 	};
 	class d3s_amgGT_19_43 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 123000;
+		price = 111500;
 	};
 	class d3s_amgGT_19_53 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 145000;
+		price = 122500;
 	};
 	class d3s_amgGT_19_63 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 175000;
+		price = 137500;
 	};
 	class d3s_amgGT_19_63S : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 215000;
+		price = 157500;
 	};
 	class d3s_tuatara_19 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 4500000;
+		price = 960000;
 	};
 	class d3s_s560_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 250000;
+		price = 175000;
 	};
 	class d3s_s650_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 300000;
+		price = 200000;
 	};
 	class d3s_vv222_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 400000;
+		price = 235500;
 	};
 	class d3s_vv222_18_2 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 450000;
+		price = 253500;
 	};
 	class d3s_QUA_Regalia_23 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 450000;
+		price = 253500;
 	};
 	class d3s_ghost_18_EWB : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 850000;
+		price = 396500;
 	};
 	class d3s_ghost_18_EWB_II : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 950000;
+		price = 432000;
 	};
 	class d3s_novus_phantom_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 1800000;
+		price = 636500;
 	};
 	class d3s_donkervoort_17_BNC : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 125000;
+		price = 112500;
 	};
 	class d3s_donkervoort_17 : Colors {
 		vItemSpace = 25;
@@ -2262,7 +2262,7 @@ class LifeCfgVehicles {
 	class d3s_rapide_10 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 180000;
+		price = 140000;
 	};
 	class d3s_camaro_ss_16 : Colors {
 		vItemSpace = 25;
@@ -2272,57 +2272,57 @@ class LifeCfgVehicles {
 	class d3s_continentalGT_18 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 206465;
+		price = 153000;
 	};
 	class d3s_LaFerrari_14 : Colors {
 		vItemSpace = 10;
 		conditions ="";
-		price = 1190000;
+		price = 494500;
 	};
 	class d3s_huracan_18_SPD_P : Colors {
 		vItemSpace = 10;
 		conditions ="";
-		price = 1190000;
+		price = 494500;
 	};
 	class d3s_divo_19_P : Colors {
 		vItemSpace = 10;
 		conditions ="";
-		price = 1190000;
+		price = 494500;
 	};
 	class d3s_veyron_12 : Colors {
 		vItemSpace = 10;
 		conditions ="";
-		price = 1190000;
+		price = 494500;
 	};
 	class d3s_asterion_15 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 770000;
+		price = 368000;
 	};
 	class d3s_alfieri_14 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 125000;
+		price = 112500;
 	};
 	class d3s_amgGTS_15 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 154000;
+		price = 127000;
 	};
 	class d3s_amgGT_15 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 124000;
+		price = 112000;
 	};
 	class d3s_f85_15 : Colors {
 		vItemSpace = 85;
 		conditions ="";
-		price = 120700;
+		price = 110500;
 	};
 	class d3s_f86_15 : Colors {
 		vItemSpace = 25;
 		conditions ="";
-		price = 135900;
+		price = 118000;
 	};
 	class d3s_durango_18_SRT : Colors {
 		vItemSpace = 25;
@@ -2337,17 +2337,17 @@ class LifeCfgVehicles {
 	class d3s_g63amg_16 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 158400;
+		price = 129000;
 	};
 	class d3s_g63amg_18 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 158400;
+		price = 129000;
 	};
 	class d3s_g65amg_16 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 275723;
+		price = 188000;
 	};
 	class d3s_gle43amg_15 : Colors {
 		vItemSpace = 50;
@@ -2357,32 +2357,32 @@ class LifeCfgVehicles {
 	class d3s_gle63amg_15 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 131000;
+		price = 115500;
 	};
 	class d3s_gle63amgS_15 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 141000;
+		price = 120500;
 	};
 	class d3s_gls63amg_17 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 140242;
+		price = 120000;
 	};
 	class d3s_g350d_15 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 107000;
+		price = 103500;
 	};
 	class d3s_g500_15 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 226100;
+		price = 163000;
 	};
 	class d3s_g500_18 : Colors {
 		vItemSpace = 50;
 		conditions ="";
-		price = 226100;
+		price = 163000;
 	};
 	class d3s_eqc_20 : Colors {
 		vItemSpace = 50;
@@ -2428,12 +2428,12 @@ class LifeCfgVehicles {
 	class d3s_cayenne_turbo_s_16 : Colors {
 		vItemSpace = 67;
 		conditions ="";
-		price = 151702;
+		price = 126000;
 	};
 	class d3s_cayenne_turbo_16 : Colors {
 		vItemSpace = 67;
 		conditions ="";
-		price = 138850;
+		price = 119500;
 	};
 	class d3s_cayenne_16 : Colors {
 		vItemSpace = 67;
@@ -2463,92 +2463,92 @@ class LifeCfgVehicles {
 	};
     class d3s_actros_14_big {
 		vItemSpace = 600;
-		conditions = "license_civ_driver";
-		price = 300000;
+		conditions = "license_civ_trucking";
+		price = 200000;
 		textures[] = {};
 	};
 	class d3s_actros_14 {
 		vItemSpace = 600;
-		conditions = "license_civ_driver";
-		price = 300000;
+		conditions = "license_civ_trucking";
+		price = 200000;
 		textures[] = { };
 	};
 	class d3s_actros_14_giga {
 		vItemSpace = 600;
-		conditions = "license_civ_driver";
-		price = 300000;
+		conditions = "license_civ_trucking";
+		price = 200000;
 		textures[] = { };
 	};
 	class d3s_zil_130_05 {
 		vItemSpace = 150;
-		conditions = "license_civ_driver";
+		conditions = "license_civ_trucking";
 		price = 40000;
 		textures[] = { };
 	};
 	class d3s_zil_130_02 {
 		vItemSpace = 200;
-		conditions = "license_civ_driver";
+		conditions = "license_civ_trucking";
 		price = 43000;
 		textures[] = { };
 	};
 	class d3s_zil_130 {
 		vItemSpace = 200;
-		conditions = "license_civ_driver";
+		conditions = "license_civ_trucking";
 		price = 40000;
 		textures[] = { };
 	};
 	class d3s_zil_130_03 {
 		vItemSpace = 200;
-		conditions = "license_civ_driver";
+		conditions = "license_civ_trucking";
 		price = 40000;
 		textures[] = { };
 	};
 	class d3s_zil_130_01 {
 		vItemSpace = 200;
-		conditions = "license_civ_driver";
+		conditions = "license_civ_trucking";
 		price = 40000;
 		textures[] = { };
 	};
 	class d3s_zil_130_04 {
 		vItemSpace = 170;
-		conditions = "license_civ_driver";
+		conditions = "license_civ_trucking";
 		price = 36000;
 		textures[] = { };
 	};
 	class d3s_zil_130_06 {
 		vItemSpace = 230;
-		conditions = "license_civ_driver";
+		conditions = "license_civ_trucking";
 		price = 45000;
 		textures[] = { };
 	};
-	class d3s_zil_130_07 { vItemSpace = 230; conditions = "license_civ_driver"; price = 45000;  textures[] = { }; };
-	class d3s_kamaz_2 { vItemSpace = 350; conditions = "license_civ_driver"; price = 68000;  textures[] = { }; };
-	class d3s_kamaz_MAW_1 { vItemSpace = 350; conditions = "license_civ_driver"; price = 68000;  textures[] = { }; };
-	class d3s_kamaz_bocha { vItemSpace = 170; conditions = "license_civ_driver"; price = 30000;  textures[] = { }; };
-	class d3s_kamaz_bocha_MAW_1 { vItemSpace = 170; conditions = "license_civ_driver"; price = 30000;  textures[] = { }; };
-	class d3s_kamaz_tent_2 { vItemSpace = 420; conditions = "license_civ_driver"; price = 70000;  textures[] = { }; };
-	class d3s_kamaz_4310_med { vItemSpace = 420; conditions = "license_civ_driver"; price = 70000;  textures[] = { }; };
-	class d3s_kamaz { vItemSpace = 400; conditions = "license_civ_driver"; price = 65000;  textures[] = { }; };
-	class d3s_kamaz_kung { vItemSpace = 440; conditions = "license_civ_driver"; price = 74000;  textures[] = { }; };
-	class d3s_kamaz_tent { vItemSpace = 440; conditions = "license_civ_driver"; price = 74000;  textures[] = { }; };
-	class d3s_kamaz_tent2 { vItemSpace = 440; conditions = "license_civ_driver"; price = 74000;  textures[] = { }; };
-	class d3s_kamaz_4350 { vItemSpace = 400; conditions = "license_civ_driver"; price = 63000;  textures[] = { }; };
-	class d3s_kamaz_4350_kung { vItemSpace = 440; conditions = "license_civ_driver"; price = 74000;  textures[] = { }; };
-	class d3s_kamaz_4350_tent { vItemSpace = 440; conditions = "license_civ_driver"; price = 76000;  textures[] = { }; };
-	class d3s_kamaz_4350_tent2 { vItemSpace = 440; conditions = "license_civ_driver"; price = 76000;  textures[] = { }; };
-	class d3s_kamaz_5350 { vItemSpace = 460; conditions = "license_civ_driver"; price = 80000;  textures[] = { }; };
-	class d3s_kamaz_5350_bocha { vItemSpace = 170; conditions = "license_civ_driver"; price = 30000;  textures[] = { }; };
-	class d3s_kamaz_5350_tent { vItemSpace = 490; conditions = "license_civ_driver"; price = 90000;  textures[] = { }; };
-	class d3s_kamaz_6350 { vItemSpace = 580; conditions = "license_civ_driver"; price = 200000;  textures[] = { }; };
-	class d3s_nemises_kraz_6316 { vItemSpace = 600; conditions = "license_civ_driver"; price = 240000;  textures[] = { }; };
-	class d3s_nemises_next_tent { vItemSpace = 600; conditions = "license_civ_driver"; price = 240000;  textures[] = { }; };
+	class d3s_zil_130_07 { vItemSpace = 230; conditions = "license_civ_trucking"; price = 45000;  textures[] = { }; };
+	class d3s_kamaz_2 { vItemSpace = 350; conditions = "license_civ_trucking"; price = 68000;  textures[] = { }; };
+	class d3s_kamaz_MAW_1 { vItemSpace = 350; conditions = "license_civ_trucking"; price = 68000;  textures[] = { }; };
+	class d3s_kamaz_bocha { vItemSpace = 170; conditions = "license_civ_trucking"; price = 30000;  textures[] = { }; };
+	class d3s_kamaz_bocha_MAW_1 { vItemSpace = 170; conditions = "license_civ_trucking"; price = 30000;  textures[] = { }; };
+	class d3s_kamaz_tent_2 { vItemSpace = 420; conditions = "license_civ_trucking"; price = 70000;  textures[] = { }; };
+	class d3s_kamaz_4310_med { vItemSpace = 420; conditions = "license_civ_trucking"; price = 70000;  textures[] = { }; };
+	class d3s_kamaz { vItemSpace = 400; conditions = "license_civ_trucking"; price = 65000;  textures[] = { }; };
+	class d3s_kamaz_kung { vItemSpace = 440; conditions = "license_civ_trucking"; price = 74000;  textures[] = { }; };
+	class d3s_kamaz_tent { vItemSpace = 440; conditions = "license_civ_trucking"; price = 74000;  textures[] = { }; };
+	class d3s_kamaz_tent2 { vItemSpace = 440; conditions = "license_civ_trucking"; price = 74000;  textures[] = { }; };
+	class d3s_kamaz_4350 { vItemSpace = 400; conditions = "license_civ_trucking"; price = 63000;  textures[] = { }; };
+	class d3s_kamaz_4350_kung { vItemSpace = 440; conditions = "license_civ_trucking"; price = 74000;  textures[] = { }; };
+	class d3s_kamaz_4350_tent { vItemSpace = 440; conditions = "license_civ_trucking"; price = 76000;  textures[] = { }; };
+	class d3s_kamaz_4350_tent2 { vItemSpace = 440; conditions = "license_civ_trucking"; price = 76000;  textures[] = { }; };
+	class d3s_kamaz_5350 { vItemSpace = 460; conditions = "license_civ_trucking"; price = 80000;  textures[] = { }; };
+	class d3s_kamaz_5350_bocha { vItemSpace = 170; conditions = "license_civ_trucking"; price = 30000;  textures[] = { }; };
+	class d3s_kamaz_5350_tent { vItemSpace = 490; conditions = "license_civ_trucking"; price = 90000;  textures[] = { }; };
+	class d3s_kamaz_6350 { vItemSpace = 580; conditions = "license_civ_trucking"; price = 150000;  textures[] = { }; };
+	class d3s_nemises_kraz_6316 { vItemSpace = 600; conditions = "license_civ_trucking"; price = 170000;  textures[] = { }; };
+	class d3s_nemises_next_tent { vItemSpace = 600; conditions = "license_civ_trucking"; price = 170000;  textures[] = { }; };
     class C_Kart_01_Fuel_F : C_Kart_01_Blu_F{}; // Get all information of C_Kart_01_Blu_F
     class C_Kart_01_Red_F : C_Kart_01_Blu_F{};
     class C_Kart_01_Vrana_F : C_Kart_01_Blu_F{};
     class B_Heli_Light_01_stripped_F {
         vItemSpace = 90;
-        conditions = "license_civ_rebel || {!(playerSide isEqualTo civilian)";
-        price = 75000;
+        conditions = "license_civ_rebel || {!(life_side isEqualTo civilian)";
+        price = 90000;
         textures[] = {
             { "Rebel Digital", "reb", {
                 "\a3\air_f\Heli_Light_01\Data\Skins\heli_light_01_ext_digital_co.paa"
@@ -2558,7 +2558,7 @@ class LifeCfgVehicles {
     class B_Heli_Light_01_F {
         vItemSpace = 90;
         conditions = "license_civ_pilot || {license_cop_cAir} || {license_med_mAir}";
-        price = 75000;
+        price = 90000;
         textures[] = {
             { "Sheriff", "cop", {
                 "\pi_asset\textures\hummingbird.paa"
@@ -2606,12 +2606,12 @@ class LifeCfgVehicles {
     };
     class C_Heli_Light_01_civil_F : B_Heli_Light_01_F {
         vItemSpace = 75;
-        price = 75000;
+        price = 90000;
     };
     class O_Heli_Light_02_unarmed_F {
         vItemSpace = 210;
-        conditions = "license_civ_pilot || {license_med_mAir} || {(playerSide isEqualTo west)}";
-        price = 115000;
+        conditions = "license_civ_pilot || {license_med_mAir} || {(life_side isEqualTo west)}";
+        price = 150000;
         textures[] = {
             { "Black", "cop", {
                 "\a3\air_f\Heli_Light_02\Data\heli_light_02_ext_co.paa"
@@ -2632,7 +2632,7 @@ class LifeCfgVehicles {
     };
     class B_SDV_01_F {
         vItemSpace = 50;
-        conditions = "license_civ_boat || {license_cop_cg} || {(playerSide isEqualTo independent)}";
+        conditions = "license_civ_boat || {license_cop_cg} || {(life_side isEqualTo independent)}";
         price = 15000;
         textures[] = {};
     };

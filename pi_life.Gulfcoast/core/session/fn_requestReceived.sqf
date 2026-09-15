@@ -33,10 +33,10 @@ if (count (_this select 6) > 0) then {
     {missionNamespace setVariable [(_x select 0),(_x select 1)];} forEach (_this select 6);
 };
 //Parse side specific information.
-switch (playerSide) do {
+switch (life_side) do {
     case west: {
-        CONST(life_coplevel,(_this select 7));
-        CONST(life_medicLevel,0);
+        CONST_MUTABLE(life_coplevel,(_this select 7));
+        CONST_MUTABLE(life_medicLevel,0);
         life_blacklisted = _this select 9;
         if (LIFE_SETTINGS(getNumber,"save_playerStats") isEqualTo 1) then {
             life_hunger = ((_this select 10) select 0);
@@ -46,8 +46,8 @@ switch (playerSide) do {
     };
     case civilian: {
         life_is_arrested = _this select 7;
-        CONST(life_coplevel, 0);
-        CONST(life_medicLevel, 0);
+        CONST_MUTABLE(life_coplevel, 0);
+        CONST_MUTABLE(life_medicLevel, 0);
         life_houses = _this select (_count - 3);
         if (LIFE_SETTINGS(getNumber,"save_playerStats") isEqualTo 1) then {
             life_hunger = ((_this select 9) select 0);
@@ -74,8 +74,8 @@ switch (playerSide) do {
         [] spawn life_fnc_initHouses;
     };
     case independent: {
-        CONST(life_medicLevel,(_this select 7));
-        CONST(life_coplevel,0);
+        CONST_MUTABLE(life_medicLevel,(_this select 7));
+        CONST_MUTABLE(life_coplevel,0);
         if (LIFE_SETTINGS(getNumber,"save_playerStats") isEqualTo 1) then {
             life_hunger = ((_this select 9) select 0);
             life_thirst = ((_this select 9) select 1);

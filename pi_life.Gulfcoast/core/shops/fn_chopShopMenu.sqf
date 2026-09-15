@@ -6,7 +6,7 @@
     Opens & initializes the chop shop menu.
 */
 if (life_action_inUse) exitWith {[ localize "STR_NOTF_ActionInProc",true,"fast"] call life_fnc_notification_system};
-if !(playerSide isEqualTo civilian) exitWith {[ localize "STR_NOTF_notAllowed",true,"fast"] call life_fnc_notification_system};
+if !(life_side isEqualTo civilian) exitWith {[ localize "STR_NOTF_notAllowed",true,"fast"] call life_fnc_notification_system};
 disableSerialization;
 private _chopable = LIFE_SETTINGS(getArray,"chopShop_vehicles");
 private _nearVehicles = nearestObjects [getMarkerPos (_this select 3),_chopable,25];
@@ -26,7 +26,7 @@ private "_chopMultiplier";
     if (alive _x) then {
         _className = typeOf _x;
         _displayName = getText(configFile >> "CfgVehicles" >> _className >> "displayName");
-        _picture = getText(configFile >> "CfgVehicles" >> _className >> "picture");
+        _picture = [_className] call life_fnc_vehiclePicture;
         if (!isClass (missionConfigFile >> "LifeCfgVehicles" >> _className)) then {
             diag_log format ["%1: LifeCfgVehicles class doesn't exist",_className];
             _className = "Default"; //Use Default class if it doesn't exist

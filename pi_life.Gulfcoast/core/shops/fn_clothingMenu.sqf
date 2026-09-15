@@ -17,7 +17,7 @@ private _conditions = M_CONFIG(getText,"Clothing",_shop,"conditions");
 private _exit = false;
 private "_flag";
 if !(_shopSide isEqualTo "") then {
-    _flag = switch (playerSide) do {case west: {"cop"}; case independent: {"med"}; default {"civ"};};
+    _flag = switch (life_side) do {case west: {"cop"}; case independent: {"med"}; default {"civ"};};
     if !(_flag isEqualTo _shopSide) then {_exit = true;};
 };
 if (_exit) exitWith {};
@@ -39,9 +39,9 @@ ctrlSetText [3103,localize _shopTitle];
 (findDisplay 3100) displaySetEventHandler ["KeyDown","if ((_this select 1) isEqualTo 1) then {closeDialog 0; [] call life_fnc_playerSkins;}"]; //Fix Custom Skin after ESC
 sliderSetRange [3107, 0, 360];
 //Cop / Civ Pre Check
-if (_shop in ["bruce","dive","reb","kart"] && {!(playerSide isEqualTo civilian)}) exitWith {[ localize "STR_Shop_NotaCiv",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
+if (_shop in ["bruce","dive","reb","kart"] && {!(life_side isEqualTo civilian)}) exitWith {[ localize "STR_Shop_NotaCiv",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
 if (_shop == "reb" && {!license_civ_rebel}) exitWith {[ localize "STR_Shop_NotaReb",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
-if (_shop == "cop" && {!(playerSide isEqualTo west)}) exitWith {[ localize "STR_Shop_NotaCop",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
+if (_shop == "cop" && {!(life_side isEqualTo west)}) exitWith {[ localize "STR_Shop_NotaCop",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
 if (_shop == "dive" && {!license_civ_dive}) exitWith {[ localize "STR_Shop_NotaDive",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
 private ["_pos","_oldPos","_oldDir","_oldBev","_testLogic","_nearVeh","_light"];
 private ["_ut1","_ut2","_ut3","_ut4","_ut5"];

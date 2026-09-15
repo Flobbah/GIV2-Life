@@ -21,6 +21,8 @@ _name = M_CONFIG(getText,"VirtualItems",_type,"displayName");
 if ([false,_type,_amount] call life_fnc_handleInv) then {
     [ format [localize "STR_Shop_Virt_SellItem",_amount,(localize _name),[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
     CASH = CASH + _price;
+    //Skill Tragkraft: XP nach verkauftem Gewicht (nicht je Vorgang)
+    ["carry", _amount * ([_type] call life_fnc_itemWeight) * (getNumber (missionConfigFile >> "CfgSkills" >> "carry" >> "xpPerWeight"))] call life_fnc_skillAddXP;
     [0] call SOCK_fnc_updatePartial;
     [] call life_fnc_virt_update;
 };

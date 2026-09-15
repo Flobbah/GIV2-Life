@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_nearUnits.sqf
     Author: Bryan "Tonic" Boardwine
@@ -14,5 +15,5 @@ _radius = [_this,2,30,[0]] call BIS_fnc_param;
 _ret = false;
 //Error check
 if (_faction isEqualTo sideUnknown) exitWith {_ret};
-_ret = {!(_x isEqualTo player) && side _x isEqualTo _faction && alive _x && _position distance _x < _radius} count playableUnits > 0;
+_ret = {!(_x isEqualTo player) && SIDE_OF(_x) isEqualTo _faction && alive _x && _position distance _x < _radius} count playableUnits > 0;
 _ret;

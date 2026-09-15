@@ -20,7 +20,7 @@ compileFinal "
     _ret = _this select 0;
     if (isNull _ret) exitWith {};
     if (isNil ""_ret"") exitWith {};
-    [life_atmbank,life_cash,owner player,player,profileNameSteam,getPlayerUID player,playerSide] remoteExecCall [""life_fnc_adminInfo"",_ret];
+    [life_atmbank,life_cash,owner player,player,profileNameSteam,getPlayerUID player,life_side] remoteExecCall [""life_fnc_adminInfo"",_ret];
 ";
 publicVariable "TON_fnc_player_query";
 publicVariable "TON_fnc_index";
@@ -64,7 +64,7 @@ compileFinal "
         _name = getText(configFile >> ""CfgVehicles"" >> (typeOf _vehicle) >> ""displayName"");
         hint format [localize ""STR_NOTF_gaveKeysFrom"",_giver,_name];
         life_vehicles pushBack _vehicle;
-        [getPlayerUID player,playerSide,_vehicle,1] remoteExecCall [""TON_fnc_keyManagement"",2];
+        [getPlayerUID player,life_side,_vehicle,1] remoteExecCall [""TON_fnc_keyManagement"",2];
     };
 ";
 publicVariable "TON_fnc_clientGetKey";
@@ -226,7 +226,7 @@ compileFinal "
             systemChat _message;
         };
         case 1 : {
-            if (side player != west) exitWith {};
+            if (life_side != west) exitWith {};
             private [""_message"",""_loc"",""_unit""];
             _loc = _this select 3;
             _unit = _this select 4;
@@ -266,7 +266,7 @@ compileFinal "
             if ((call life_adminlevel) > 0) then {systemChat _admin;};
         };
         case 5: {
-            if (side player != independent) exitWith {};
+            if (life_side != independent) exitWith {};
             private [""_message"",""_loc"",""_unit""];
             _loc = _this select 3;
             _unit = _this select 4;

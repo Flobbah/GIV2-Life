@@ -5,18 +5,18 @@
     Description:
     Loads a custom loadout on player when he got a new life
 */
-private _pUniform = M_CONFIG(getArray,"Loadouts",str(playerSide),"uniform");
-private _pHeadgear = M_CONFIG(getArray,"Loadouts",str(playerSide),"headgear");
-private _pVest = M_CONFIG(getArray,"Loadouts",str(playerSide),"vest");
-private _pBackpack = M_CONFIG(getArray,"Loadouts",str(playerSide),"backpack");
-private _pWeapon = M_CONFIG(getArray,"Loadouts",str(playerSide),"weapon");
-private _pMagazines = M_CONFIG(getArray,"Loadouts",str(playerSide),"mags");
-private _pItems = M_CONFIG(getArray,"Loadouts",str(playerSide),"items");
-private _linkedItems = M_CONFIG(getArray,"Loadouts",str(playerSide),"linkedItems");
+private _pUniform = M_CONFIG(getArray,"Loadouts",str(life_side),"uniform");
+private _pHeadgear = M_CONFIG(getArray,"Loadouts",str(life_side),"headgear");
+private _pVest = M_CONFIG(getArray,"Loadouts",str(life_side),"vest");
+private _pBackpack = M_CONFIG(getArray,"Loadouts",str(life_side),"backpack");
+private _pWeapon = M_CONFIG(getArray,"Loadouts",str(life_side),"weapon");
+private _pMagazines = M_CONFIG(getArray,"Loadouts",str(life_side),"mags");
+private _pItems = M_CONFIG(getArray,"Loadouts",str(life_side),"items");
+private _linkedItems = M_CONFIG(getArray,"Loadouts",str(life_side),"linkedItems");
 // Removing every default items before adding the custom ones
 [] call life_fnc_stripDownPlayer;
 if !(_pUniform isEqualTo []) then {
-    if (playerSide isEqualTo civilian) then {
+    if (life_side isEqualTo civilian) then {
         _pUniform = selectRandom _pUniform;
         if (!(_pUniform isEqualTo []) && {!((_pUniform select 0) isEqualTo "") && {([(_pUniform select 1)] call life_fnc_levelCheck)}}) then {
             player forceAddUniform (_pUniform select 0);

@@ -12,6 +12,11 @@
 #define CONST(var1,var2) var1 = compileFinal (if (var2 isEqualType "") then {var2} else {str(var2)})
 #define CONSTVAR(var) var = compileFinal (if (var isEqualType "") then {var} else {str(var)})
 #define FETCH_CONST(var) (call var)
+//Dienst-System: Rang und Gehalt aendern sich beim Wechsel, deshalb compile statt compileFinal (compileFinal laesst sich nicht ueberschreiben)
+#define CONST_MUTABLE(var1,var2) var1 = compile (if (var2 isEqualType "") then {var2} else {str(var2)})
+#define CONSTVAR_MUTABLE(var) var = compile (if (var isEqualType "") then {var} else {str(var)})
+//Dienst-System: Fraktion eines Spielers (life_side wird oeffentlich am Spieler gesetzt, sonst Engine-Seite)
+#define SIDE_OF(UNIT) ((UNIT) getVariable ["life_side", side (UNIT)])
 //Display Macros
 #define CONTROL(disp,ctrl) ((findDisplay ##disp) displayCtrl ##ctrl)
 #define CONTROL_DATA(ctrl) (lbData[ctrl,lbCurSel ctrl])
@@ -35,6 +40,9 @@
 #define M_CONFIG(TYPE,CFG,CLASS,ENTRY) TYPE(missionConfigFile >> CFG >> CLASS >> ENTRY)
 #define BASE_CONFIG(CFG,CLASS) inheritsFrom(configFile >> CFG >> CLASS)
 #define LIFE_SETTINGS(TYPE,SETTING) TYPE(missionConfigFile >> "Life_Settings" >> SETTING)
+//Community-Name aus config\Config_Community.hpp (nur dort aendern)
+#define COMMUNITY_NAME_TEXT (getText (missionConfigFile >> "CfgCommunity" >> "name"))
+#define COMMUNITY_MISSION_NAME_TEXT (getText (missionConfigFile >> "CfgCommunity" >> "missionName"))
 //UI Macros
 #define LIFEdisplay (uiNamespace getVariable ["playerHUD",displayNull])
 #define LIFEctrl(ctrl) ((uiNamespace getVariable ["playerHUD",displayNull]) displayCtrl ctrl)

@@ -51,3 +51,20 @@ Thumbs.db
 #
 .idea/
 *.iml
+
+#
+# Local server and development files (never commit credentials or builds)
+#
+/@*/
+/mods/
+/userconfig/
+/*.py
+/*.sql
+!/altislife.sql
+extdb3-conf.ini
+LOCAL_SERVER.md
+*.lnk
+*.ps1
+*.rpt
+*.mdmp
+*.log

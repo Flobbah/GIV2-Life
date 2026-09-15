@@ -31,7 +31,7 @@ for "_i" from 0 to 1 step 0 do {
                 };
             } forEach _markers;
             if (!visibleMap) exitWith {};
-            sleep 0.02;
+            sleep 0.1;
         };
         {deleteMarkerLocal (_x select 0);} forEach _markers;
         _markers = [];

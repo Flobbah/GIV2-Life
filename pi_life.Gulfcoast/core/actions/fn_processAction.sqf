@@ -66,6 +66,7 @@ if (_newItemWeight > _oldItemWeight) then {
     };
 };
 if (_exit) exitWith {[ localize "STR_Process_Weight",true,"fast"] call life_fnc_notification_system; life_is_processing = false; life_action_inUse = false;};
+private _skillFactor = 1 - ((["process"] call life_fnc_skillBonus) / 100); //Skill Verarbeitung
 //Setup our progress bar.
 disableSerialization;
 "progressBar" cutRsc ["life_progress","PLAIN"];
@@ -78,7 +79,7 @@ _cP = 0.01;
 life_is_processing = true;
 if (_hasLicense) then {
     for "_i" from 0 to 1 step 0 do {
-        uiSleep  0.28;
+        uiSleep (0.28 * _skillFactor);
         _cP = _cP + 0.01;
         _progress progressSetPosition _cP;
         _pgText ctrlSetText format ["%3 (%1%2)...",round(_cP * 100),"%",_upp];
@@ -92,13 +93,14 @@ if (_hasLicense) then {
     {
         [true,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
     } count _newItem;
+    ["process", _minimumConversions * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP; //XP je Stueck
     "progressBar" cutText ["","PLAIN"];
     if (_minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
     life_is_processing = false; life_action_inUse = false;
 } else {
     if (CASH < _cost) exitWith {[ format [localize "STR_Process_License",[_cost] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system; "progressBar" cutText ["","PLAIN"]; life_is_processing = false; life_action_inUse = false;};
     for "_i" from 0 to 1 step 0 do {
-        uiSleep  0.9;
+        uiSleep (0.9 * _skillFactor);
         _cP = _cP + 0.01;
         _progress progressSetPosition _cP;
         _pgText ctrlSetText format ["%3 (%1%2)...",round(_cP * 100),"%",_upp];
@@ -113,6 +115,7 @@ if (_hasLicense) then {
     {
         [true,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
     } count _newItem;
+    ["process", _minimumConversions * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP; //XP je Stueck
     "progressBar" cutText ["","PLAIN"];
     if (_minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
     CASH = CASH - _cost;

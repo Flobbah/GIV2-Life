@@ -13,7 +13,7 @@ params [
 ];
 if (isNull _unit) exitWith {};
 //Save civilian position
-if (life_save_civilian_position && {side _unit isEqualTo civilian}) then {
+if (life_save_civilian_position && {(_unit getVariable ["life_side",side _unit]) isEqualTo civilian}) then {
     if (isNil "HC_UID" || {!(_uid isEqualTo HC_UID)}) then {
         private _position = getPosATL _unit;
         if ((getMarkerPos "respawn_civilian" distance _position) > 300) then {

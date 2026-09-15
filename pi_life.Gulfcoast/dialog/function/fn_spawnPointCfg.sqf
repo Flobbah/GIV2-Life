@@ -27,7 +27,7 @@ for "_i" from 0 to count(_spawnCfg)-1 do {
         _return pushBack _tempConfig;
     };
 };
-if (playerSide isEqualTo civilian) then {
+if (life_side isEqualTo civilian) then {
   if (count life_houses > 0) then {
     {
       _pos = call compile format ["%1",(_x select 0)];

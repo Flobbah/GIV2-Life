@@ -13,7 +13,8 @@ private _gFund = GANG_FUNDS;
 if ((time - life_action_delay) < 0.5) exitWith {[ localize "STR_NOTF_ActionDelay",true,"fast"] call life_fnc_notification_system};
 //Series of stupid checks
 if (isNil {(group player) getVariable "gang_name"}) exitWith {[ localize "STR_ATM_NotInGang",true,"fast"] call life_fnc_notification_system}; // Checks if player isn't in a gang
-if (_value > 999999) exitWith {[ localize "STR_ATM_WithdrawMax",true,"fast"] call life_fnc_notification_system;};
+private _limit = LIFE_SETTINGS(getNumber,"bank_transactionLimit");
+if (_value > _limit) exitWith {[ format [localize "STR_ATM_WithdrawMax",[_limit] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;};
 if (_value < 1) exitWith {};
 if (!([str(_value)] call TON_fnc_isnumber)) exitWith {[ localize "STR_ATM_notnumeric",true,"fast"] call life_fnc_notification_system};
 if (_deposit && _value > CASH) exitWith {[ localize "STR_ATM_NotEnoughCash",true,"fast"] call life_fnc_notification_system};

@@ -12,6 +12,21 @@
 life_action_delay = time;
 life_trunk_vehicle = objNull;
 life_session_completed = false;
+//Dienst-System: aktuelle Fraktion, aenderbar im Spiel ueber die Telefon-App "Dienst" (statt Engine-playerSide)
+life_side = playerSide;
+life_duty_busy = false;
+life_duty_last = -9999;
+life_duty_info = [];
+life_placement_active = false; //freies Abstellen von Fahrzeugen (core\placement)
+life_duty_housesInit = playerSide isEqualTo civilian;
+//Alle Lizenzvariablen aller Seiten mit false vorbelegen: Shop-Bedingungen greifen direkt darauf zu, die Datenbank
+//liefert beim Login nur die Lizenzen der eigenen Seite (und nur die, die es beim Anlegen des Spielers schon gab)
+{
+    missionNamespace setVariable [format ["license_%1_%2", getText (_x >> "side"), getText (_x >> "variable")], false];
+} forEach ("true" configClasses (missionConfigFile >> "Licenses"));
+//In Fahrzeugshop-Bedingungen (Config_Vehicles.hpp) verwendete, aber nirgends definierte Lizenzen: bleiben gesperrt,
+//aber ohne Skriptfehler. Entweder in Config_Licenses.hpp anlegen oder die Bedingungen aendern.
+{missionNamespace setVariable [_x, false];} forEach ["license_cop_swat","license_cop_fbi","license_civ_amc","license_civ_tuning"];
 life_garage_store = false;
 life_session_tries = 0;
 life_siren_active = false;
@@ -42,6 +57,11 @@ life_storagePlacing = scriptNull;
 life_hideoutBuildings = [];
 life_firstSpawn = true;
 life_open_notifications = [];
+//Performance caches (see fn_revealObjects, fn_hudUpdate, fn_keyHandler)
+life_revealObjects_next = 0;
+life_hud_cache = [-1,-1,-1,-1,-1];
+life_settings_disableCommanderView = LIFE_SETTINGS(getNumber,"disableCommanderView") isEqualTo 1;
+life_vehicleDoorSources = ["door_back_R","door_back_L","door_R","door_L","Door_L_source","Door_rear","Door_rear_source","Door_1_source","Door_2_source","Door_3_source","Door_LM","Door_RM","Door_LF","Door_RF","Door_LB","Door_RB","DoorL_Front_Open","DoorR_Front_Open","DoorL_Back_Open","DoorR_Back_Open"];
 //Farbkorrektur in der Nacht
 CHBN_adjustBrightness = 10;
 CHBN_adjustColor = [1,1,1];

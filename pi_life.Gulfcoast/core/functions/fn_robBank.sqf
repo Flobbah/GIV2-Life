@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /*
 File: fn_robBank.sqf
 Author: cmdFlow
@@ -9,13 +10,13 @@ private["_robber","_bank","_cops","_canRob","_minCops","_startRob","_chance","_u
 _robber = player;
 _bank = nearestObject [player, "Land_CommonwealthBank"];
 _canRob = _bank getVariable ["canRob",true];
-_cops = (west countSide playableUnits);
+_cops = (({SIDE_OF(_x) isEqualTo west} count playableUnits));
 _chance = random(100);
 _startRob = false;
 _minCops = 4;
 if(_cops < _minCops) exitWith { [ localize "STR_Bank_MinCops",true,"fast"] call life_fnc_notification_system};
 if (!_canRob) exitWith { [ localize "STR_Bank_BankTimer",true,"fast"] call life_fnc_notification_system};
-if (playerSide != civilian) exitWith { [ localize "STR_Bank_CopRobBank",true,"fast"] call life_fnc_notification_system};
+if (life_side != civilian) exitWith { [ localize "STR_Bank_CopRobBank",true,"fast"] call life_fnc_notification_system};
 if (player distance _bank > 8) exitWith { [ localize "STR_Bank_TooFar",true,"fast"] call life_fnc_notification_system};
 if (vehicle player != player) exitWith { [ localize "STR_Bank_InVeh",true,"fast"] call life_fnc_notification_system};
 if (_chance < 50) exitWith { [ localize "STR_Bank_Fail",true,"fast"] call life_fnc_notification_system};
@@ -70,7 +71,7 @@ if(_startRob) then {
 	_bank animate ["Vault_TransitionLeft",-0.1];
 	_bank animate ["Vault_TransitionRight",0.1];
 	_bank animate ["Vault_Door",1];
-	_moneyAmount = 100000 + round(random 100000);
+	_moneyAmount = 60000 + round(random 60000);
 	_pos = _bank modelToWorld[1,-3,3];
 	_pos = [(_pos select 0),(_pos select 1),4];
 	_obj = "Land_Money_F" createVehicle _pos;

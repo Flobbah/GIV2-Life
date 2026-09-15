@@ -30,12 +30,10 @@ _pgText = _ui displayCtrl 38202;
 _pgText ctrlSetText format ["%2 (1%1)...","%",_upp];
 _progress progressSetPosition 0.01;
 _cP = 0.01;
+private _anim = "Acts_TreatingWounded_loop";
+["start",_anim] call life_fnc_actionAnim;
 for "_i" from 0 to 1 step 0 do {
-    if (animationState player != "AinvPknlMstpSnonWnonDnon_medic_1") then {
-        [player,"AinvPknlMstpSnonWnonDnon_medic_1",true] remoteExecCall ["life_fnc_animSync",RCLIENT];
-        player switchMove "AinvPknlMstpSnonWnonDnon_medic_1";
-        player playMoveNow "AinvPknlMstpSnonWnonDnon_medic_1";
-    };
+    ["keep",_anim] call life_fnc_actionAnim;
     uiSleep 0.15;
     _cP = _cP + 0.01;
     _progress progressSetPosition _cP;
@@ -48,7 +46,7 @@ for "_i" from 0 to 1 step 0 do {
 };
 life_action_inUse = false;
 "progressBar" cutText ["","PLAIN"];
-player playActionNow "stop";
+["stop"] call life_fnc_actionAnim;
 if (isNull _animalCorpse) exitWith {life_action_inUse = false;};
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
 if !(isNull objectParent player) exitWith {titleText[localize "STR_NOTF_ActionInVehicle","PLAIN"];};

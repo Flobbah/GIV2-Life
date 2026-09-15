@@ -19,12 +19,10 @@ _titleText = _ui displayCtrl 38202;
 _titleText ctrlSetText format ["%2 (1%1)...","%",_title];
 _progressBar progressSetPosition 0.01;
 _cP = 0.01;
+private _anim = "Acts_carFixingWheel";
+["start",_anim] call life_fnc_actionAnim;
 for "_i" from 0 to 1 step 0 do {
-    if (animationState player != "AinvPknlMstpSnonWnonDnon_medic_1") then {
-        [player,"AinvPknlMstpSnonWnonDnon_medic_1",true] remoteExecCall ["life_fnc_animSync",RCLIENT];
-        player switchMove "AinvPknlMstpSnonWnonDnon_medic_1";
-        player playMoveNow "AinvPknlMstpSnonWnonDnon_medic_1";
-    };
+    ["keep",_anim] call life_fnc_actionAnim;
     uiSleep 0.26;
     if (isNull _ui) then {
         "progressBar" cutRsc ["life_progress","PLAIN"];
@@ -40,7 +38,7 @@ for "_i" from 0 to 1 step 0 do {
 };
 //Kill the UI display and check for various states
 "progressBar" cutText ["","PLAIN"];
-player playActionNow "stop";
+["stop"] call life_fnc_actionAnim;
 if (!alive player) exitWith {life_action_inUse = false;};
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
 life_action_inUse = false;

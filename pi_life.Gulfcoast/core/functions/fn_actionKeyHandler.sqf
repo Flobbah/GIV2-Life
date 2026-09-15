@@ -11,7 +11,7 @@ _curObject = cursorObject;
 if (life_action_inUse) exitWith {}; //Action is in use, exit to prevent spamming.
 if (life_interrupted) exitWith {life_interrupted = false;};
 _isWater = surfaceIsWater (visiblePositionASL player);
-if (playerSide isEqualTo west && {player getVariable ["isEscorting",false]}) exitWith {
+if (life_side isEqualTo west && {player getVariable ["isEscorting",false]}) exitWith {
     [] call life_fnc_copInteractionMenu;
 };
 if (LIFE_SETTINGS(getNumber,"global_ATM") isEqualTo 1) then{
@@ -36,7 +36,7 @@ if (isNull _curObject) exitWith {
             };
         } else {
             private "_handle";
-            if (playerSide isEqualTo civilian && !life_action_gathering) then {
+            if (life_side isEqualTo civilian && !life_action_gathering) then {
           _whatIsIt = [] call life_fnc_whereAmI;
                 if (life_action_gathering) exitWith {};                 //Action is in use, exit to prevent spamming.
                 switch (_whatIsIt) do {
@@ -55,11 +55,14 @@ if ((_curObject isKindOf "B_supplyCrate_F" || _curObject isKindOf "Box_IND_Grena
         [_curObject] call life_fnc_containerMenu;
     };
 };
-private _vaultHouse = [[["Gulfcoast", "Land_Research_house_V1_F"], ["Tanoa", "Land_Medevac_house_V1_F"]]] call TON_fnc_terrainSort;
-private _altisArray = [14778.333,12362.36,0];
-private _tanoaArray = [11074.2,11501.5,0.00137329];
-private _pos = [[["Gulfcoast", _altisArray], ["Tanoa", _tanoaArray]]] call TON_fnc_terrainSort;
-if (_curObject isKindOf "House_F" && {player distance _curObject < 12} || ((nearestObject [_pos,"Land_Dome_Big_F"]) isEqualTo _curObject || (nearestObject [_pos,_vaultHouse]) isEqualTo _curObject)) exitWith {
+if (isNil "life_fedDome") then {
+    //Resolved once and cached - these are static map objects.
+    private _vaultHouse = [[["Gulfcoast", "Land_Research_house_V1_F"], ["Tanoa", "Land_Medevac_house_V1_F"]]] call TON_fnc_terrainSort;
+    private _pos = [[["Gulfcoast", [14778.333,12362.36,0]], ["Tanoa", [11074.2,11501.5,0.00137329]]]] call TON_fnc_terrainSort;
+    life_fedDome = nearestObject [_pos,"Land_Dome_Big_F"];
+    life_fedVault = nearestObject [_pos,_vaultHouse];
+};
+if (_curObject isKindOf "House_F" && {player distance _curObject < 12} || (life_fedDome isEqualTo _curObject || life_fedVault isEqualTo _curObject)) exitWith {
     [_curObject] call life_fnc_houseMenu;
 };
 if (dialog) exitWith {}; //Don't bother when a dialog is open.
@@ -73,7 +76,7 @@ life_action_inUse = true;
 //Check if it's a dead body.
 if (_curObject isKindOf "CAManBase" && {!alive _curObject}) exitWith {
     //Hotfix code by ins0
-    if ((playerSide isEqualTo west && {(LIFE_SETTINGS(getNumber,"revive_cops") isEqualTo 1)}) || {(playerSide isEqualTo civilian && {(LIFE_SETTINGS(getNumber,"revive_civ") isEqualTo 1)})} || {(playerSide isEqualTo east && {(LIFE_SETTINGS(getNumber,"revive_east") isEqualTo 1)})} || {playerSide isEqualTo independent}) then {
+    if ((life_side isEqualTo west && {(LIFE_SETTINGS(getNumber,"revive_cops") isEqualTo 1)}) || {(life_side isEqualTo civilian && {(LIFE_SETTINGS(getNumber,"revive_civ") isEqualTo 1)})} || {(life_side isEqualTo east && {(LIFE_SETTINGS(getNumber,"revive_east") isEqualTo 1)})} || {life_side isEqualTo independent}) then {
         if (life_inv_defibrillator > 0) then {
             [_curObject] call life_fnc_revivePlayer;
         };
@@ -81,7 +84,7 @@ if (_curObject isKindOf "CAManBase" && {!alive _curObject}) exitWith {
 };
 //If target is a player then check if we can use the cop menu.
 if (isPlayer _curObject && _curObject isKindOf "CAManBase") then {
-    if ((_curObject getVariable ["restrained",false]) && !dialog && playerSide isEqualTo west) then {
+    if ((_curObject getVariable ["restrained",false]) && !dialog && life_side isEqualTo west) then {
         [_curObject] call life_fnc_copInteractionMenu;
     };
 } else {
