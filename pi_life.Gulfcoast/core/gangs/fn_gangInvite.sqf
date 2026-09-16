@@ -5,6 +5,7 @@
     Description:
     Prompts the player about an invite.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_action","_grpMembers"];
 params [
     ["_name","",[""]],
@@ -21,7 +22,7 @@ _action = [
 ] call BIS_fnc_guiMessage;
 if (_action) then {
     [player] join _group;
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [4,_group] remoteExecCall ["HC_fnc_updateGang",HC_Life];
     } else {
         [4,_group] remoteExecCall ["TON_fnc_updateGang",RSERV];
@@ -30,7 +31,7 @@ if (_action) then {
     _grpMembers = _group getVariable "gang_members";
     _grpMembers = _grpMembers - [getPlayerUID player];
     _group setVariable ["gang_members",_grpMembers,true];
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [4,_group] remoteExecCall ["HC_fnc_updateGang",HC_Life];
     } else {
         [4,_group] remoteExecCall ["TON_fnc_updateGang",RSERV];

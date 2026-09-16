@@ -47,12 +47,12 @@ if ((BANK - (_fueltoput * _fuelCost)) > 0) then {
         if (player distance _car > 10) exitWith {};
         if !(isNull objectParent player) exitWith {};
         if (((_cP * 100) mod 10) isEqualTo 0) then {
-            [_car,_cP * _setfuel] remoteExecCall ["life_fnc_setFuel",_car];
+            ["life_fnc_setFuel",[_car,_cP * _setfuel],_car] call life_fnc_relaySend;
         };
     };
     private _toPay = floor((_fueltoput * _fuelCost) * _cP);
     BANK = BANK - _toPay; //pay the received fuel
-    [_car,_cP * _setfuel] remoteExecCall ["life_fnc_setFuel",_car]; //update the fuel
+    ["life_fnc_setFuel",[_car,_cP * _setfuel],_car] call life_fnc_relaySend; //update the fuel
     "progressBar" cutText ["","PLAIN"];
     if (_car distance player > 10 || !(isNull objectParent player)) then {
         [ localize "STR_Distance_Vehicle_Pump",true,"fast"] call life_fnc_notification_system;

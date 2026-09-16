@@ -17,6 +17,12 @@ params [
 //Error checks
 if ((_uid isEqualTo "") || (_name isEqualTo "")) exitWith {systemChat "Bad UID or name";}; //Let the client be 'lost' in 'transaction'
 if (isNull _returnToSender) exitWith {systemChat "ReturnToSender is Null!";}; //No one to send this to!
+//Sicherheitsphase 0.1: nur der eigene Eintrag; Startgeld bestimmt der Server, nicht der Client
+if !([CALLER_OWNER, _returnToSender, _uid, sideUnknown, "DB_fnc_insertRequest"] call TON_fnc_checkCaller) exitWith {};
+private _startSide = AUTH_SIDE(_uid); //Sicherheitsphase 0.2: neue Spieler sind vor der ersten Abfrage unbekannt -> Zivilist
+private _bankKey = switch (_startSide) do {case west: {"bank_cop"}; case independent: {"bank_med"}; default {"bank_civ"};};
+_money = 0;
+_bank = LIFE_SETTINGS(getNumber,_bankKey);
 _query = format ["SELECT pid, name FROM players WHERE pid='%1'",_uid];
 _tickTime = diag_tickTime;
 _queryResult = [_query,2] call DB_fnc_asyncCall;

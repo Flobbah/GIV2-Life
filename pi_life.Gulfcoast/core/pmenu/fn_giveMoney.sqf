@@ -21,9 +21,10 @@ if (parseNumber(_amount) <= 0) exitWith {[ localize "STR_NOTF_enterAmount",true,
 if (parseNumber(_amount) > CASH) exitWith {[ localize "STR_NOTF_notEnoughtToGive",true,"fast"] call life_fnc_notification_system;ctrlShow[2001,true];};
 if (isNull _unit) exitWith {ctrlShow[2001,true];};
 if (isNil "_unit") exitWith {ctrlShow[2001,true]; [ localize "STR_NOTF_notWithinRange",true,"fast"] call life_fnc_notification_system;};
+if (ECONOMY_MODE >= 1) exitWith {["giveCash", _unit, parseNumber _amount] remoteExecCall ["TON_fnc_econPlayer",RSERV]; ctrlShow[2001,true];}; //Geld-Umbau Schritt 2: bucht der Server
 [ format [localize "STR_NOTF_youGaveMoney",[(parseNumber(_amount))] call life_fnc_numberText,_unit getVariable ["realname",name _unit]],false,"fast"] call life_fnc_notification_system;
 CASH = CASH - (parseNumber(_amount));
 [0] call SOCK_fnc_updatePartial;
-[_unit,_amount,player] remoteExecCall ["life_fnc_receiveMoney",_unit];
+["life_fnc_receiveMoney",[_unit,_amount,player],_unit] call life_fnc_relaySend;
 [] call life_fnc_p_updateMenu;
 ctrlShow[2001,true];

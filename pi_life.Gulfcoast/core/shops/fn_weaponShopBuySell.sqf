@@ -39,27 +39,63 @@ if ((uiNamespace getVariable ["Weapon_Shop_Filter",0]) isEqualTo 1) then {
             localize "STR_Shop_Virt_UI_YourCash"
         ] call BIS_fnc_guiMessage;
         if (_action) then {
-            [ parseText format [localize "STR_Shop_Weapon_BoughtGang",_itemInfo select 1,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
-            _funds = group player getVariable "gang_bank";
-            _funds = _funds - _price;
-            group player setVariable ["gang_bank",_funds,true];
-            [_item,true] call life_fnc_handleItem;
-            if (life_HC_isActive) then {
-                [1,group player] remoteExecCall ["HC_fnc_updateGang",HC_Life];
+            if (ECONOMY_MODE >= 1) then {
+                //Geld-Umbau Schritt 2: die Gangkasse bucht der Server (Mitglied laut Datenbank, am Versteck)
+                ["TON_fnc_econShop", ["weapon", uiNamespace getVariable ["Weapon_Shop",""], _item, 1, true], {
+                    (_this select 1) params ["_item", "_itemName", "_price"];
+                    [ parseText format [localize "STR_Shop_Weapon_BoughtGang",_itemName,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
+                    [_item,true] call life_fnc_handleItem;
+                    [3] call SOCK_fnc_updatePartial;
+                }, {
+                    [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
+                }, [_item, _itemInfo select 1, _price]] call life_fnc_econRequest;
             } else {
-                [1,group player] remoteExecCall ["TON_fnc_updateGang",RSERV];
+                [ parseText format [localize "STR_Shop_Weapon_BoughtGang",_itemInfo select 1,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
+                _funds = group player getVariable "gang_bank";
+                _funds = _funds - _price;
+                group player setVariable ["gang_bank",_funds,true];
+                [_item,true] call life_fnc_handleItem;
+                if (LIFE_HC_ACTIVE) then {
+                    [1,group player] remoteExecCall ["HC_fnc_updateGang",HC_Life];
+                } else {
+                    [1,group player] remoteExecCall ["TON_fnc_updateGang",RSERV];
+                };
             };
         } else {
             if (_price > CASH) exitWith {[ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system};
+            if (ECONOMY_MODE >= 1) then {
+                //Geld-Umbau Schritt 2: der Server bucht den Preis aus Config_Weapons, die Ware gibt es nach seiner Zusage
+                ["TON_fnc_econShop", ["weapon", uiNamespace getVariable ["Weapon_Shop",""], _item], {
+                    (_this select 1) params ["_item", "_itemName", "_price"];
+                    [ parseText format [localize "STR_Shop_Weapon_BoughtItem",_itemName,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
+                    [_item,true] call life_fnc_handleItem;
+                    [3] call SOCK_fnc_updatePartial;
+                }, {
+                    [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
+                }, [_item, _itemInfo select 1, _price]] call life_fnc_econRequest;
+            } else {
+                [ parseText format [localize "STR_Shop_Weapon_BoughtItem",_itemInfo select 1,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
+                CASH = CASH - _price;
+                [_item,true] call life_fnc_handleItem;
+            };
+        };
+    } else {
+        if (_price > CASH) exitWith {[ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system};
+        if (ECONOMY_MODE >= 1) then {
+            //Geld-Umbau Schritt 2: der Server bucht den Preis aus Config_Weapons, die Ware gibt es nach seiner Zusage
+            ["TON_fnc_econShop", ["weapon", uiNamespace getVariable ["Weapon_Shop",""], _item], {
+                (_this select 1) params ["_item", "_itemName", "_price"];
+                [ parseText format [localize "STR_Shop_Weapon_BoughtItem",_itemName,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
+                [_item,true] call life_fnc_handleItem;
+                [3] call SOCK_fnc_updatePartial;
+            }, {
+                [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
+            }, [_item, _itemInfo select 1, _price]] call life_fnc_econRequest;
+        } else {
             [ parseText format [localize "STR_Shop_Weapon_BoughtItem",_itemInfo select 1,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
             CASH = CASH - _price;
             [_item,true] call life_fnc_handleItem;
         };
-    } else {
-        if (_price > CASH) exitWith {[ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system};
-        [ parseText format [localize "STR_Shop_Weapon_BoughtItem",_itemInfo select 1,[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
-        CASH = CASH - _price;
-        [_item,true] call life_fnc_handleItem;
     };
 };
 [0] call SOCK_fnc_updatePartial;

@@ -62,6 +62,16 @@ if (_action) then {
     if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
     if (!([false,"fuelEmpty",1] call life_fnc_handleInv)) exitWith {life_action_inUse = false;};
     life_action_inUse = false;
+    if (ECONOMY_MODE >= 1) exitWith {
+        //Geld-Umbau Schritt 2: die Gebuehr bucht der Server; ohne Zusage gibt es den leeren Kanister zurueck
+        ["TON_fnc_econFee", ["jerryCan"], {
+            [true,"fuelFull",1] call life_fnc_handleInv;
+            [ localize "STR_ISTR_Jerry_Refueled",false,"fast"] call life_fnc_notification_system;
+        }, {
+            [true,"fuelEmpty",1] call life_fnc_handleInv;
+            [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
+        }] call life_fnc_econRequest;
+    };
     CASH = CASH - _fuelCost;
     [true,"fuelFull",1] call life_fnc_handleInv;
     [ localize "STR_ISTR_Jerry_Refueled",false,"fast"] call life_fnc_notification_system;

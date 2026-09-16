@@ -10,6 +10,7 @@ _pid = [_this,0,"",[""]] call BIS_fnc_param;
 _side = [_this,1,sideUnknown,[west]] call BIS_fnc_param;
 _type = [_this,2,"",[""]] call BIS_fnc_param;
 _unit = [_this,3,objNull,[objNull]] call BIS_fnc_param;
+if !([CALLER_OWNER, _unit, _pid, _side, "TON_fnc_getVehicles"] call TON_fnc_checkCaller) exitWith {};
 //Error checks
 if (_pid isEqualTo "" || _side isEqualTo sideUnknown || _type isEqualTo "" || isNull _unit) exitWith {
     if (!isNull _unit) then {
@@ -24,7 +25,7 @@ _side = switch (_side) do {
     default {"Error"};
 };
 if (_side == "Error") exitWith {
-    [[]] remoteExec ["life_fnc_impoundMenu",(owner _unit)];
+    [[]] remoteExec ["life_fnc_impoundMenu",_unit]; //_unit ist hier schon die owner-ID
 };
 _query = format ["SELECT id, side, classname, type, pid, alive, active, plate, color FROM vehicles WHERE pid='%1' AND alive='1' AND active='0' AND side='%2' AND type='%3'",_pid,_side,_type];
 _tickTime = diag_tickTime;
@@ -37,6 +38,6 @@ if (EXTDB_SETTING(getNumber,"DebugMode") isEqualTo 1) then {
     diag_log "------------------------------------------------";
 };
 if (_queryResult isEqualType "") exitWith {
-    [[]] remoteExec ["life_fnc_impoundMenu",(owner _unit)];
+    [[]] remoteExec ["life_fnc_impoundMenu",_unit]; //_unit ist hier schon die owner-ID
 };
 [_queryResult] remoteExec ["life_fnc_impoundMenu",_unit];

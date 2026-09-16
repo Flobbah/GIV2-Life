@@ -1,3 +1,4 @@
+#include "..\..\..\script_macros.hpp"
 /*
     File: fn_say3D.sqf
     Author: Bryan "Tonic" Boardwine
@@ -6,6 +7,7 @@
     Pass your sounds that you want everyone nearby to hear through here.
     Example:   [_veh,"unlock",50,1] remoteExec ["life_fnc_say3D",0];
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 params [
     ["_object",objNull,[objNull]],
     ["_sound","",[""]],

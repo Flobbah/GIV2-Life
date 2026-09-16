@@ -15,7 +15,7 @@ _action = [
 ] call BIS_fnc_guiMessage;
 if (_action) then {
     [ localize "STR_GNOTF_DisbandGangPro",true,"fast"] call life_fnc_notification_system;
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [group player] remoteExec ["HC_fnc_removeGang",HC_Life];
     } else {
         [group player] remoteExec ["TON_fnc_removeGang",RSERV];

@@ -25,6 +25,13 @@
    - Go on/off duty as police or EMS in-game without the lobby; money is shared, gear, licenses and keys are kept per faction
    - Free vehicle placement for garages, vehicle shops and admin spawn (green/red ghost preview instead of spawn markers)
    - Admin menu: manage players (licenses, cop/medic rank) and a vehicle spawn menu
+   - Hardened networking: every client request to the server validates its sender, player-to-player actions
+     run through a server relay with per-action rules, and server decisions (faction, ownership) use a
+     server-only data store instead of variables clients can overwrite
+   - Server-authoritative economy: the server keeps cash, bank and gang bank balances, books ATM, transfers,
+     paychecks, shops, fees, vehicles, houses, gangs, tickets, bail, bounties and robberies itself and writes
+     a transaction log (item sales and jobs follow)
+   - BattlEye filters updated for all GIV2 features
   - Mod collection on steam: https://steamcommunity.com/sharedfiles/filedetails/?id=3426226140
 
 [![|Solid](https://i.imgur.com/5PFRHRN.png)](https://steamcommunity.com/sharedfiles/filedetails/?id=3426226140)
@@ -41,7 +48,15 @@
   - New garage without spawn markers, in the object's init field:
     `[this, "Car", west] call life_fnc_garageInit;` (`"Car"`, `"Air"` or `"Ship"`; side is optional).
   - Feature settings: `config/Config_Skills.hpp`, `Config_Duty.hpp`, `Config_Placement.hpp`,
-    `Config_Navigation.hpp`, `Config_MarkerFilter.hpp`.
+    `Config_Navigation.hpp`, `Config_MarkerFilter.hpp`, `Config_Relay.hpp`, `Config_Economy.hpp`.
+  - Transaction log on an existing database: run `sql/migrations/2026-09-16_001_money_transactions.sql`
+    once (new installs get the table from `altislife.sql`). The database user needs no extra rights.
+  - Security switches in `description.ext` (`CfgServer`): `CallerCheckMode` (0 off, 1 log only, 2 log and
+    block rejected client requests, log tag `[SECURITY]`) and `EconomyMode` (0 = original client-side money,
+    1 = the server books money, log tag `[ECONOMY]`). The player-to-player relay can be switched off with
+    `enabled = 0` in `config/Config_Relay.hpp`. The debug console works for admins logged in with `#login`.
+  - BattlEye: copy `BEFilters/*.txt` into the server's BattlEye folder. For the first sessions change the
+    `5 ""` lines to `1 ""` (log only) and check the `.log` files before enabling kicks.
 
 # Fixed some minor issues
   - Fixed Cop/Medic Spawn/Init

@@ -5,6 +5,7 @@
     Description:
     Starts the "Demo" timer for the police.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_uiDisp","_time","_timer"];
 disableSerialization;
 "lifeTimer" cutRsc ["life_timer","PLAIN"];

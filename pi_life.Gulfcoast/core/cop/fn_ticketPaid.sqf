@@ -5,6 +5,8 @@
     Description:
     Verifies that the ticket was paid.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
+if (ECONOMY_MODE >= 1) exitWith {}; //Geld-Umbau Schritt 2: Strafzettel bucht der Server (TON_fnc_econJustice)
 params [
     ["_value",5,[0]],
     ["_unit",objNull,[objNull]],

@@ -21,7 +21,7 @@ private _pos = [[["Gulfcoast", _altisArray], ["Tanoa", _tanoaArray]]] call TON_f
 if ((nearestObject [_pos,_vaultHouse]) getVariable ["locked",true]) exitWith {[ localize "STR_ISTR_Blast_Exploit",true,"fast"] call life_fnc_notification_system};
 if (!([false,"blastingcharge",1] call life_fnc_handleInv)) exitWith {}; //Error?
 _vault setVariable ["chargeplaced",true,true];
-[0,"STR_ISTR_Blast_Placed",true,[]] remoteExecCall ["life_fnc_broadcast",west];
+["life_fnc_broadcast",[0,"STR_ISTR_Blast_Placed",true,[]],west] call life_fnc_relaySend;
 [ localize "STR_ISTR_Blast_KeepOff",false,"fast"] call life_fnc_notification_system;
-[] remoteExec ["life_fnc_demoChargeTimer",[west,player]];
+["life_fnc_demoChargeTimer",[],[west,player]] call life_fnc_relaySend;
 [] remoteExec ["TON_fnc_handleBlastingCharge",2];

@@ -1,9 +1,11 @@
+#include "..\..\..\script_macros.hpp"
 /*
     File: fn_broadcast.sqf
     Author: Bryan "Tonic" Boardwine
     Description:
     Broadcast system used in the life mission for multi-notification purposes.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 params [
     ["_type", 0, [0, []]],
     ["_message", "", [""]],

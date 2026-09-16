@@ -1,3 +1,4 @@
+#include "\life_server\script_macros.hpp"
 /*
     File: fn_wantedAdd.sqf
     Author: Bryan "Tonic" Boardwine"
@@ -14,6 +15,23 @@ params [
     ["_customBounty",-1,[0]]
 ];
 if (_uid isEqualTo "" || {_type isEqualTo ""} || {_name isEqualTo ""}) exitWith {}; //Bad data passed.
+//Sicherheitsphase 0.1: Polizei darf jede Tat eintragen. Andere Spieler duerfen sich selbst belasten
+//oder als Opfer Mord (187, 187V), Raub (211) und Tankstellenraub (23) melden; eigene Kopfgelder nur Polizei.
+private _caller = CALLER_OWNER;
+private _deny = "";
+if !(_caller isEqualTo 2) then {
+    private _info = [_caller] call TON_fnc_callerInfo;
+    if (_info isEqualTo []) then {_deny = "unknown sender";} else {
+        _info params ["_senderUid", "", "_senderSide"];
+        private _isCop = _senderSide isEqualTo west;
+        switch (true) do {
+            case (!(_uid regexMatch "\d{17}")): {_deny = format ["invalid uid %1", _uid];};
+            case (!_isCop && {!(_customBounty isEqualTo -1)}): {_deny = "custom bounty from a non-cop";};
+            case (!_isCop && {!(_uid isEqualTo _senderUid)} && {!(_type in ["187","187V","211","23"])}): {_deny = format ["crime %1 against another player from a non-cop", _type];};
+        };
+    };
+};
+if (!(_deny isEqualTo "") && {[_caller, "life_fnc_wantedAdd", _deny] call TON_fnc_denyCaller}) exitWith {};
 //What is the crime?
 private _crimesConfig = getArray(missionConfigFile >> "Life_Settings" >> "crimes");
 private _index = [_type,_crimesConfig] call TON_fnc_index;

@@ -9,7 +9,9 @@ private ["_vehicle","_plate","_uid","_query","_sql","_dbInfo","_thread","_cargo"
 _vehicle = [_this,0,objNull,[objNull]] call BIS_fnc_param;
 _mode = [_this,1,1,[0]] call BIS_fnc_param;
 if (isNull _vehicle) exitWith {}; //NULL
-_dbInfo = _vehicle getVariable ["dbInfo",[]];
+private _caller = CALLER_OWNER; //Sicherheitsphase 0.1: Absender pruefen
+if (!(_caller isEqualTo 2) && {((([_caller] call TON_fnc_callerInfo) param [1, objNull]) distance _vehicle) > 30} && {[_caller, "TON_fnc_vehicleUpdate", "vehicle too far from the sender"] call TON_fnc_denyCaller}) exitWith {};
+_dbInfo = [_vehicle, "dbInfo", []] call TON_fnc_serverGet; //Sicherheitsphase 0.2
 if (count _dbInfo isEqualTo 0) exitWith {};
 _uid = _dbInfo select 0;
 _plate = _dbInfo select 1;

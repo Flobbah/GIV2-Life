@@ -43,7 +43,7 @@ if (life_actionAnim_legacy && {!((toLower _anim) isEqualTo "acts_carfixingwheel"
         case "start";
         case "keep": {
             if (animationState player != _old) then {
-                [player,_old,true] remoteExecCall ["life_fnc_animSync",RCLIENT];
+                ["life_fnc_animSync",[player,_old,true],RCLIENT] call life_fnc_relaySend;
                 player switchMove _old;
                 player playMoveNow _old;
             };
@@ -121,7 +121,7 @@ switch (toLower _mode) do {
         life_actionAnim_exit = [_resolved] call _fnc_exit;
         //TreatingWounded ueber die Einstiegs-Animation starten, sie verbindet von selbst in den Loop
         private _toPlay = if (_resolved isEqualTo "Acts_TreatingWounded_loop") then {"Acts_TreatingWounded_in"} else {_resolved};
-        [player,_toPlay,true] remoteExecCall ["life_fnc_animSync",RCLIENT];
+        ["life_fnc_animSync",[player,_toPlay,true],RCLIENT] call life_fnc_relaySend;
         [_toPlay,life_actionAnim_family] call _fnc_play;
     };
 

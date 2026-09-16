@@ -19,7 +19,7 @@ for "_i" from 0 to 1 step 0 do {
         if (!isNil {_veh getVariable "NPC"} && {_veh getVariable "NPC"}) then {_protect = true;};
         if ((_vehicleClass in ["Car","Air","Ship","Armored","Submarine"]) && {!(_protect)}) then {
             if (LIFE_SETTINGS(getNumber,"save_vehicle_fuel") isEqualTo 1) then {_fuel = (fuel _veh);};
-            _dbInfo = _veh getVariable ["dbInfo",[]];
+            _dbInfo = [_veh, "dbInfo", []] call TON_fnc_serverGet; //Sicherheitsphase 0.2
             if (crew _x isEqualTo []) then {
                 _units = {(_x distance _veh < 300)} count playableUnits;
                 switch (true) do {

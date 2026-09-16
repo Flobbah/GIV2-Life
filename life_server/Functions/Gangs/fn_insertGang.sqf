@@ -13,6 +13,7 @@ params [
 ];
 _group = group _ownerID;
 if (isNull _ownerID || _uid isEqualTo "" || _gangName isEqualTo "") exitWith {}; //Fail
+if !([CALLER_OWNER, _ownerID, _uid, sideUnknown, "TON_fnc_insertGang"] call TON_fnc_checkCaller) exitWith {};
 _ownerID = owner _ownerID;
 _gangName = [_gangName] call DB_fnc_mresString;
 _query = format ["SELECT id FROM gangs WHERE name='%1' AND active='1'",_gangName];
@@ -34,6 +35,12 @@ if (!(count _queryResult isEqualTo 0)) exitWith {
 //Check to see if a gang with that name already exists but is inactive.
 _query = format ["SELECT id, active FROM gangs WHERE name='%1' AND active='0'",_gangName];
 _queryResult = [_query,2] call DB_fnc_asyncCall;
+//Geld-Umbau Schritt 2: den Gruendungspreis bucht der Server vor dem Anlegen
+if (ECONOMY_MODE >= 1 && {!(_uid in [""])} && {!([_uid, "bank", -LIFE_SETTINGS(getNumber,"gang_price"), "gang_create", "", _gangName] call TON_fnc_moneyChange)}) exitWith {
+    ["STR_GNOTF_NotEnoughMoney", [[LIFE_SETTINGS(getNumber,"gang_price")] call life_fnc_numberText], true] remoteExecCall ["life_fnc_econResult", _ownerID];
+    life_action_gangInUse = nil;
+    _ownerID publicVariableClient "life_action_gangInUse";
+};
 _gangMembers = [[_uid]] call DB_fnc_mresArray;
 if (!(count _queryResult isEqualTo 0)) then {
     _query = format ["UPDATE gangs SET active='1', owner='%1',members='%2' WHERE id='%3'",_uid,_gangMembers,(_queryResult select 0)];

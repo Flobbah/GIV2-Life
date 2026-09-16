@@ -13,6 +13,9 @@ params [
 ];
 //Bad data check
 if (_uid isEqualTo "" ||  {_name isEqualTo ""}) exitWith {};
+//Sicherheitsphase 0.1: nur der eigene Name, fuer SQL maskiert
+if !([CALLER_OWNER, objNull, _uid, sideUnknown, "life_fnc_wantedProfUpdate"] call TON_fnc_checkCaller) exitWith {};
+_name = [_name] call DB_fnc_mresString;
 _wantedCheck = format ["SELECT wantedName FROM wanted WHERE wantedID='%1'",_uid];
 _wantedQuery = [_wantedCheck,2] call DB_fnc_asyncCall;
 if (count _wantedQuery isEqualTo 0) exitWith {};

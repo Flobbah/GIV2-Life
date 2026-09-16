@@ -30,7 +30,7 @@ switch (life_side) do {
         _packet pushBack _position;
     };
 };
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     _packet remoteExecCall ["HC_fnc_updateRequest",HC_Life];
 } else {
     _packet remoteExecCall ["DB_fnc_updateRequest",RSERV];

@@ -40,14 +40,13 @@ private _colorIndex = lbValue[2304,(lbCurSel 2304)];
 if (_purchasePrice < 0) exitWith {closeDialog 0;}; //Bad price entry
 if (CASH < _purchasePrice) exitWith {[ format [localize "STR_Shop_Veh_NotEnough",[_purchasePrice - CASH] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;closeDialog 0;};
 private _shopFlag = life_veh_shop select 2;
+private _shop = life_veh_shop select 0;
 closeDialog 0; //Haendler schliessen, das Fahrzeug wird jetzt abgestellt
 
-[_className, {
+//Fahrzeug erzeugen (nach der Bezahlung, laeuft scheduled); _this = [_args, _pos, _vDir, _vUp, _water]
+private _create = {
     params ["_args", "_pos", "_vDir", "_vUp", "_water"];
     _args params ["_className", "_mode", "_purchasePrice", "_colorIndex", "_shopFlag"];
-    if (CASH < _purchasePrice) exitWith {[ format [localize "STR_Shop_Veh_NotEnough",[_purchasePrice - CASH] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;};
-    CASH = CASH - _purchasePrice;
-    [0] call SOCK_fnc_updatePartial;
     if (_mode) then {
         [ format [localize "STR_Shop_Veh_Bought",getText(configFile >> "CfgVehicles" >> _className >> "displayName"),[_purchasePrice] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
     } else {
@@ -94,7 +93,7 @@ closeDialog 0; //Haendler schliessen, das Fahrzeug wird jetzt abgestellt
     [getPlayerUID player,life_side,_vehicle,1] remoteExecCall ["TON_fnc_keyManagement",RSERV];
     if (_mode) then {
         if !(_className in LIFE_SETTINGS(getArray,"vehicleShop_rentalOnly")) then {
-            if (life_HC_isActive) then {
+            if (LIFE_HC_ACTIVE) then {
                 [(getPlayerUID player),life_side,_vehicle,_colorIndex] remoteExecCall ["HC_fnc_vehicleCreate",HC_Life];
             } else {
                 [(getPlayerUID player),life_side,_vehicle,_colorIndex] remoteExecCall ["TON_fnc_vehicleCreate",RSERV];
@@ -107,7 +106,25 @@ closeDialog 0; //Haendler schliessen, das Fahrzeug wird jetzt abgestellt
         } else {
             advanced_log = format [localize "STR_DL_AL_boughtVehicle",profileName,(getPlayerUID player),_className,[_purchasePrice] call life_fnc_numberText,[CASH] call life_fnc_numberText,[BANK] call life_fnc_numberText];
         };
-        publicVariableServer "advanced_log";
+        [advanced_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
     };
-}, {}, [_className, _mode, _purchasePrice, _colorIndex, _shopFlag]] call life_fnc_placementStart;
+};
+[_className, {
+    params ["_args", "_pos", "_vDir", "_vUp", "_water"];
+    _args params ["_className", "_mode", "_purchasePrice", "_colorIndex", "_shopFlag", "_shop", "_create"];
+    if (ECONOMY_MODE >= 1) exitWith {
+        //Geld-Umbau Schritt 2: den Preis bucht der Server (TON_fnc_econShop), das Fahrzeug entsteht nach seiner Zusage
+        ["TON_fnc_econShop", ["vehicle", _shop, _className, [1, 0] select _mode], {
+            private _context = _this select 1;
+            _context spawn ((_context select 0) select 6);
+        }, {
+            private _price = ((_this select 1) select 0) select 2;
+            [ format [localize "STR_Shop_Veh_NotEnough",[(_price - CASH) max 0] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;
+        }, [_args, _pos, _vDir, _vUp, _water]] call life_fnc_econRequest;
+    };
+    if (CASH < _purchasePrice) exitWith {[ format [localize "STR_Shop_Veh_NotEnough",[_purchasePrice - CASH] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;};
+    CASH = CASH - _purchasePrice;
+    [0] call SOCK_fnc_updatePartial;
+    [_args, _pos, _vDir, _vUp, _water] call _create;
+}, {}, [_className, _mode, _purchasePrice, _colorIndex, _shopFlag, _shop, _create]] call life_fnc_placementStart;
 true;

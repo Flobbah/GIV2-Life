@@ -77,7 +77,7 @@ if (_diff isEqualTo 0) exitWith {
     [ localize "STR_NOTF_InvFull",true,"fast"] call life_fnc_notification_system;
     life_action_inUse = false;
 };
-[player,"mining",35,1] remoteExecCall ["life_fnc_say3D",RCLIENT];
+["life_fnc_say3D",[player,"mining",35,1],RCLIENT] call life_fnc_relaySend;
 for "_i" from 0 to 4 do {
     player playMoveNow "AinvPercMstpSnonWnonDnon_Putdown_AmovPercMstpSnonWnonDnon";
     waitUntil {

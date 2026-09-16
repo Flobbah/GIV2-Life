@@ -40,12 +40,14 @@ closeDialog 0;
     _args params ["_vid", "_pid", "_price", "_spawntext"];
     if (BANK < _price) exitWith {[ format [(localize "STR_Garage_CashError"),[_price] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;};
     private _placement = [_pos, _vDir, _vUp, _water];
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [_vid,_pid,_placement,player,_price,0,_spawntext] remoteExec ["HC_fnc_spawnVehicle",HC_Life];
     } else {
         [_vid,_pid,_placement,player,_price,0,_spawntext] remoteExec ["TON_fnc_spawnVehicle",RSERV];
     };
     [ localize "STR_Garage_SpawningVeh",false,"fast"] call life_fnc_notification_system;
-    BANK = BANK - _price;
-    [1] call SOCK_fnc_updatePartial;
+    if (ECONOMY_MODE isEqualTo 0) then { //ab Modus 1 bucht der Server die Gebuehr beim Ausparken (TON_fnc_spawnVehicle)
+        BANK = BANK - _price;
+        [1] call SOCK_fnc_updatePartial;
+    };
 }, {}, [_vid, _pid, _price, _spawntext]] call life_fnc_placementStart;

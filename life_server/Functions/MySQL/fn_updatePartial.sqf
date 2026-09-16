@@ -1,3 +1,4 @@
+#include "\life_server\script_macros.hpp"
 /*
     File: fn_updatePartial.sqf
     Author: Bryan "Tonic" Boardwine
@@ -10,15 +11,19 @@ _uid = [_this,0,"",[""]] call BIS_fnc_param;
 _side = [_this,1,sideUnknown,[civilian]] call BIS_fnc_param;
 _mode = [_this,3,-1,[0]] call BIS_fnc_param;
 if (_uid isEqualTo "" || _side isEqualTo sideUnknown) exitWith {}; //Bad.
+//Sicherheitsphase 0.1: nur die eigenen Daten der eigenen Fraktion
+if !([CALLER_OWNER, objNull, _uid, _side, "DB_fnc_updatePartial"] call TON_fnc_checkCaller) exitWith {};
 _query = "";
 switch (_mode) do {
     case 0: {
         _value = [_this,2,0,[0]] call BIS_fnc_param;
+        [_uid, _value, nil, "updatePartial 0"] call TON_fnc_walletShadow; //Geld-Umbau Schritt 1
         _value = [_value] call DB_fnc_numberSafe;
         _query = format ["UPDATE players SET cash='%1' WHERE pid='%2'",_value,_uid];
     };
     case 1: {
         _value = [_this,2,0,[0]] call BIS_fnc_param;
+        [_uid, nil, _value, "updatePartial 1"] call TON_fnc_walletShadow; //Geld-Umbau Schritt 1
         _value = [_value] call DB_fnc_numberSafe;
         _query = format ["UPDATE players SET bankacc='%1' WHERE pid='%2'",_value,_uid];
     };
@@ -61,6 +66,7 @@ switch (_mode) do {
     case 6: {
         _value1 = [_this,2,0,[0]] call BIS_fnc_param;
         _value2 = [_this,4,0,[0]] call BIS_fnc_param;
+        [_uid, _value1, _value2, "updatePartial 6"] call TON_fnc_walletShadow; //Geld-Umbau Schritt 1
         _value1 = [_value1] call DB_fnc_numberSafe;
         _value2 = [_value2] call DB_fnc_numberSafe;
         _query = format ["UPDATE players SET cash='%1', bankacc='%2' WHERE pid='%3'",_value1,_value2,_uid];

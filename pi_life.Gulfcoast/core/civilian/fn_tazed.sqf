@@ -29,14 +29,14 @@ if (_shooter isKindOf "CAManBase" && alive player) then {
         if (!(count _curMags isEqualTo 0)) then {
             {player addMagazine _x;} forEach _curMags;
         };
-        [_unit,"tazerSound",100,1] remoteExecCall ["life_fnc_say3D",RCLIENT];
+        ["life_fnc_say3D",[_unit,"tazerSound",100,1],RCLIENT] call life_fnc_relaySend;
         _obj = "Land_ClutterCutter_small_F" createVehicle ASLTOATL(visiblePositionASL player);
         _obj setPosATL ASLTOATL(visiblePositionASL player);
-        [player,"AinjPfalMstpSnonWnonDf_carried_fallwc"] remoteExecCall ["life_fnc_animSync",RCLIENT];
-        [0,"STR_NOTF_Tazed",true,[profileName, _shooter getVariable ["realname",name _shooter]]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+        ["life_fnc_animSync",[player,"AinjPfalMstpSnonWnonDf_carried_fallwc"],RCLIENT] call life_fnc_relaySend;
+        ["life_fnc_broadcast",[0,"STR_NOTF_Tazed",true,[profileName, _shooter getVariable ["realname",name _shooter]]],RCLIENT] call life_fnc_relaySend;
         _unit attachTo [_obj,[0,0,0]];
         disableUserInput true;
-        [player,"AmovPpneMstpSrasWrflDnon"] remoteExecCall ["life_fnc_animSync",RCLIENT];
+        ["life_fnc_animSync",[player,"AmovPpneMstpSrasWrflDnon"],RCLIENT] call life_fnc_relaySend;
         if (!(player getVariable ["Escorting",false])) then {
             detach player;
         };

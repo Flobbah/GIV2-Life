@@ -1,4 +1,5 @@
 #include "..\..\script_macros.hpp"
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 #define INUSE(ENTITY) ENTITY setVariable ["inUse",false,true]
 /*
     File: fn_pickupItem.sqf
@@ -50,5 +51,5 @@ if (LIFE_SETTINGS(getNumber,"player_advancedLog") isEqualTo 1) then {
     } else {
         advanced_log = format [localize "STR_DL_AL_pickedUp",profileName,(getPlayerUID player),_diff,_itemName];
     };
-    publicVariableServer "advanced_log";
+    [advanced_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
 };

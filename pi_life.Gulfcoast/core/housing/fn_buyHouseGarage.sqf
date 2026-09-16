@@ -22,9 +22,10 @@ _action = [
 ] call BIS_fnc_guiMessage;
 if (_action) then {
     if (BANK < _price) exitWith {[ format [localize "STR_House_NotEnough",true,"fast"] call life_fnc_notification_system]};
+    if (ECONOMY_MODE >= 1) exitWith {[_uid,_house,0] remoteExec ["TON_fnc_houseGarage",RSERV];}; //Geld-Umbau Schritt 2: bucht der Server
     BANK = BANK - _price;
     [1] call SOCK_fnc_updatePartial;
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [_uid,_house,0] remoteExec ["HC_fnc_houseGarage",HC_Life];
     } else {
         [_uid,_house,0] remoteExec ["TON_fnc_houseGarage",RSERV];

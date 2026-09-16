@@ -5,6 +5,7 @@
     Description:
     Restrains the client.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_cop","_player","_vehicle"];
 _cop = [_this,0,objNull,[objNull]] call BIS_fnc_param;
 _player = player;

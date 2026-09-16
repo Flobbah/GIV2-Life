@@ -5,6 +5,7 @@
     Description:
     Once word is received by the server the rest of the jail execution is completed.
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 params [
     ["_ret",[],[[]]],
     ["_bad",false,[false]]
@@ -55,7 +56,7 @@ switch (true) do {
         life_bail_paid = false;
         [ localize "STR_Jail_Paid",false,"fast"] call life_fnc_notification_system;
         player setPos (getMarkerPos "jail_release");
-        if (life_HC_isActive) then {
+        if (LIFE_HC_ACTIVE) then {
             [getPlayerUID player] remoteExecCall ["HC_fnc_wantedRemove", HC_Life];
         } else {
             [getPlayerUID player] remoteExecCall ["life_fnc_wantedRemove", RSERV];
@@ -65,8 +66,8 @@ switch (true) do {
     case (_esc): {
         life_is_arrested = false;
         [ localize "STR_Jail_EscapeSelf",false,"fast"] call life_fnc_notification_system;
-        [0, "STR_Jail_EscapeNOTF", true, [profileName]] remoteExecCall ["life_fnc_broadcast", RCLIENT];
-        if (life_HC_isActive) then {
+        ["life_fnc_broadcast",[0, "STR_Jail_EscapeNOTF", true, [profileName]],RCLIENT] call life_fnc_relaySend;
+        if (LIFE_HC_ACTIVE) then {
             [getPlayerUID player, profileName, "901"] remoteExecCall ["HC_fnc_wantedAdd", HC_Life];
         } else {
             [getPlayerUID player, profileName, "901"] remoteExecCall ["life_fnc_wantedAdd", RSERV];
@@ -76,7 +77,7 @@ switch (true) do {
     case (alive player && {!_esc} && {!_bail}): {
         life_is_arrested = false;
         [ localize "STR_Jail_Released",false,"fast"] call life_fnc_notification_system;
-        if (life_HC_isActive) then {
+        if (LIFE_HC_ACTIVE) then {
             [getPlayerUID player] remoteExecCall ["HC_fnc_wantedRemove", HC_Life];
         } else {
             [getPlayerUID player] remoteExecCall ["life_fnc_wantedRemove", RSERV];

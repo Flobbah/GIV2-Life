@@ -29,9 +29,9 @@ for "_i" from 1 to _doors do {
 if (_door isEqualTo 0) exitWith {[ localize "STR_Cop_NotaDoor",true,"fast"] call life_fnc_notification_system}; //Not near a door to be broken into.
 if ((_building getVariable [format ["bis_disabled_Door_%1",_door],0]) isEqualTo 0) exitWith {[ localize "STR_House_Raid_DoorUnlocked",false,"fast"] call life_fnc_notification_system};
 if ((nearestObject [_pos,"Land_Dome_Big_F"]) == _building || (nearestObject [_pos,_vaultHouse]) == _building) then {
-    [[1,2],"STR_ISTR_Bolt_AlertFed",true,[]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+    ["life_fnc_broadcast",[[1,2],"STR_ISTR_Bolt_AlertFed",true,[]],RCLIENT] call life_fnc_relaySend;
 } else {
-    [0,"STR_ISTR_Bolt_AlertHouse",true,[profileName]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+    ["life_fnc_broadcast",[0,"STR_ISTR_Bolt_AlertHouse",true,[profileName]],RCLIENT] call life_fnc_relaySend;
 };
 life_action_inUse = true;
 //Setup the progress bar
@@ -83,7 +83,7 @@ if (life_boltcutter_uses >= 5) then {
 };
 _building setVariable [format ["bis_disabled_Door_%1",_door],0,true]; //Unlock the door.
 _building setVariable ["locked",false,true];
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [getPlayerUID player,profileName,"459"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
 } else {
     [getPlayerUID player,profileName,"459"] remoteExecCall ["life_fnc_wantedAdd",RSERV];

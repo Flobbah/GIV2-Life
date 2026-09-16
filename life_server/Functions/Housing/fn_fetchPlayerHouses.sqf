@@ -44,6 +44,8 @@ _containerss = [];
     _container setVariable ["Trunk",_trunk,true];
     _container setVariable ["container_owner",[_x select 0],true];
     _container setVariable ["container_id",_x select 6,true];
+    [_container, "container_owner", [_x select 0]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
+    [_container, "container_id", _x select 6] call TON_fnc_serverSet;
     clearWeaponCargoGlobal _container;
     clearItemCargoGlobal _container;
     clearMagazineCargoGlobal _container;

@@ -20,7 +20,7 @@ _action = [
     localize "STR_Global_No"
 ] call BIS_fnc_guiMessage;
 if (_action) then {
-    [profileName,group player] remoteExec ["life_fnc_gangInvite",_unit];
+    ["life_fnc_gangInvite",[profileName,group player],_unit] call life_fnc_relaySend;
     _members = group player getVariable "gang_members";
     _members pushBack getPlayerUID _unit;
     group player setVariable ["gang_members",_members,true];

@@ -27,6 +27,7 @@ DROP PROCEDURE IF EXISTS `deleteOldHouses`;
 DROP PROCEDURE IF EXISTS `deleteOldGangs`;
 DROP PROCEDURE IF EXISTS `deleteOldContainers`;
 DROP PROCEDURE IF EXISTS `deleteOldWanted`;
+DROP PROCEDURE IF EXISTS `deleteOldMoneyTransactions`;
 
 DELIMITER $$
 --
@@ -62,6 +63,11 @@ END$$
 CREATE DEFINER=CURRENT_USER PROCEDURE `deleteOldWanted`()
 BEGIN
   DELETE FROM `wanted` WHERE `active` = 0;
+END$$
+
+CREATE DEFINER=CURRENT_USER PROCEDURE `deleteOldMoneyTransactions`(IN keepDays INT)
+BEGIN
+  DELETE FROM `money_transactions` WHERE `created_at` < (NOW() - INTERVAL keepDays DAY);
 END$$
 
 DELIMITER ;
@@ -231,6 +237,32 @@ CREATE TABLE IF NOT EXISTS `wanted` (
     CONSTRAINT `FK_players_wanted` FOREIGN KEY `fkIdx_players_wanted` (`wantedID`)
       REFERENCES `players` (`pid`)
       ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `money_transactions`
+-- Transaction log of the server-authoritative economy (CfgServer >> EconomyMode in description.ext).
+-- Existing databases: sql/migrations/2026-09-16_001_money_transactions.sql
+--
+
+CREATE TABLE IF NOT EXISTS `money_transactions` (
+    `id`            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `created_at`    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `pid`           VARCHAR(17) NOT NULL DEFAULT '',
+    `gang_id`       INT NOT NULL DEFAULT 0,
+    `account`       ENUM('cash','bank','gang') NOT NULL,
+    `delta`         BIGINT NOT NULL,
+    `balance_after` BIGINT NOT NULL,
+    `reason`        VARCHAR(48) NOT NULL,
+    `counterpart`   VARCHAR(32) NOT NULL DEFAULT '',
+    `meta`          VARCHAR(255) NOT NULL DEFAULT '',
+
+    PRIMARY KEY (`id`),
+    KEY `idx_pid_time` (`pid`, `created_at`),
+    KEY `idx_reason_time` (`reason`, `created_at`),
+    KEY `idx_gang_time` (`gang_id`, `created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

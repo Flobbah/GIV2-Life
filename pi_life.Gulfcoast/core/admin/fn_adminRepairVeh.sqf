@@ -13,6 +13,6 @@ _veh setDamage 0;
 if (local _veh) then {
     _veh setFuel 1;
 } else {
-    [_veh,1] remoteExecCall ["life_fnc_setFuel",_veh];
+    ["life_fnc_setFuel",[_veh,1],_veh] call life_fnc_relaySend;
 };
 [ format [localize "STR_ANOTF_VehRepaired",getText (configFile >> "CfgVehicles" >> (typeOf _veh) >> "displayName")],false,"fast"] call life_fnc_notification_system;

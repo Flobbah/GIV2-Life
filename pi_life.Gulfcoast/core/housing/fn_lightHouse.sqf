@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_lightHouse.sqf
     Author: Bryan "Tonic" Boardwine
@@ -5,6 +6,7 @@
     Tells clients to either turn the lights on for that house
     or off.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_lightSource","_exit"];
 params [
     ["_house",objNull,[objNull]],

@@ -26,7 +26,7 @@ if (!isNil "_group") then {
     [player] join _group;
     if ((life_gangData select 1) isEqualTo getPlayerUID player) then {
         _group selectLeader player;
-        [player,_group] remoteExecCall ["TON_fnc_clientGangLeader",(units _group)];
+        ["TON_fnc_clientGangLeader",[player,_group],(units _group)] call life_fnc_relaySend;
     };
 } else {
     _group = group player;

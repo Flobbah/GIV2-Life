@@ -36,23 +36,62 @@ if ([true,_type,_amount] call life_fnc_handleInv) then {
         ] call BIS_fnc_guiMessage;
         if (_action) then {
             [ format [localize "STR_Shop_Virt_BoughtGang",_amount,(localize _name),[(_price * _amount)] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
-            _funds = group player getVariable "gang_bank";
-            _funds = _funds - (_price * _amount);
-            group player setVariable ["gang_bank",_funds,true];
-            if (life_HC_isActive) then {
-                [1,group player] remoteExecCall ["HC_fnc_updateGang",HC_Life];
+            if (ECONOMY_MODE >= 1) then {
+                //Geld-Umbau Schritt 2: die Gangkasse bucht der Server (Mitglied laut Datenbank, am Versteck)
+                ["TON_fnc_econShop", ["virtual", life_shop_type, _type, _amount, true], {
+                    [] call life_fnc_virt_update;
+                }, {
+                    (_this select 1) params ["_type", "_amount"];
+                    [false,_type,_amount] call life_fnc_handleInv;
+                    [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
+                    [] call life_fnc_virt_update;
+                    [3] call SOCK_fnc_updatePartial;
+                }, [_type, _amount]] call life_fnc_econRequest;
             } else {
-                [1,group player] remoteExecCall ["TON_fnc_updateGang",RSERV];
+                _funds = group player getVariable "gang_bank";
+                _funds = _funds - (_price * _amount);
+                group player setVariable ["gang_bank",_funds,true];
+                if (LIFE_HC_ACTIVE) then {
+                    [1,group player] remoteExecCall ["HC_fnc_updateGang",HC_Life];
+                } else {
+                    [1,group player] remoteExecCall ["TON_fnc_updateGang",RSERV];
+                };
             };
         } else {
             if ((_price * _amount) > CASH) exitWith {[false,_type,_amount] call life_fnc_handleInv; [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;};
             [ format [localize "STR_Shop_Virt_BoughtItem",_amount,(localize _name),[(_price * _amount)] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
-            CASH = CASH - _price * _amount;
+            if (ECONOMY_MODE >= 1) then {
+                //Geld-Umbau Schritt 2: der Server bucht den Preis aus Config_vItems; ohne Zusage werden die Gegenstaende wieder entfernt
+                ["TON_fnc_econShop", ["virtual", life_shop_type, _type, _amount], {
+                    [] call life_fnc_virt_update;
+                }, {
+                    (_this select 1) params ["_type", "_amount"];
+                    [false,_type,_amount] call life_fnc_handleInv;
+                    [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
+                    [] call life_fnc_virt_update;
+                    [3] call SOCK_fnc_updatePartial;
+                }, [_type, _amount]] call life_fnc_econRequest;
+            } else {
+                CASH = CASH - _price * _amount;
+            };
         };
     } else {
-        if ((_price * _amount) > CASH) exitWith {[ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system; [true,_type,_amount] call life_fnc_handleInv;};
+        if ((_price * _amount) > CASH) exitWith {[ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system; [false,_type,_amount] call life_fnc_handleInv;}; //vorher true: Gegenstaende doppelt statt entfernt
         [ format [localize "STR_Shop_Virt_BoughtItem",_amount,(localize _name),[(_price * _amount)] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
-        CASH = CASH - _price * _amount;
+        if (ECONOMY_MODE >= 1) then {
+            //Geld-Umbau Schritt 2: der Server bucht den Preis aus Config_vItems; ohne Zusage werden die Gegenstaende wieder entfernt
+            ["TON_fnc_econShop", ["virtual", life_shop_type, _type, _amount], {
+                [] call life_fnc_virt_update;
+            }, {
+                (_this select 1) params ["_type", "_amount"];
+                [false,_type,_amount] call life_fnc_handleInv;
+                [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
+                [] call life_fnc_virt_update;
+                [3] call SOCK_fnc_updatePartial;
+            }, [_type, _amount]] call life_fnc_econRequest;
+        } else {
+            CASH = CASH - _price * _amount;
+        };
     };
     [] call life_fnc_virt_update;
 };

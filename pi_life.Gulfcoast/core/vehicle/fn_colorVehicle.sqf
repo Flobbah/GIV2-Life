@@ -5,6 +5,7 @@
     Description:
     Reskins the vehicle.
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 params [
     ["_vehicle",objNull,[objNull]],
     ["_index",-1,[0]]

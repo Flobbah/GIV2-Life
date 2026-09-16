@@ -289,20 +289,20 @@ switch (_code) do {
                         if (local _veh) then {
                             _veh lock 0;
                         } else {
-                            [_veh,0] remoteExecCall ["life_fnc_lockVehicle",_veh];
+                            ["life_fnc_lockVehicle",[_veh,0],_veh] call life_fnc_relaySend;
                         };
                         {_veh animateDoor [_x,1]} forEach life_vehicleDoorSources;
                         [localize "STR_MISC_VehUnlock",false,"fast"] call life_fnc_notification_system;
-                        [_veh,"unlockCarSound",50,1] remoteExec ["life_fnc_say3D",RANY];
+                        ["life_fnc_say3D",[_veh,"unlockCarSound",50,1],RANY] call life_fnc_relaySend;
                     } else {
                         if (local _veh) then {
                             _veh lock 2;
                         } else {
-                            [_veh,2] remoteExecCall ["life_fnc_lockVehicle",_veh];
+                            ["life_fnc_lockVehicle",[_veh,2],_veh] call life_fnc_relaySend;
                         };
                         {_veh animateDoor [_x,0]} forEach life_vehicleDoorSources;
                         [localize "STR_MISC_VehLock",false,"fast"] call life_fnc_notification_system;
-                        [_veh,"lockCarSound",50,1] remoteExec ["life_fnc_say3D",RANY];
+                        ["life_fnc_say3D",[_veh,"lockCarSound",50,1],RANY] call life_fnc_relaySend;
                     };
                 };
             };

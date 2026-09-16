@@ -15,6 +15,8 @@ for [{_x=0},{_x<=_count},{_x=_x+10}] do {
         _house = nearestObject [_pos, "House"];
         _house setVariable ["house_owner",[_x select 1,_x select 3],true];
         _house setVariable ["house_id",_x select 0,true];
+        [_house, "house_owner", [_x select 1,_x select 3]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
+        [_house, "house_id", _x select 0] call TON_fnc_serverSet;
         _house setVariable ["locked",true,true]; //Lock up all the stuff.
         if (_x select 4 isEqualTo 1) then {
             _house setVariable ["garageBought",true,true];

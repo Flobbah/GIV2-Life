@@ -45,8 +45,12 @@ if (_mode isEqualTo 1) then {
         localize "STR_Global_No"
     ] call BIS_fnc_guiMessage;
     if (!_action) exitWith {[ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
-    [_value,_toBank,profileName] remoteExecCall ["life_fnc_adminCompReceive",_target];
-    [ format [localize "STR_ANOTF_CompSent",_targetName,_valueText,_accountName],false,"fast"] call life_fnc_notification_system;
+    if (ECONOMY_MODE >= 1) then {
+        ["compensate", _value, _target, _toBank] remoteExecCall ["TON_fnc_econBank",RSERV]; //Geld-Umbau Schritt 2: bucht der Server, Rueckmeldung kommt vom Server
+    } else {
+        ["life_fnc_adminCompReceive",[_value,_toBank,profileName],_target] call life_fnc_relaySend;
+        [ format [localize "STR_ANOTF_CompSent",_targetName,_valueText,_accountName],false,"fast"] call life_fnc_notification_system;
+    };
     _logTarget = format ["%1 (%2)",_targetName,getPlayerUID _target];
     closeDialog 0;
 } else {
@@ -57,19 +61,23 @@ if (_mode isEqualTo 1) then {
         localize "STR_Global_No"
     ] call BIS_fnc_guiMessage;
     if (!_action) exitWith {[ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system; closeDialog 0;};
-    if (_toBank) then {
-        BANK = BANK + _value;
-        [1] call SOCK_fnc_updatePartial;
+    if (ECONOMY_MODE >= 1) then {
+        ["compensate", _value, objNull, _toBank] remoteExecCall ["TON_fnc_econBank",RSERV]; //Geld-Umbau Schritt 2: bucht der Server, Rueckmeldung kommt vom Server
     } else {
-        CASH = CASH + _value;
-        [0] call SOCK_fnc_updatePartial;
+        if (_toBank) then {
+            BANK = BANK + _value;
+            [1] call SOCK_fnc_updatePartial;
+        } else {
+            CASH = CASH + _value;
+            [0] call SOCK_fnc_updatePartial;
+        };
+        [] call life_fnc_hudUpdate;
+        [ format [localize "STR_ANOTF_CompSelf",_valueText,_accountName],true,"fast"] call life_fnc_notification_system;
     };
-    [] call life_fnc_hudUpdate;
-    [ format [localize "STR_ANOTF_CompSelf",_valueText,_accountName],true,"fast"] call life_fnc_notification_system;
     _logTarget = "self";
     closeDialog 0;
 };
-if (!(_logTarget isEqualTo "") && {LIFE_SETTINGS(getNumber,"player_moneyLog") isEqualTo 1}) then {
+if (!(_logTarget isEqualTo "") && {ECONOMY_MODE isEqualTo 0} && {LIFE_SETTINGS(getNumber,"player_moneyLog") isEqualTo 1}) then { //ab Modus 1 protokolliert der Server
     money_log = format ["[ADMIN COMPENSATE] %1 (%2) -> %3: $%4 (%5)",profileName,getPlayerUID player,_logTarget,_valueText,_accountName];
-    publicVariableServer "money_log";
+    [money_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
 };

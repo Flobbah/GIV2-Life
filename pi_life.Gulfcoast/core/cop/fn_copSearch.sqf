@@ -5,6 +5,7 @@
     Description:
     Returns information on the search.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 life_action_inUse = false;
 private ["_license","_guns","_gun"];
 params [
@@ -29,18 +30,18 @@ if (count _invs > 0) then {
         };
     } forEach _invs;
     if (_illegal > 6000) then {
-        if (life_HC_isActive) then {
+        if (LIFE_HC_ACTIVE) then {
             [getPlayerUID _civ,_civ getVariable ["realname",name _civ],"482"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
         } else {
             [getPlayerUID _civ,_civ getVariable ["realname",name _civ],"482"] remoteExecCall ["life_fnc_wantedAdd",RSERV];
         };
     };
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [getPlayerUID _civ,_civ getVariable ["realname",name _civ],"481"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
     } else {
         [getPlayerUID _civ,_civ getVariable ["realname",name _civ],"481"] remoteExecCall ["life_fnc_wantedAdd",RSERV];
     };
-    [0,"STR_Cop_Contraband",true,[(_civ getVariable ["realname",name _civ]),[_illegal] call life_fnc_numberText]] remoteExecCall ["life_fnc_broadcast",west];
+    ["life_fnc_broadcast",[0,"STR_Cop_Contraband",true,[(_civ getVariable ["realname",name _civ]),[_illegal] call life_fnc_numberText]],west] call life_fnc_relaySend;
 } else {
     _inv = localize "STR_Cop_NoIllegal";
 };
@@ -48,5 +49,5 @@ if (!alive _civ || player distance _civ > 5) exitWith {[ format [localize "STR_C
 [ parseText format ["<t color='#FF0000'><t size='2'>%1</t></t><br/><t color='#FFD700'><t size='1.5'><br/>" +(localize "STR_Cop_IllegalItems")+ "</t></t><br/>%2<br/><br/><br/><br/><t color='#FF0000'>%3</t>"
 ,(_civ getVariable ["realname",name _civ]),_inv,if (_robber) then {"Robbed the bank"} else {""}],true,"fast"] call life_fnc_notification_system;
 if (_robber) then {
-    [0,"STR_Cop_Robber",true,[(_civ getVariable ["realname",name _civ])]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+    ["life_fnc_broadcast",[0,"STR_Cop_Robber",true,[(_civ getVariable ["realname",name _civ])]],RCLIENT] call life_fnc_relaySend;
 };

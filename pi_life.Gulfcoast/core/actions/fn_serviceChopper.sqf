@@ -29,9 +29,26 @@ for "_i" from 0 to 1 step 0 do {
     if (_cP >= 1) exitWith {};
 };
 if (!alive (_search select 0) || (_search select 0) distance air_sp > 15) exitWith {life_action_inUse = false; [ localize "STR_Service_Chopper_Missing",true,"fast"] call life_fnc_notification_system;};
+if (ECONOMY_MODE >= 1) exitWith {
+    //Geld-Umbau Schritt 2: die Gebuehr bucht der Server, gewartet wird nach seiner Zusage (vorher nie gespeichert)
+    "progressBar" cutText ["","PLAIN"];
+    life_action_inUse = false;
+    ["TON_fnc_econFee", ["chopperService"], {
+        private _heli = (_this select 1) select 0;
+        if (!local _heli) then {
+            ["life_fnc_setFuel",[_heli,1],_heli] call life_fnc_relaySend;
+        } else {
+            _heli setFuel 1;
+        };
+        _heli setDamage 0;
+        titleText [localize "STR_Service_Chopper_Done","PLAIN"];
+    }, {
+        [ localize "STR_Serive_Chopper_NotEnough",true,"fast"] call life_fnc_notification_system;
+    }, [_search select 0]] call life_fnc_econRequest;
+};
 CASH = CASH - _serviceCost;
 if (!local (_search select 0)) then {
-    [(_search select 0),1] remoteExecCall ["life_fnc_setFuel",(_search select 0)];
+    ["life_fnc_setFuel",[(_search select 0),1],(_search select 0)] call life_fnc_relaySend;
 } else {
     (_search select 0) setFuel 1;
 };

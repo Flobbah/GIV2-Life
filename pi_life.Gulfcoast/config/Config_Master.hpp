@@ -207,3 +207,5 @@ class Life_Settings {
 #include "Config_Duty.hpp"
 #include "Config_Placement.hpp"
 #include "Config_Navigation.hpp"
+#include "Config_Relay.hpp"
+#include "Config_Economy.hpp"

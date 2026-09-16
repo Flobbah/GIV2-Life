@@ -1,3 +1,4 @@
+#include "\life_server\script_macros.hpp"
 /*
     File: fn_cleanupRequest.sqf
     Author: Bryan "Tonic" Boardwine
@@ -9,6 +10,7 @@
 private ["_client","_loops"];
 _client = [_this,0,objNull,[objNull]] call BIS_fnc_param;
 if (isNull _client) exitWith {};
+if !([CALLER_OWNER, _client, "", sideUnknown, "TON_fnc_cleanupRequest"] call TON_fnc_checkCaller) exitWith {};
 _loops = 0;
 for "_i" from 0 to 1 step 0 do {
     if (_loops >= 25) exitWith {};

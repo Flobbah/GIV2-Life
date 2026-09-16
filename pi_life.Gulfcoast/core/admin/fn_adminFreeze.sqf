@@ -8,4 +8,4 @@ if (FETCH_CONST(life_adminlevel) < 4) exitWith {closeDialog 0; [ localize "STR_A
 private _unit = [] call life_fnc_adminTarget;
 if (isNull _unit) exitWith {[ localize "STR_ANOTF_NoTarget",true,"fast"] call life_fnc_notification_system;};
 if (_unit isEqualTo player) exitWith {[ localize "STR_ANOTF_Error",true,"fast"] call life_fnc_notification_system;};
-[player] remoteExec ["life_fnc_freezePlayer",_unit];
+["life_fnc_freezePlayer",[player],_unit] call life_fnc_relaySend;

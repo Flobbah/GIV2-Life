@@ -6,20 +6,26 @@
     Pays the ticket.
 */
 if (isNil "life_ticket_val" || isNil "life_ticket_cop") exitWith {};
+if (ECONOMY_MODE >= 1 && {CASH >= life_ticket_val || {BANK >= life_ticket_val}}) exitWith {
+    //Geld-Umbau Schritt 2: der Server bucht den gespeicherten Strafzettel an den ausstellenden Polizisten
+    life_ticket_paid = true;
+    closeDialog 0;
+    ["ticketPay"] remoteExecCall ["TON_fnc_econJustice",RSERV];
+};
 if (CASH < life_ticket_val) exitWith {
     if (BANK < life_ticket_val) exitWith {
         [ localize "STR_Cop_Ticket_NotEnough",true,"fast"] call life_fnc_notification_system;
-        [1,"STR_Cop_Ticket_NotEnoughNOTF",true,[profileName]] remoteExecCall ["life_fnc_broadcast",life_ticket_cop];
+        ["life_fnc_broadcast",[1,"STR_Cop_Ticket_NotEnoughNOTF",true,[profileName]],life_ticket_cop] call life_fnc_relaySend;
         closeDialog 0;
     };
     [ format [localize "STR_Cop_Ticket_Paid",[life_ticket_val] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
     BANK = BANK - life_ticket_val;
     [1] call SOCK_fnc_updatePartial;
     life_ticket_paid = true;
-    [0,"STR_Cop_Ticket_PaidNOTF",true,[profileName,[life_ticket_val] call life_fnc_numberText]] remoteExecCall ["life_fnc_broadcast",west];
-    [1,"STR_Cop_Ticket_PaidNOTF_2",true,[profileName]] remoteExecCall ["life_fnc_broadcast",life_ticket_cop];
-    [life_ticket_val,player,life_ticket_cop] remoteExecCall ["life_fnc_ticketPaid",life_ticket_cop];
-    if (life_HC_isActive) then {
+    ["life_fnc_broadcast",[0,"STR_Cop_Ticket_PaidNOTF",true,[profileName,[life_ticket_val] call life_fnc_numberText]],west] call life_fnc_relaySend;
+    ["life_fnc_broadcast",[1,"STR_Cop_Ticket_PaidNOTF_2",true,[profileName]],life_ticket_cop] call life_fnc_relaySend;
+    ["life_fnc_ticketPaid",[life_ticket_val,player,life_ticket_cop],life_ticket_cop] call life_fnc_relaySend;
+    if (LIFE_HC_ACTIVE) then {
         [getPlayerUID player] remoteExecCall ["HC_fnc_wantedRemove",HC_Life];
     } else {
         [getPlayerUID player] remoteExecCall ["life_fnc_wantedRemove",RSERV];
@@ -29,12 +35,12 @@ if (CASH < life_ticket_val) exitWith {
 CASH = CASH - life_ticket_val;
 [0] call SOCK_fnc_updatePartial;
 life_ticket_paid = true;
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [getPlayerUID player] remoteExecCall ["HC_fnc_wantedRemove",HC_Life];
 } else {
     [getPlayerUID player] remoteExecCall ["life_fnc_wantedRemove",RSERV];
 };
-[0,"STR_Cop_Ticket_PaidNOTF",true,[profileName,[life_ticket_val] call life_fnc_numberText]] remoteExecCall ["life_fnc_broadcast",west];
+["life_fnc_broadcast",[0,"STR_Cop_Ticket_PaidNOTF",true,[profileName,[life_ticket_val] call life_fnc_numberText]],west] call life_fnc_relaySend;
 closeDialog 0;
-[1,"STR_Cop_Ticket_PaidNOTF_2",true,[profileName]] remoteExecCall ["life_fnc_broadcast",life_ticket_cop];
-[life_ticket_val,player,life_ticket_cop] remoteExecCall ["life_fnc_ticketPaid",life_ticket_cop];
+["life_fnc_broadcast",[1,"STR_Cop_Ticket_PaidNOTF_2",true,[profileName]],life_ticket_cop] call life_fnc_relaySend;
+["life_fnc_ticketPaid",[life_ticket_val,player,life_ticket_cop],life_ticket_cop] call life_fnc_relaySend;

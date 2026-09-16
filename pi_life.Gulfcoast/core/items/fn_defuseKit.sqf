@@ -45,4 +45,4 @@ if (!alive player) exitWith {life_action_inUse = false;};
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
 life_action_inUse = false;
 _vault setVariable ["chargeplaced",false,true];
-[0,localize "STR_ISTR_Defuse_Success"] remoteExecCall ["life_fnc_broadcast",west];
+["life_fnc_broadcast",[0,localize "STR_ISTR_Defuse_Success"],west] call life_fnc_relaySend;

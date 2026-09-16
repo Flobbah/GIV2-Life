@@ -1,8 +1,10 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_pullOutVeh.sqf
     Author: Bryan "Tonic" Boardwine
     Description:
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 if (life_side isEqualTo west || (isNull objectParent player)) exitWith {};
 if (player getVariable "restrained") then {
     detach player;

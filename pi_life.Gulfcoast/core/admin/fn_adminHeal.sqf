@@ -15,5 +15,5 @@ private _target = [] call life_fnc_adminTarget;
 if (isNull _target) exitWith {[ localize "STR_ANOTF_NoTarget",true,"fast"] call life_fnc_notification_system;};
 if (!alive _target) exitWith {[ localize "STR_ANOTF_Error",true,"fast"] call life_fnc_notification_system;};
 if (_target isEqualTo player) exitWith {[0] call life_fnc_adminHeal;};
-[player] remoteExecCall ["life_fnc_adminHealed",_target];
+["life_fnc_adminHealed",[player],_target] call life_fnc_relaySend;
 [ format [localize "STR_ANOTF_HealedTarget",_target getVariable ["realname",name _target]],false,"fast"] call life_fnc_notification_system;

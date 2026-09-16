@@ -80,23 +80,23 @@ _unit spawn {
 //Make the killer wanted
 if (!isNull _killer && {!(_killer isEqualTo _unit)} && {!(SIDE_OF(_killer) isEqualTo west)} && {alive _killer}) then {
     if (vehicle _killer isKindOf "LandVehicle") then {
-        if (life_HC_isActive) then {
+        if (LIFE_HC_ACTIVE) then {
             [getPlayerUID _killer,_killer getVariable ["realname",name _killer],"187V"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
         } else {
             [getPlayerUID _killer,_killer getVariable ["realname",name _killer],"187V"] remoteExecCall ["life_fnc_wantedAdd",RSERV];
         };
         //Get rid of this if you don't want automatic vehicle license removal.
         if (!local _killer) then {
-            [2] remoteExecCall ["life_fnc_removeLicenses",_killer];
+            ["life_fnc_removeLicenses",[2],_killer] call life_fnc_relaySend;
         };
     } else {
-        if (life_HC_isActive) then {
+        if (LIFE_HC_ACTIVE) then {
             [getPlayerUID _killer,_killer getVariable ["realname",name _killer],"187"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
         } else {
             [getPlayerUID _killer,_killer getVariable ["realname",name _killer],"187"] remoteExecCall ["life_fnc_wantedAdd",RSERV];
         };
         if (!local _killer) then {
-            [3] remoteExecCall ["life_fnc_removeLicenses",_killer];
+            ["life_fnc_removeLicenses",[3],_killer] call life_fnc_relaySend;
         };
     };
 };
@@ -111,7 +111,8 @@ if (SIDE_OF(_killer) isEqualTo west && !(life_side isEqualTo west)) then {
     life_copRecieve = _killer;
     //Did I rob the federal reserve?
     if (!life_use_atm && {CASH > 0}) then {
-        [format [localize "STR_Cop_RobberDead",[CASH] call life_fnc_numberText]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+        ["life_fnc_broadcast",[format [localize "STR_Cop_RobberDead",[CASH] call life_fnc_numberText]],RCLIENT] call life_fnc_relaySend;
+        if (ECONOMY_MODE >= 1) then {["forfeit"] remoteExecCall ["TON_fnc_econCash",RSERV]}; //Geld-Umbau Schritt 2: Beute verfaellt auf dem Server
         CASH = 0;
     };
 };

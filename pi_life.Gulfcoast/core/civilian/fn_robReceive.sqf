@@ -4,6 +4,8 @@
     Author: Bryan "Tonic" Boardwine
     Description:
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
+if (ECONOMY_MODE >= 1) exitWith {}; //Geld-Umbau Schritt 2: Raub bucht der Server (TON_fnc_econPlayer)
 params [
     ["_cash",0,[0]],
     ["_victim",objNull,[objNull]],
@@ -20,5 +22,5 @@ if (LIFE_SETTINGS(getNumber,"player_moneyLog") isEqualTo 1) then {
     } else {
         money_log = format [localize "STR_DL_ML_Robbed",profileName,(getPlayerUID player),[_cash] call life_fnc_numberText,_victim,[BANK] call life_fnc_numberText,[CASH] call life_fnc_numberText];
     };
-    publicVariableServer "money_log";
+    [money_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
 };

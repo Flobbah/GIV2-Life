@@ -109,6 +109,27 @@ if (_hasLicense) then {
     };
     if (player distance _vendor > 10) exitWith {[ localize "STR_Process_Stay",true,"fast"] call life_fnc_notification_system; "progressBar" cutText ["","PLAIN"]; life_is_processing = false; life_action_inUse = false;};
     if (CASH < _cost) exitWith {[ format [localize "STR_Process_License",[_cost] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system; "progressBar" cutText ["","PLAIN"]; life_is_processing = false; life_action_inUse = false;};
+    if (ECONOMY_MODE >= 1) exitWith {
+        //Geld-Umbau Schritt 2: die Gebuehr ohne Lizenz bucht der Server, verarbeitet wird erst nach seiner Zusage
+        "progressBar" cutText ["","PLAIN"];
+        life_is_processing = false;
+        life_action_inUse = false;
+        ["TON_fnc_econFee", ["process", _type], {
+            (_this select 1) params ["_oldItem", "_newItem", "_conversions", "_complete"];
+            private _removed = true;
+            {
+                if !([false,(_x select 0),((_x select 1)*_conversions)] call life_fnc_handleInv) exitWith {_removed = false;};
+            } forEach _oldItem;
+            if (!_removed) exitWith {[ localize "STR_NOTF_NotEnoughItemProcess",true,"fast"] call life_fnc_notification_system;};
+            {
+                [true,(_x select 0),((_x select 1)*_conversions)] call life_fnc_handleInv;
+            } forEach _newItem;
+            ["process", _conversions * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP;
+            if (_complete) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
+        }, {
+            [ format [localize "STR_Process_License",[(_this select 0) param [1, 0]] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;
+        }, [_oldItem, _newItem, _minimumConversions, _minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)]] call life_fnc_econRequest;
+    };
     {
         [false,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
     } count _oldItem;

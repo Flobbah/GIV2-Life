@@ -5,6 +5,7 @@
     Executed on the healed player (remoteExec from fn_adminHeal):
     full health, food and water, no fatigue.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 params [["_admin",objNull,[objNull]]];
 if (isNull _admin || {!alive player}) exitWith {};
 player setDamage 0;

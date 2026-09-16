@@ -78,7 +78,7 @@ publicVariableServer "life_fnc_RequestClientId";
     _noVoice = [false,true] select ((["false","true"] find toLower _noVoice) max 0);
     _chan enableChannel [!_noText, !_noVoice];
 } forEach getArray (missionConfigFile >> "disableChannels");
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [getPlayerUID player, player getVariable ["realname", name player]] remoteExec ["HC_fnc_wantedProfUpdate", HC_Life];
 } else {
     [getPlayerUID player, player getVariable ["realname", name player]] remoteExec ["life_fnc_wantedProfUpdate", RSERV];

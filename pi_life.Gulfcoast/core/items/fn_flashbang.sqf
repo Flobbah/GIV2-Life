@@ -1,9 +1,11 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_flashbang.sqf
     Author:
     Description:
     Handles flash-banging yeahhhh..
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_pos","_eyeDir","_pPos","_impactPos","_norm","_angle","_blurEffect","_ppEffect"];
 _pos = [_this,0,[],[[]]] call BIS_fnc_param;
 if (_pos isEqualTo []) exitWith {}; //Badddd

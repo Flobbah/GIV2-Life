@@ -49,9 +49,37 @@ class CfgFunctions {
     };
     class TON_System {
         tag = "TON";
+        class Economy {
+            file = "\life_server\Functions\Economy";
+            class econInit {};
+            class walletLoad {};
+            class walletShadow {};
+            class moneyChange {};
+            class moneyLog {};
+            class moneyTransfer {};
+            class econBank {};
+            class econPlayer {};
+            class econPaycheck {};
+            class econJustice {};
+            class econFee {};
+            class econShop {};
+            class econVehiclePrice {};
+            class gangMoney {};
+            class gangMemberId {};
+            class econCash {};
+            class publishProtected {};
+            class econRobbery {};
+        };
         class Systems {
             file = "\life_server\Functions\Systems";
             class adminManageAuth {};
+            class callerInfo {};
+            class checkCaller {};
+            class denyCaller {};
+            class relay {};
+            class serverGet {};
+            class serverSet {};
+            class clientLog {};
             class adminManageQuery {};
             class adminManageAction {};
             class skillsLoad {};

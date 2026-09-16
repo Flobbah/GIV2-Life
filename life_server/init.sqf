@@ -62,6 +62,7 @@ publicVariable "life_server_extDB_notLoaded";
 ["CALL deleteDeadVehicles",1] call DB_fnc_asyncCall;
 ["CALL deleteOldHouses",1] call DB_fnc_asyncCall;
 ["CALL deleteOldGangs",1] call DB_fnc_asyncCall;
+[] spawn TON_fnc_econInit; //Geld-Umbau Schritt 1: Kontostaende und Transaktionslog
 _timeStamp = diag_tickTime;
 diag_log "----------------------------------------------------------------------------------------------------";
 diag_log "---------------------------------- Starting Altis Life Server Init ---------------------------------";
@@ -107,8 +108,7 @@ TON_fnc_requestClientID =
 };
 "life_fnc_RequestClientId" addPublicVariableEventHandler TON_fnc_requestClientID;
 /* Event handler for logs */
-"money_log" addPublicVariableEventHandler {diag_log (_this select 1)};
-"advanced_log" addPublicVariableEventHandler {diag_log (_this select 1)};
+//Sicherheitsphase 0.2: money_log/advanced_log kommen ueber TON_fnc_clientLog mit geprueftem Absender, nicht mehr per publicVariableServer
 /* Miscellaneous mission-required stuff */
 life_wanted_list = [];
 cleanupFSM = [] execFSM "\life_server\FSM\cleanup.fsm";
@@ -143,10 +143,47 @@ _rsb allowDamage false;
 /* Tell clients that the server is ready and is accepting queries */
 life_server_isReady = true;
 publicVariable "life_server_isReady";
+/* Sicherheitsphase 0.2: Statusvariablen, die jeder Client per publicVariable ueberschreiben koennte (Join-Sperre,
+   Datenbank-Aufrufe aller Spieler an einen falschen Headless Client). Der Server stellt sie sofort wieder her. */
+private _protected = [["life_server_isReady", true], ["life_server_extDB_notLoaded", false]];
+if !(EXTDB_SETTING(getNumber,"HeadlessSupport") isEqualTo 1) then {
+    _protected append [["life_HC_isActive", false], ["HC_Life", false]];
+};
+{
+    _x params ["_name", "_value"];
+    localNamespace setVariable ["life_protected_" + _name, _value];
+    _name addPublicVariableEventHandler {
+        params ["_name", "_value"];
+        private _real = localNamespace getVariable ("life_protected_" + _name);
+        if (_value isEqualTo _real) exitWith {};
+        diag_log format ["[SECURITY] publicVariable %1 = %2 was sent by a client, restored to %3", _name, _value, _real];
+        missionNamespace setVariable [_name, _real];
+        publicVariable _name;
+    };
+} forEach _protected;
 /* Initialize hunting zone(s) */
 aiSpawn = ["hunting_zone",30] spawn TON_fnc_huntingZone;
 server_corpses = [];
 addMissionEventHandler ["EntityRespawned", {_this call TON_fnc_entityRespawned}];
+/* Sicherheitsphase 0.1b: letzten Tod je Client fuer TON_fnc_relay merken (Lizenzentzug durch das Opfer, Reichweite am Koerper) */
+localNamespace setVariable ["life_relay_deaths", createHashMap];
+addMissionEventHandler ["EntityKilled", {
+    params ["_unit", "_killer", "_instigator"];
+    if !(_unit isKindOf "CAManBase") exitWith {};
+    private _owner = owner _unit;
+    if (_owner < 3) exitWith {};
+    (localNamespace getVariable "life_relay_deaths") set [_owner, [diag_tickTime, _unit, _killer, _instigator]];
+}];
+if (ECONOMY_MODE >= 1) then {
+    //Geld-Umbau Schritt 2: Raub-Sperren setzt nur noch der Server (TON_fnc_econRobbery), Client-Broadcasts werden zurueckgesetzt
+    ["life_nextrob", 0] call TON_fnc_publishProtected;
+    ["life_firstrob", true] call TON_fnc_publishProtected;
+    ["DevB_BankRobbing", false] call TON_fnc_publishProtected;
+    [] spawn {
+        uiSleep (10 * 60);
+        ["life_firstrob", false] call TON_fnc_publishProtected;
+    };
+} else {
 life_nextrob = 0; // 10 min nach Restart, funzt das Überfallen erst.
 publicVariable "life_nextrob";
 life_firstrob = true;
@@ -155,6 +192,7 @@ publicVariable "life_firstrob";
     uiSleep (10 * 60);
     life_firstrob = false;
     publicVariable "life_firstrob";
+};
 };
 diag_log "----------------------------------------------------------------------------------------------------";
 diag_log format ["               End of Altis Life Server Init :: Total Execution Time %1 seconds ",(diag_tickTime) - _timeStamp];

@@ -1,9 +1,11 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_licensesRead.sqf
     Author: Bryan "Tonic" Boardwine
     Description:
     Outprints the licenses.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 params [
     ["_civ","",[""]],
     ["_licenses",(localize "STR_Cop_NoLicenses"),[""]]

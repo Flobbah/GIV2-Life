@@ -28,6 +28,12 @@ class CfgRemoteExec {
         F(life_fnc_skillsReceive,CLIENT)
         F(life_fnc_dutyInfoReceive,CLIENT)
         F(life_fnc_dutyReceive,CLIENT)
+        F(life_fnc_moneyUpdate,CLIENT)
+        F(life_fnc_econResult,CLIENT)
+        F(life_fnc_paycheckReceive,CLIENT)
+        F(life_fnc_bailPaid,CLIENT)
+        F(life_fnc_econReply,CLIENT)
+        F(life_fnc_houseBought,CLIENT)
         F(life_fnc_bountyReceive,CLIENT)
         JIP(life_fnc_copLights,CLIENT)
         F(life_fnc_copSearch,CLIENT)
@@ -124,6 +130,16 @@ class CfgRemoteExec {
         F(TON_fnc_vehicleUpdate,SERVER)
         F(TON_fnc_handleBlastingCharge,SERVER)
         F(TON_fnc_houseGarage,SERVER)
+        F(TON_fnc_relay,SERVER)
+        F(TON_fnc_clientLog,SERVER)
+        F(TON_fnc_econBank,SERVER)
+        F(TON_fnc_econPlayer,SERVER)
+        F(TON_fnc_econJustice,SERVER)
+        F(TON_fnc_econFee,SERVER)
+        F(TON_fnc_econShop,SERVER)
+        F(TON_fnc_econCash,SERVER)
+        F(TON_fnc_econRobbery,SERVER)
+        F(BIS_fnc_debugConsoleExec,SERVER) //Debug-Konsole im MP: laeuft immer ueber den Server, der prueft selbst auf eingeloggten Admin (#login)
         /* HeadlessClient only functions */
         F(HC_fnc_addContainer,HC)
         F(HC_fnc_addHouse,HC)
@@ -173,12 +189,7 @@ class CfgRemoteExec {
         F(life_fnc_simDisable,ANYONE)
     };
     class Commands {
-        mode = 1;
+        mode = 0; //Sicherheitsphase 0.1: keine Remote-Ausfuehrung von Skriptbefehlen (niemand im Code nutzt sie)
         jip = 0;
-        F(addHandgunItem,ANYONE)
-        F(addMagazine,ANYONE)
-        F(addPrimaryWeaponItem,ANYONE)
-        F(addWeapon,ANYONE)
-        F(setFuel,ANYONE)
     };
 };

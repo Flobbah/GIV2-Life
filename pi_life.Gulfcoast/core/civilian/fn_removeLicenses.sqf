@@ -5,6 +5,7 @@
     Description:
     Used for stripping certain licenses off of civilians as punishment.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private "_state";
 _state = param [0,1,[0]];
 switch (_state) do {

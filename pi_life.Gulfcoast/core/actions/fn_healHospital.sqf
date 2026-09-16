@@ -25,6 +25,16 @@ if (_action) then {
     closeDialog 0;
     uiSleep 8;
     if (player distance (_this select 0) > 5) exitWith {life_action_inUse = false; titleText[localize "STR_NOTF_HS_ToFar","PLAIN"]};
+    if (ECONOMY_MODE >= 1) exitWith {
+        //Geld-Umbau Schritt 2: die Gebuehr bucht der Server, geheilt wird nach seiner Zusage (vorher nie gespeichert)
+        life_action_inUse = false;
+        ["TON_fnc_econFee", ["hospital"], {
+            titleText[localize "STR_NOTF_HS_Healed","PLAIN"];
+            player setDamage 0;
+        }, {
+            [ format [localize "STR_NOTF_HS_NoCash",[(_this select 1) select 0] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;
+        }, [_healCost]] call life_fnc_econRequest;
+    };
     titleText[localize "STR_NOTF_HS_Healed","PLAIN"];
     player setDamage 0;
     CASH = CASH - _healCost;

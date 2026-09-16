@@ -1,3 +1,4 @@
+#include "\life_server\script_macros.hpp"
 /*
     File: fn_manageSC.sqf
     Author: Bryan "Tonic" Boardwine
@@ -9,6 +10,8 @@ _unit = [_this,0,objNull,[objNull]] call BIS_fnc_param;
 _bool = [_this,1,false,[false]] call BIS_fnc_param;
 _side = [_this,2,civilian,[west]] call BIS_fnc_param;
 if (isNull _unit) exitWith {};
+//Sicherheitsphase 0.1: nur eigene Einheit; beitreten nur dem Kanal der eigenen Fraktion
+if !([CALLER_OWNER, _unit, "", ([sideUnknown, _side] select _bool), "TON_fnc_manageSC"] call TON_fnc_checkCaller) exitWith {};
 switch (_side) do {
     case west: {
         if (_bool) then {

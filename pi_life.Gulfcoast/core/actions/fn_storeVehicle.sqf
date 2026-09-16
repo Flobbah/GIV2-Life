@@ -27,7 +27,7 @@ if (isNil "_vehicle") exitWith {[ localize "STR_Garage_NoNPC",true,"fast"] call 
 if (isNull _vehicle) exitWith {};
 if (!alive _vehicle) exitWith {[ localize "STR_Garage_SQLError_Destroyed",true,"fast"] call life_fnc_notification_system;};
 _storetext = localize "STR_Garage_Store_Success";
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [_vehicle,false,(_this select 1),_storetext] remoteExec ["HC_fnc_vehicleStore",HC_Life];
 } else {
     [_vehicle,false,(_this select 1),_storetext] remoteExec ["TON_fnc_vehicleStore",RSERV];

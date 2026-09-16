@@ -18,9 +18,10 @@ params [
     ["_dir", 0, [0]],
     ["_spawntext", "", [""]]
 ];
+if !([CALLER_OWNER, _unit, _pid, sideUnknown, "TON_fnc_spawnVehicle"] call TON_fnc_checkCaller) exitWith {};
 private _unit_return = _unit;
 private _name = name _unit;
-private _side = (_unit getVariable ["life_side",side _unit]);
+private _side = AUTH_SIDE(_pid); //Sicherheitsphase 0.2: _pid ist per checkCaller die UID des Absenders
 _unit = owner _unit;
 if (_vid isEqualTo -1 || {_pid isEqualTo ""}) exitWith {};
 if (_vid in serv_sv_use) exitWith {};
@@ -33,7 +34,7 @@ if (_placed) then {
 };
 if (_badSp) exitWith {
     diag_log format ["[PLACEMENT] %1 (%2): Abstellplatz ungueltig oder zu weit entfernt, Fahrzeug %3 nicht erzeugt: %4", _name, _pid, _vid, _sp];
-    [_price,_unit_return] remoteExecCall ["life_fnc_garageRefund",_unit];
+    if (ECONOMY_MODE isEqualTo 0) then {[_price,_unit_return] remoteExecCall ["life_fnc_garageRefund",_unit]}; //ab Modus 1 wird erst beim Erfolg gebucht
     [1,"STR_PLC_ErrServer",true] remoteExecCall ["life_fnc_broadcast",_unit];
 };
 serv_sv_use pushBack _vid;
@@ -73,8 +74,18 @@ if (_placed) then {
 };
 if (count _nearVehicles > 0) exitWith {
     serv_sv_use deleteAt _servIndex;
-    [_price,_unit_return] remoteExecCall ["life_fnc_garageRefund",_unit];
+    if (ECONOMY_MODE isEqualTo 0) then {[_price,_unit_return] remoteExecCall ["life_fnc_garageRefund",_unit]}; //ab Modus 1 wird erst beim Erfolg gebucht
     [1,"STR_Garage_SpawnPointError",true] remoteExecCall ["life_fnc_broadcast",_unit];
+};
+//Geld-Umbau Schritt 2: Garagen-/Verwahrgebuehr bucht der Server erst jetzt, wenn das Ausparken sicher klappt
+private _feeFailed = -1;
+if (ECONOMY_MODE >= 1) then {
+    private _fee = [(_vInfo select 2), _side, "storage"] call TON_fnc_econVehiclePrice;
+    if !([_pid, "bank", -_fee, "garage_fee", "", (_vInfo select 2)] call TON_fnc_moneyChange) then {_feeFailed = _fee};
+};
+if (_feeFailed >= 0) exitWith {
+    serv_sv_use deleteAt _servIndex;
+    [1,"STR_Garage_CashError",true,[[_feeFailed] call life_fnc_numberText]] remoteExecCall ["life_fnc_broadcast",_unit];
 };
 _query = format ["UPDATE vehicles SET active='1', damage='""[]""' WHERE pid='%1' AND id='%2'",_pid,_vid];
 private _trunk = [(_vInfo select 9)] call DB_fnc_mresToArray;
@@ -141,6 +152,7 @@ if ((toLower typeOf _vehicle) find "d3s_" == 0) then {
 };
 _vehicle setVariable ["vehicle_info_owners",[[_pid,_name]],true];
 _vehicle setVariable ["dbInfo",[(_vInfo select 4),(_vInfo select 7)],true];
+[_vehicle, "dbInfo", [(_vInfo select 4),(_vInfo select 7)]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
 _vehicle disableTIEquipment true; //No Thermals.. They're cheap but addictive.
 [_vehicle] call life_fnc_clearVehicleAmmo;
 if (LIFE_SETTINGS(getNumber,"save_vehicle_virtualItems") isEqualTo 1) then {

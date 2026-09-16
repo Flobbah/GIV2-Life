@@ -57,11 +57,11 @@ _value = 0;
     };
 } forEach (_houseInv select 0);
 if (_value > 0) then {
-    [0,"STR_House_Raid_Successful",true,[[_value] call life_fnc_numberText]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+    ["life_fnc_broadcast",[0,"STR_House_Raid_Successful",true,[[_value] call life_fnc_numberText]],RCLIENT] call life_fnc_relaySend;
     BANK = BANK + round(_value / 2);
     [1] call SOCK_fnc_updatePartial;
     _house setVariable ["Trunk",[_houseInvData,_houseInvVal],true];
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [_house] remoteExecCall ["HC_fnc_updateHouseTrunk",HC_Life];
     } else {
         [_house] remoteExecCall ["TON_fnc_updateHouseTrunk",RSERV];

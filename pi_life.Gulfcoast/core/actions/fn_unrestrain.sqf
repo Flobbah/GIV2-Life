@@ -11,4 +11,4 @@ _unit setVariable ["restrained",false,true];
 _unit setVariable ["Escorting",false,true];
 _unit setVariable ["transporting",false,true];
 detach _unit;
-[0,"STR_NOTF_Unrestrain",true,[_unit getVariable ["realname",name _unit], profileName]] remoteExecCall ["life_fnc_broadcast",west];
+["life_fnc_broadcast",[0,"STR_NOTF_Unrestrain",true,[_unit getVariable ["realname",name _unit], profileName]],west] call life_fnc_relaySend;

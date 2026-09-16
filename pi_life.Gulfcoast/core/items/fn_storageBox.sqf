@@ -19,7 +19,7 @@ if (_size) then {
 };
 life_container_activeObj = _object;
 _attachPos = [0.16, 3, ((boundingBoxReal _object) select 1) select 2];
-[_object] remoteExecCall ["life_fnc_simDisable",RANY];
+["life_fnc_simDisable",[_object],RANY] call life_fnc_relaySend;
 _object attachTo[player, _attachPos];
 clearWeaponCargoGlobal _object;
 clearMagazineCargoGlobal _object;

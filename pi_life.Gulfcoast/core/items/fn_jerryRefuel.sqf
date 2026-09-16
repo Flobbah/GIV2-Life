@@ -50,21 +50,21 @@ if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "ST
 switch (true) do {
     case (_vehicle isKindOF "LandVehicle"): {
         if (!local _vehicle) then {
-            [_vehicle,(Fuel _vehicle) + 0.5] remoteExecCall ["life_fnc_setFuel",_vehicle];
+            ["life_fnc_setFuel",[_vehicle,(Fuel _vehicle) + 0.5],_vehicle] call life_fnc_relaySend;
         } else {
             _vehicle setFuel ((Fuel _vehicle) + 0.5);
         };
     };
     case (_vehicle isKindOf "Air"): {
         if (!local _vehicle) then {
-            [_vehicle,(Fuel _vehicle) + 0.2] remoteExecCall ["life_fnc_setFuel",_vehicle];
+            ["life_fnc_setFuel",[_vehicle,(Fuel _vehicle) + 0.2],_vehicle] call life_fnc_relaySend;
         } else {
             _vehicle setFuel ((Fuel _vehicle) + 0.2);
         };
     };
     case (_vehicle isKindOf "Ship"): {
         if (!local _vehicle) then {
-            [_vehicle,(Fuel _vehicle) + 0.35] remoteExecCall ["life_fnc_setFuel",_vehicle];
+            ["life_fnc_setFuel",[_vehicle,(Fuel _vehicle) + 0.35],_vehicle] call life_fnc_relaySend;
         } else {
             _vehicle setFuel ((Fuel _vehicle) + 0.35);
         };

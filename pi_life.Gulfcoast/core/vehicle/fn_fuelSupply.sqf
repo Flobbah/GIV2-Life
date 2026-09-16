@@ -59,7 +59,7 @@ private _pricem = getNumber(missionConfigFile >> "Life_Settings" >> "fuelTank_wi
 private _price = floor((((floor(_shortest / 100) * 100) / 1337) * _pricem) * 100) / 100;
 private _win = 0;
 _vehicle setVariable ["fuelTankWork",true,true];
-_vehicle remoteExec ["life_fnc_soundDevice",-2];
+["life_fnc_soundDevice",[_vehicle],-2] call life_fnc_relaySend;
 life_action_inUse = false;
 disableSerialization;
 "progressBar" cutRsc ["life_progress","PLAIN"];

@@ -5,6 +5,7 @@
     Description:
     Starts the initial process of jailing.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_illegalItems"];
 params [
     ["_unit",objNull,[objNull]],
@@ -42,7 +43,7 @@ if (LIFE_SETTINGS(getNumber,"jail_seize_inventory") isEqualTo 1) then {
     removeAllWeapons player;
     {player removeMagazine _x} forEach (magazines player);
 };
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [player,_bad] remoteExecCall ["HC_fnc_jailSys",HC_Life];
 } else {
     [player,_bad] remoteExecCall ["life_fnc_jailSys",RSERV];

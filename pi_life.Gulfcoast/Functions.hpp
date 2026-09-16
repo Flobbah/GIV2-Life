@@ -246,6 +246,7 @@ class Life_Client_Core {
     };
     class Housing {
         file = "core\housing";
+        class houseBought {};
         class buyHouse {};
         class buyHouseGarage {};
         class containerMenu {};
@@ -294,10 +295,21 @@ class Life_Client_Core {
         class revived {};
         class revivePlayer {};
     };
+    class Economy {
+        file = "core\economy";
+        class moneyUpdate {};
+        class econResult {};
+        class paycheckReceive {};
+        class bailPaid {};
+        class econRequest {};
+        class econReply {};
+        class econAwait {};
+    };
     class Network {
         file = "core\functions\network";
         class broadcast {};
         class corpse {};
+        class relaySend {};
         class say3D {};
         class setFuel {};
         class soundDevice {};

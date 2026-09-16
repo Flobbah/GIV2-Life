@@ -6,6 +6,7 @@
     Not actually a impound menu, may act as confusion to some but that is what I wanted.
     The purpose of this menu is it is now called a 'Garage' where vehicles are stored (persistent ones).
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 private ["_vehicles","_control"];
 disableSerialization;
 _vehicles = param [0,[],[[]]];

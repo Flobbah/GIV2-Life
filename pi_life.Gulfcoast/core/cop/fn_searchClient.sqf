@@ -5,6 +5,7 @@
     Description:
     Searches the player and he returns information back to the player.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_inv","_val","_var","_robber"];
 params [
     ["_cop",objNull,[objNull]]
@@ -22,7 +23,8 @@ _robber = false;
     };
 } forEach ("getNumber(_x >> 'illegal') isEqualTo 1" configClasses (missionConfigFile >> "VirtualItems"));
 if (!life_use_atm) then  {
+    if (ECONOMY_MODE >= 1) then {["forfeit"] remoteExecCall ["TON_fnc_econCash",RSERV]}; //Geld-Umbau Schritt 2: Beute verfaellt auf dem Server
     CASH = 0;
     _robber = true;
 };
-[player,_inv,_robber] remoteExec ["life_fnc_copSearch",_cop];
+["life_fnc_copSearch",[player,_inv,_robber],_cop] call life_fnc_relaySend;

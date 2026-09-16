@@ -5,6 +5,7 @@
     Description:
     ??A?SD?ADS?A
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_unit","_item","_val","_from","_bool"];
 _unit = _this select 0;
 if !(_unit isEqualTo player) exitWith {};

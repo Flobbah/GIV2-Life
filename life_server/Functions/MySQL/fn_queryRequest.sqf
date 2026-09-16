@@ -14,6 +14,9 @@ _uid = [_this,0,"",[""]] call BIS_fnc_param;
 _side = [_this,1,sideUnknown,[civilian]] call BIS_fnc_param;
 _ownerID = [_this,2,objNull,[objNull]] call BIS_fnc_param;
 if (isNull _ownerID) exitWith {};
+//Sicherheitsphase 0.1: nur die eigenen Daten der eigenen Fraktion
+if !([CALLER_OWNER, _ownerID, _uid, _side, "DB_fnc_queryRequest"] call TON_fnc_checkCaller) exitWith {};
+if !(_side in [west, civilian, independent]) exitWith {};
 if (LIFE_SETTINGS(getNumber,"player_deathLog") isEqualTo 1) then {
     _ownerID addMPEventHandler ["MPKilled", {_this call fn_whoDoneIt}];
 };
@@ -41,6 +44,24 @@ if (_queryResult isEqualType "") exitWith {
 if (count _queryResult isEqualTo 0) exitWith {
     [] remoteExecCall ["SOCK_fnc_insertPlayerInfo",_ownerID];
 };
+//Sicherheitsphase 0.2: Fraktion serverseitig festhalten. Polizei und Rettungsdienst nur mit Rang oder Adminlevel,
+//Polizei nicht bei Sperre (wie fn_initCop/fn_initMedic); sonst behandelt der Server den Spieler als Zivilisten
+private _toNumber = {if (_this isEqualType 0) then {_this} else {if (_this isEqualType "") then {parseNumber _this} else {0}}};
+private _authSide = _side;
+switch (_side) do {
+    case west: {
+        if ((((_queryResult select 7) call _toNumber) < 1 && {((_queryResult select 4) call _toNumber) < 1}) || {[_queryResult select 9,1] call DB_fnc_bool}) then {_authSide = civilian;};
+    };
+    case independent: {
+        if (((_queryResult select 7) call _toNumber) < 1 && {((_queryResult select 4) call _toNumber) < 1}) then {_authSide = civilian;};
+    };
+};
+if !(_authSide isEqualTo _side) then {
+    diag_log format ["[SECURITY] DB_fnc_queryRequest: %1 (%2) logged in as %3 without rank or while blacklisted, the server treats the player as civilian", name (_this select 2), _uid, _side];
+};
+[_uid, "side", _authSide] call TON_fnc_serverSet;
+[_uid, _queryResult select 2, _queryResult select 3] call TON_fnc_walletLoad; //Geld-Umbau Schritt 1
+if (_authSide isEqualTo west) then {[_uid, "coplevel", (_queryResult select 7) call _toNumber] call TON_fnc_serverSet}; //Gehalt nach Rang (TON_fnc_econPaycheck)
 //Blah conversion thing from a2net->extdb
 _tmp = _queryResult select 2;
 _queryResult set[2,[_tmp] call DB_fnc_numberSafe];

@@ -5,6 +5,7 @@
     Description:
     THANK YOU JESUS I WAS SAVED!
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_medic","_dir","_reviveCost"];
 _medic = param [0,"Unknown Medic",[""]];
 _reviveCost = LIFE_SETTINGS(getNumber,"revive_fee");
@@ -25,7 +26,7 @@ player setPosASL (visiblePositionASL life_corpse);
 life_corpse setVariable ["realname",nil,true]; //Should correct the double name sinking into the ground.
 life_corpse setVariable ["Revive",nil,true];
 life_corpse setVariable ["name",nil,true];
-[life_corpse] remoteExecCall ["life_fnc_corpse",RANY];
+["life_fnc_corpse",[life_corpse],RANY] call life_fnc_relaySend;
 deleteVehicle life_corpse;
 life_action_inUse = false;
 life_is_alive = true;

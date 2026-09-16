@@ -7,7 +7,7 @@
 */
 private _pay = switch (life_side) do {
     case west: {
-        private _byRank = [900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100];
+        private _byRank = getArray (missionConfigFile >> "CfgEconomy" >> "paycheckCopByRank"); //gleiche Tabelle wie TON_fnc_econPaycheck
         private _rank = FETCH_CONST(life_coplevel);
         if (_rank >= 1 && {_rank <= count _byRank}) then {_byRank select (_rank - 1)} else {LIFE_SETTINGS(getNumber,"paycheck_cop")};
     };

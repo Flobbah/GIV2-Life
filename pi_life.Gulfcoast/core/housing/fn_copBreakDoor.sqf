@@ -26,7 +26,7 @@ _titleText ctrlSetText format ["%2 (1%1)...","%",_title];
 _progressBar progressSetPosition 0.01;
 _cP = 0.01;
 _cpRate = 0.0092;
-[2,"STR_House_Raid_NOTF",true,[(_house getVariable "house_owner") select 1]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+["life_fnc_broadcast",[2,"STR_House_Raid_NOTF",true,[(_house getVariable "house_owner") select 1]],RCLIENT] call life_fnc_relaySend;
 private _anim = "Acts_carFixingWheel";
 ["start",_anim] call life_fnc_actionAnim;
 for "_i" from 0 to 1 step 0 do {

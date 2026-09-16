@@ -102,19 +102,36 @@ if (_kassa isEqualTo 0) exitWith {
 		[ _FailText_7,true,"fast"] call life_fnc_notification_system;
 	};
 };
+if (ECONOMY_MODE >= 1) then {
+	//Geld-Umbau Schritt 2: ob der Raub starten darf, entscheidet der Server (Pause, Polizei, Waffe, Abstand)
+	private _start = ["TON_fnc_econRobbery", ["gasStart", _shop]] call life_fnc_econAwait;
+	if !(_start select 0) then {
+		private _text = switch ((_start select 1) param [0, ""]) do {
+			case "firstrob": {_FailText_2};
+			case "cooldown": {format [_FailText_3, [((_start select 1) param [1, 0]) max 0, "MM:SS"] call BIS_fnc_secondsToString]};
+			case "police": {_PoliceText_Fail};
+			case "weapon": {_FailText_6};
+			case "distance": {_Max_Distance_Text};
+			default {_FailText_4};
+		};
+		[_text,true,"fast"] call life_fnc_notification_system;
+		_serverDenied = true;
+	};
+};
+if (!isNil "_serverDenied") exitWith {};
 _rip = true;
 _onWanted = false;
 _kassa = _max_money_rob + round(random _max_money_rob_random);
 _shop removeAction _action;
 _chance = random(100);
-if (_chance >= 33 && _chance < 66) then { [1,[ parseText format["<img size='10' color='#FFFFFF' image='\pi_data\textures\info.paa'/><br/><br/>" + (_Message_To_Police)]] remoteExec ["life_fnc_broadcast",west],true,"fast"] call life_fnc_notification_system; };
+if (_chance >= 33 && _chance < 66) then { ["life_fnc_broadcast",[1,_Message_To_Police],west] call life_fnc_relaySend; };
 if(_chance >= 66) then {
 	if(getNumber(missionConfigFile >> "TankeRob_Master" >> "DE100_Notifiactionssytsem") isEqualTo 1) then {
 		[_FailText_8,"PINK",5] spawn life_fnc_notification_system;
 	} else {
 		[ _FailText_8,true,"fast"] call life_fnc_notification_system;
 	};
- [1,[ parseText format["<img size='10' color='#FFFFFF' image='\pi_data\textures\info.paa'/><br/><br/>" + (_Message_To_Police)]] remoteExec ["life_fnc_broadcast",west],true,"fast"] call life_fnc_notification_system;
+ ["life_fnc_broadcast",[1,_Message_To_Police],west] call life_fnc_relaySend;
 };
 disableSerialization;
 5 cutRsc ["life_progress","PLAIN"];
@@ -126,8 +143,10 @@ _progress progressSetPosition 0.01;
 _cP = 0.01;
 if(_rip) then
 {
+ if (ECONOMY_MODE isEqualTo 0) then { //ab Modus 1 setzt der Server die Pause beim Start
  life_nextrob = servertime + _robdelay;
  publicVariable "life_nextrob";
+ };
  while{true} do
  {
  sleep 1.5;
@@ -168,6 +187,12 @@ if(_rip) then
  if(player getVariable ["Re-strained",FALSE]) exitWith { deleteMarker _CreatMarkerName; _rip = false; 5 cutText ["","PLAIN"];};
  if (currentWeapon _robber isEqualTo "") exitWith {deleteMarker _CreatMarkerName; _rip = false; 5 cutText ["","PLAIN"]; };
  if(_robber distance _shop > _Max_Distance_Shop) exitWith { deleteMarker _CreatMarkerName; 5 cutText ["","PLAIN"]; _rip = false; };
+ if (ECONOMY_MODE >= 1) then {
+     //Geld-Umbau Schritt 2: Beute bestimmt und bucht der Server, nur nach voller Dauer und vor Ort
+     private _finish = ["TON_fnc_econRobbery", ["gasFinish", _shop]] call life_fnc_econAwait;
+     _kassa = if (_finish select 0) then {(_finish select 1) param [0, 0]} else {-1};
+ };
+ if (_kassa < 0) exitWith {deleteMarker _CreatMarkerName; 5 cutText ["","PLAIN"]; _rip = false; [localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system;};
  5 cutText ["","PLAIN"];
 	if(getNumber(missionConfigFile >> "TankeRob_Master" >> "DE100_Notifiactionssytsem") isEqualTo 1) then {
 		[format[_Rob_Finish,[_kassa] call life_fnc_numberText],"PINK",5] spawn life_fnc_notification_system;
@@ -175,7 +200,7 @@ if(_rip) then
 		titleText[format[_Rob_Finish,[_kassa] call life_fnc_numberText],"PLAIN"];
 	};
  deleteMarker _CreatMarkerName; // by ehno delete maker
-life_cash = life_cash + _kassa;
+if (ECONOMY_MODE isEqualTo 0) then {life_cash = life_cash + _kassa;}; //ab Modus 1 gebucht vom Server
 _rip = false;
 life_use_atm = false;
 uiSleep (_ATMuse + random(180));
@@ -186,7 +211,7 @@ if !(_onWanted) then {
  if!(_chance < 10) then {
  _chance = random 100;
  if(_chance < 40) then {
- [getPlayerUID _robber,name _robber,"23"] remoteExecCall ["life_fnc_wantedAdd",2];
+ if (ECONOMY_MODE isEqualTo 0) then {[getPlayerUID _robber,name _robber,"23"] remoteExecCall ["life_fnc_wantedAdd",2];}; //ab Modus 1 traegt der Server ein
  };
  };
 };

@@ -16,5 +16,5 @@ if (!isPlayer _unit) exitWith {};
 //Broadcast!
 _unit setVariable ["playerSurrender",false,true];
 _unit setVariable ["restrained",true,true];
-[player] remoteExec ["life_fnc_restrain",_unit];
-[0,"STR_NOTF_Restrained",true,[_unit getVariable ["realname", name _unit], profileName]] remoteExecCall ["life_fnc_broadcast",west];
+["life_fnc_restrain",[player],_unit] call life_fnc_relaySend;
+["life_fnc_broadcast",[0,"STR_NOTF_Restrained",true,[_unit getVariable ["realname", name _unit], profileName]],west] call life_fnc_relaySend;

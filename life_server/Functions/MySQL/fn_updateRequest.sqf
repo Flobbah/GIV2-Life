@@ -1,3 +1,4 @@
+#include "\life_server\script_macros.hpp"
 /*
     File: fn_updateRequest.sqf
     Author: Bryan "Tonic" Boardwine
@@ -9,8 +10,11 @@ private ["_uid","_side","_cash","_bank","_licenses","_gear","_stats","_name","_a
 _uid = [_this,0,"",[""]] call BIS_fnc_param;
 _name = [_this,1,"",[""]] call BIS_fnc_param;
 _side = [_this,2,sideUnknown,[civilian]] call BIS_fnc_param;
+//Sicherheitsphase 0.1: nur die eigenen Daten der eigenen Fraktion
+if !([CALLER_OWNER, objNull, _uid, _side, "DB_fnc_updateRequest"] call TON_fnc_checkCaller) exitWith {};
 _cash = [_this,3,0,[0]] call BIS_fnc_param;
 _bank = [_this,4,5000,[0]] call BIS_fnc_param;
+[_uid, _cash, _bank, "updateRequest"] call TON_fnc_walletShadow; //Geld-Umbau Schritt 1
 _licenses = [_this,5,[],[[]]] call BIS_fnc_param;
 _gear = [_this,6,[],[[]]] call BIS_fnc_param;
 _stats = [_this,7,[100,100],[[]]] call BIS_fnc_param;

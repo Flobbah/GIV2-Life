@@ -57,7 +57,8 @@ class FSM
           to="Split";
           precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
           condition=/*%FSM<CONDITION""">*/"(time - _lastcheck) > ((getNumber(missionConfigFile >> ""Life_Settings"" >> ""paycheck_period"")) * 60)"/*%FSM</CONDITION""">*/;
-          action=/*%FSM<ACTION""">*/"if (!alive player) then {" \n
+          action=/*%FSM<ACTION""">*/"if ((getNumber (missionConfigFile >> ""CfgServer"" >> ""EconomyMode"")) isEqualTo 0) then {  //Geld-Umbau: ab EconomyMode 1 zahlt der Server (TON_fnc_econPaycheck)" \n
+           "if (!alive player) then {" \n
            "    [localize ""STR_FSM_MissedPay"",true,""fast""] call life_fnc_notification_system;" \n
            "} else {" \n
            "    if (player distance (getMarkerPos ""fed_reserve"") < 120 && life_side isEqualTo west) then {" \n
@@ -67,6 +68,7 @@ class FSM
            "        life_atmbank = life_atmbank + (call life_paycheck);" \n
            "        [""<img size='1.1' image='\pi_data\icons\ico_bank.paa'/> "" + format [localize ""STR_FSM_ReceivedPay"",[(call life_paycheck)] call life_fnc_numberText],false,""fast""] call life_fnc_notification_system;" \n
            "    };" \n
+           "};" \n
            "};" \n
            "" \n
            "_lastcheck = time;" \n

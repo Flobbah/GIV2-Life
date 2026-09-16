@@ -12,7 +12,8 @@ if (life_bail_paid) exitWith {};
 if (isNil "life_bail_amount") then {life_bail_amount = 3500;};
 if (!life_canpay_bail) exitWith {[ localize "STR_NOTF_Bail_Post",true,"fast"] call life_fnc_notification_system;};
 if (BANK < life_bail_amount) exitWith {[ format [localize "STR_NOTF_Bail_NotEnough",life_bail_amount],true,"fast"] call life_fnc_notification_system;};
+if (ECONOMY_MODE >= 1) exitWith {["bail"] remoteExecCall ["TON_fnc_econJustice",RSERV];}; //Geld-Umbau Schritt 2: Freilassung per life_fnc_bailPaid
 BANK = BANK - life_bail_amount;
 life_bail_paid = true;
 [1] call SOCK_fnc_updatePartial;
-[0,"STR_NOTF_Bail_Bailed",true,[profileName]] remoteExecCall ["life_fnc_broadcast",RCLIENT];
+["life_fnc_broadcast",[0,"STR_NOTF_Bail_Bailed",true,[profileName]],RCLIENT] call life_fnc_relaySend;

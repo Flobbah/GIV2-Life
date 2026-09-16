@@ -15,7 +15,7 @@ _data = call compile format ["%1", _data];
 if (isNil "_data") exitWith {};
 if (!(_data isEqualType [])) exitWith {};
 if (_data isEqualTo []) exitWith {};
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [(_data select 0)] remoteExecCall ["HC_fnc_wantedRemove",HC_Life];
 } else {
     [(_data select 0)] remoteExecCall ["life_fnc_wantedRemove",RSERV];

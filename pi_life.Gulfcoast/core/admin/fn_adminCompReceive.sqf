@@ -8,6 +8,8 @@
         1: BOOL   - true = bank account, false = cash
         2: STRING - name of the admin
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
+if (ECONOMY_MODE >= 1) exitWith {}; //Geld-Umbau Schritt 2: Entschaedigung bucht der Server (TON_fnc_econBank)
 params [["_value",0,[0]],["_toBank",true,[true]],["_from","",[""]]];
 if (_value <= 0 || {_from isEqualTo ""}) exitWith {};
 if (_value > LIFE_SETTINGS(getNumber,"admin_compensateLimit")) exitWith {};

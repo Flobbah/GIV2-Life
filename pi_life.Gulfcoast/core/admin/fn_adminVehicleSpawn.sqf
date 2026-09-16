@@ -62,7 +62,7 @@ closeDialog 0;
     [getPlayerUID player,life_side,_vehicle,1] remoteExecCall ["TON_fnc_keyManagement",RSERV];
     //Optional: persistent vehicle (garage)
     if (_persistent) then {
-        if (life_HC_isActive) then {
+        if (LIFE_HC_ACTIVE) then {
             [getPlayerUID player,life_side,_vehicle,_colorIndex max 0] remoteExecCall ["HC_fnc_vehicleCreate",HC_Life];
         } else {
             [getPlayerUID player,life_side,_vehicle,_colorIndex max 0] remoteExecCall ["TON_fnc_vehicleCreate",RSERV];
@@ -70,7 +70,7 @@ closeDialog 0;
     };
     if (LIFE_SETTINGS(getNumber,"player_advancedLog") isEqualTo 1) then {
         advanced_log = format ["[ADMIN VEHICLE] %1 (%2) spawned %3 (persistent: %4)",profileName,getPlayerUID player,_className,_persistent];
-        publicVariableServer "advanced_log";
+        [advanced_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
     };
     [ format [localize "STR_ANOTF_VehSpawned",getText (_cfg >> "displayName")],false,"fast"] call life_fnc_notification_system;
 }, {}, [_className, _colorIndex, _persistent]] call life_fnc_placementStart;

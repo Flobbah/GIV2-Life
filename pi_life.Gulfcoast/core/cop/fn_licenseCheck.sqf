@@ -5,6 +5,7 @@
     Description:
     Returns the licenses to the cop.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_cop","_licenses","_licensesConfigs"];
 _cop = param [0,objNull,[objNull]];
 if (isNull _cop) exitWith {}; //Bad entry
@@ -17,4 +18,4 @@ _licensesConfigs = "getText(_x >> 'side') isEqualTo 'civ'" configClasses (missio
     };
 } forEach _licensesConfigs;
 if (_licenses isEqualTo "") then {_licenses = (localize "STR_Cop_NoLicensesFound");};
-[profileName,_licenses] remoteExecCall ["life_fnc_licensesRead",_cop];
+["life_fnc_licensesRead",[profileName,_licenses],_cop] call life_fnc_relaySend;

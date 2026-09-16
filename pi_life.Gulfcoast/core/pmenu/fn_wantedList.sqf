@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /*
     Copyright Â© 2013 Bryan "Tonic" Boardwine, All rights reserved
     See http://armafiles.info/life/list.txt for servers that are permitted to use this code.
@@ -6,6 +7,7 @@
     Description:
     Displays wanted list information sent from the server.
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 disableSerialization;
 private _info = param [0,[],[[]]];
 private _display = findDisplay 2400;

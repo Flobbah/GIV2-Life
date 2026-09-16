@@ -10,7 +10,7 @@ _house = param [0,objNull,[objNull]];
 if (isNull _house) exitWith {};
 if (!(_house isKindOf "House_F")) exitWith {};
 if (isNull (_house getVariable ["lightSource",objNull])) then {
-    [_house,true] remoteExecCall ["life_fnc_lightHouse",RCLIENT];
+    ["life_fnc_lightHouse",[_house,true],RCLIENT] call life_fnc_relaySend;
 } else {
-    [_house,false] remoteExecCall ["life_fnc_lightHouse",RCLIENT];
+    ["life_fnc_lightHouse",[_house,false],RCLIENT] call life_fnc_relaySend;
 };

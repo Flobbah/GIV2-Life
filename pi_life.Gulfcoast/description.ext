@@ -4,12 +4,15 @@ onLoadName = COMMUNITY_MISSION_NAME;    // Name im Ladebildschirm (zentral in co
 briefingName = COMMUNITY_MISSION_NAME;  // Name in Lobby und Serverliste (zentral in config\Config_Community.hpp)
 overviewText = "$STR_MISC_overviewText";    // Text to be displayed below the overviewPicture on the mission selection screen when the mission is available to play.
 unsafeCVL = 1; // Allows createVehicleLocal to be executed in Multiplayer
+enableDebugConsole = 1; // Debug-Konsole nur fuer per #login eingeloggte Server-Admins (0 = aus, 2 = alle, nie 2 setzen)
 #include "CfgRemoteExec.hpp"
 #include "dialog\MasterHandler.hpp"
 #include "config\Config_Master.hpp"
 class CfgServer {
     DatabaseName = "altislife"; //Config name that'll be grep in the extdb-conf.ini. Default: [altislife]
     DebugMode = 0; //Enable many server/hc debugging logs. Default: 0 (1 = Enabled / 0 = Disabled)
+    CallerCheckMode = 2; //Sicherheit: Absenderpruefung fuer Client-Anfragen an den Server. 0 = aus, 1 = nur protokollieren, 2 = protokollieren und blockieren. Log: [SECURITY]
+    EconomyMode = 1; //Geld-Umbau (docs/ECONOMY_AUTHORITY.md): 0 = aus wie Altis Life 5.0, 1 = Schattenmodus (Server fuehrt Kontostaende mit, Transaktionslog, [ECONOMY]-Warnungen), 2 = Server entscheidet (noch nicht verfuegbar, nicht setzen)
     HeadlessSupport = 0; //Enable/Disable Headless client support. Default: 1 (1 = Enabled / 0 = Disabled)
     /*
     Enabled: When HeadlessSupport is set to 1 (enabled), the server will run without fault when no Headless Client is connected. However, it will support the Headless Client if you choose to connect one.

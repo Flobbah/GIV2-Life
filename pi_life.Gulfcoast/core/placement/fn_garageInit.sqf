@@ -27,7 +27,7 @@ private _condition = switch (_side) do {
 _object addAction [localize "STR_Garage_Title", {
     params ["_target", "_caller", "_id", "_type"];
     life_garage_type = _type;
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [getPlayerUID player, life_side, _type, player] remoteExec ["HC_fnc_getVehicles", HC_Life];
     } else {
         [getPlayerUID player, life_side, _type, player] remoteExec ["TON_fnc_getVehicles", RSERV];

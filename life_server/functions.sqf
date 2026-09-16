@@ -16,6 +16,7 @@ compileFinal "
 ";
 TON_fnc_player_query =
 compileFinal "
+    if (isRemoteExecuted && {!(remoteExecutedOwner isEqualTo 2)}) exitWith {};
     private [""_ret""];
     _ret = _this select 0;
     if (isNull _ret) exitWith {};
@@ -42,6 +43,7 @@ compileFinal "
 publicVariable "TON_fnc_isNumber";
 TON_fnc_clientGangKick =
 compileFinal "
+    if (isRemoteExecuted && {!(remoteExecutedOwner in [2, clientOwner])} && {getNumber (missionConfigFile >> ""CfgRelay"" >> ""enabled"") isEqualTo 1}) exitWith {};
     private [""_unit"",""_group""];
     _unit = _this select 0;
     _group = _this select 1;
@@ -55,6 +57,7 @@ compileFinal "
 publicVariable "TON_fnc_clientGangKick";
 TON_fnc_clientGetKey =
 compileFinal "
+    if (isRemoteExecuted && {!(remoteExecutedOwner in [2, clientOwner])} && {getNumber (missionConfigFile >> ""CfgRelay"" >> ""enabled"") isEqualTo 1}) exitWith {};
     private [""_vehicle"",""_unit"",""_giver""];
     _vehicle = _this select 0;
     _unit = _this select 1;
@@ -70,6 +73,7 @@ compileFinal "
 publicVariable "TON_fnc_clientGetKey";
 TON_fnc_clientGangLeader =
 compileFinal "
+    if (isRemoteExecuted && {!(remoteExecutedOwner in [2, clientOwner])} && {getNumber (missionConfigFile >> ""CfgRelay"" >> ""enabled"") isEqualTo 1}) exitWith {};
     private [""_unit"",""_group""];
     _unit = _this select 0;
     _group = _this select 1;
@@ -83,6 +87,7 @@ compileFinal "
 publicVariable "TON_fnc_clientGangLeader";
 TON_fnc_clientGangLeft =
 compileFinal "
+    if (isRemoteExecuted && {!(remoteExecutedOwner in [2, clientOwner])} && {getNumber (missionConfigFile >> ""CfgRelay"" >> ""enabled"") isEqualTo 1}) exitWith {};
     private [""_unit"",""_group""];
     _unit = _this select 0;
     _group = _this select 1;
@@ -112,7 +117,7 @@ private [""_msg"",""_to""];
     if (_length > 400) exitWith {hint localize ""STR_CELLMSG_LIMITEXCEEDED"";ctrlShow[3022,true];};
     _to = ""EMS Units"";
     if (_msg isEqualTo """") exitWith {hint localize ""STR_CELLMSG_EnterMSG"";ctrlShow[3022,true];};
-    [_msg,name player,5,mapGridPosition player,player] remoteExecCall [""TON_fnc_clientMessage"",independent];
+    [""TON_fnc_clientMessage"",[_msg,name player,5,mapGridPosition player,player],independent] call life_fnc_relaySend;
     [] call life_fnc_cellphone;
     hint format [localize ""STR_CELLMSG_ToEMS"",_to,_msg];
     ctrlShow[3022,true];
@@ -130,7 +135,7 @@ compileFinal "
     if (isNull _to) exitWith {ctrlShow[3015,true];};
     if (isNil ""_to"") exitWith {ctrlShow[3015,true];};
     if (_msg isEqualTo """") exitWith {hint localize ""STR_CELLMSG_EnterMSG"";ctrlShow[3015,true];};
-    [_msg,name player,0] remoteExecCall [""TON_fnc_clientMessage"",_to];
+    [""TON_fnc_clientMessage"",[_msg,name player,0],_to] call life_fnc_relaySend;
     [] call life_fnc_cellphone;
     hint format [localize ""STR_CELLMSG_ToPerson"",name _to,_msg];
     ctrlShow[3015,true];
@@ -145,7 +150,7 @@ compileFinal "
     if (_msg isEqualTo """") exitWith {hint localize ""STR_CELLMSG_EnterMSG"";ctrlShow[3016,true];};
     _length = count (toArray(_msg));
     if (_length > 400) exitWith {hint localize ""STR_CELLMSG_LIMITEXCEEDED"";ctrlShow[3016,true];};
-    [_msg,name player,1,mapGridPosition player,player] remoteExecCall [""TON_fnc_clientMessage"",-2];
+    [""TON_fnc_clientMessage"",[_msg,name player,1,mapGridPosition player,player],-2] call life_fnc_relaySend;
     [] call life_fnc_cellphone;
     hint format [localize ""STR_CELLMSG_ToPerson"",_to,_msg];
     ctrlShow[3016,true];
@@ -160,7 +165,7 @@ compileFinal "
     if (_msg isEqualTo """") exitWith {hint localize ""STR_CELLMSG_EnterMSG"";ctrlShow[3017,true];};
     _length = count (toArray(_msg));
     if (_length > 400) exitWith {hint localize ""STR_CELLMSG_LIMITEXCEEDED"";ctrlShow[3017,true];};
-    [_msg,name player,2,mapGridPosition player,player] remoteExecCall [""TON_fnc_clientMessage"",-2];
+    [""TON_fnc_clientMessage"",[_msg,name player,2,mapGridPosition player,player],-2] call life_fnc_relaySend;
     [] call life_fnc_cellphone;
     hint format [localize ""STR_CELLMSG_ToPerson"",_to,_msg];
     ctrlShow[3017,true];
@@ -177,7 +182,7 @@ compileFinal "
     if (isNull _to) exitWith {ctrlShow[3020,true];};
     if (isNil ""_to"") exitWith {ctrlShow[3020,true];};
     if (_msg isEqualTo """") exitWith {hint localize ""STR_CELLMSG_EnterMSG"";ctrlShow[3020,true];};
-    [_msg,name player,3] remoteExecCall [""TON_fnc_clientMessage"",_to];
+    [""TON_fnc_clientMessage"",[_msg,name player,3],_to] call life_fnc_relaySend;
     [] call life_fnc_cellphone;
     hint format [localize ""STR_CELLMSG_AdminToPerson"",name _to,_msg];
     ctrlShow[3020,true];
@@ -190,7 +195,7 @@ compileFinal "
     ctrlShow[3021,false];
     _msg = ctrlText 3003;
     if (_msg isEqualTo """") exitWith {hint localize ""STR_CELLMSG_EnterMSG"";ctrlShow[3021,true];};
-    [_msg,name player,4] remoteExecCall [""TON_fnc_clientMessage"",-2];
+    [""TON_fnc_clientMessage"",[_msg,name player,4],-2] call life_fnc_relaySend;
     [] call life_fnc_cellphone;
     hint format [localize ""STR_CELLMSG_AdminToAll"",_msg];
     ctrlShow[3021,true];
@@ -211,6 +216,7 @@ publicVariable "TON_fnc_cell_emsrequest";
 */
 TON_fnc_clientMessage =
 compileFinal "
+    if (isRemoteExecuted && {!(remoteExecutedOwner in [2, clientOwner])} && {getNumber (missionConfigFile >> ""CfgRelay"" >> ""enabled"") isEqualTo 1}) exitWith {};
     if (isServer) exitWith {};
     private [""_msg"",""_from"", ""_type""];
     _msg = _this select 0;

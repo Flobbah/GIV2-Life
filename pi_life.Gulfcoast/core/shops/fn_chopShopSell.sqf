@@ -12,7 +12,7 @@ private _vehicle = objectFromNetId (_control lbData (lbCurSel _control));
 if (isNull _vehicle) exitWith {};
 [localize "STR_Shop_ChopShopSelling",false,"fast"] call life_fnc_notification_system;
 life_action_inUse = true;
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [player,_vehicle,_price] remoteExecCall ["HC_fnc_chopShopSell",HC_Life];
 } else {
     [player,_vehicle,_price] remoteExecCall ["TON_fnc_chopShopSell",RSERV];
@@ -23,6 +23,6 @@ if (LIFE_SETTINGS(getNumber,"player_advancedLog") isEqualTo 1) then {
     } else {
         advanced_log = format [localize "STR_DL_AL_choppedVehicle",profileName,(getPlayerUID player),_vehicle,[_price] call life_fnc_numberText,[CASH] call life_fnc_numberText];
     };
-    publicVariableServer "advanced_log";
+    [advanced_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
 };
 closeDialog 0;

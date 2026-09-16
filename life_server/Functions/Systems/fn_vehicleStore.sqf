@@ -12,7 +12,28 @@ _unit = [_this,2,objNull,[objNull]] call BIS_fnc_param;
 _storetext = [_this,3,"",[""]] call BIS_fnc_param;
 _resourceItems = LIFE_SETTINGS(getArray,"save_vehicle_items");
 if (isNull _vehicle || isNull _unit) exitWith {life_impound_inuse = false; (owner _unit) publicVariableClient "life_impound_inuse";life_garage_store = false;(owner _unit) publicVariableClient "life_garage_store";}; //Bad data passed.
-_vInfo = _vehicle getVariable ["dbInfo",[]];
+//Sicherheitsphase 0.1: Beschlagnahmen nur Polizei oder Admin; einparken nur mit Schluessel und in der Naehe
+private _caller = CALLER_OWNER;
+if !([_caller, _unit, "", sideUnknown, "TON_fnc_vehicleStore"] call TON_fnc_checkCaller) exitWith {};
+private _deny = "";
+if !(_caller isEqualTo 2) then {
+    private _info = [_caller] call TON_fnc_callerInfo;
+    if (_info isEqualTo []) then {_deny = "unknown sender";} else {
+        _info params ["_senderUid", "_senderUnit", "_senderSide"];
+        if (_impound) then {
+            if (!(_senderSide isEqualTo west) && {isNull ([_caller, 1] call TON_fnc_adminManageAuth)}) then {_deny = "impound requested by a non-cop non-admin";};
+        } else {
+            private _keys = missionNamespace getVariable [format ["%1_KEYS_%2", _senderUid, _senderSide], []];
+            private _dbOwner = ([_vehicle, "dbInfo", []] call TON_fnc_serverGet) param [0, ""];
+            switch (true) do {
+                case ((_senderUnit distance _vehicle) > 50): {_deny = "vehicle too far from the sender";};
+                case (!(_dbOwner isEqualTo _senderUid) && {!(_vehicle in _keys)}): {_deny = "sender has no key for the vehicle";};
+            };
+        };
+    };
+};
+if (!(_deny isEqualTo "") && {[_caller, "TON_fnc_vehicleStore", _deny] call TON_fnc_denyCaller}) exitWith {};
+_vInfo = [_vehicle, "dbInfo", []] call TON_fnc_serverGet; //Sicherheitsphase 0.2: nicht die faelschbare Objekt-Variable
 if (count _vInfo > 0) then {
     _plate = _vInfo select 1;
     _uid = _vInfo select 0;
@@ -32,6 +53,25 @@ if (LIFE_SETTINGS(getNumber,"save_vehicle_fuel") isEqualTo 1) then {
     _fuel = 1;
 };
 if (_impound) exitWith {
+    //Geld-Umbau Schritt 2: Belohnung fuer Polizisten (nur aus fn_impoundAction, erkennbar am Text "impound")
+    if (ECONOMY_MODE >= 1 && {_storetext isEqualTo "impound"} && {(AUTH_SIDE(getPlayerUID _unit)) isEqualTo west}) then {
+        private _copUid = getPlayerUID _unit;
+        private _class = typeOf _vehicle;
+        private _priceClass = if (isClass (missionConfigFile >> "LifeCfgVehicles" >> _class)) then {_class} else {"Default"};
+        private _value = round ((M_CONFIG(getNumber,"LifeCfgVehicles",_priceClass,"price")) * LIFE_SETTINGS(getNumber,"vehicle_cop_impound_multiplier"));
+        private _typeName = getText (configFile >> "CfgVehicles" >> _class >> "displayName");
+        private _own = ((_vInfo param [0, ""]) isEqualTo _copUid) || {((_vehicle getVariable ["vehicle_info_owners", []]) findIf {(_x param [0, ""]) isEqualTo _copUid}) > -1};
+        if (_value > 0) then {
+            if (_own) then {
+                private _fee = _value min (((localNamespace getVariable ["life_econ_wallets", createHashMap]) getOrDefault [_copUid, [0, 0]]) select 1);
+                if (_fee > 0) then {[_copUid, "bank", -_fee, "impound_own", "", _class] call TON_fnc_moneyChange};
+                ["STR_NOTF_OwnImpounded", [[_value] call life_fnc_numberText, _typeName], true] remoteExecCall ["life_fnc_econResult", owner _unit];
+            } else {
+                [_copUid, "bank", _value, "impound_reward", _vInfo param [0, ""], _class] call TON_fnc_moneyChange;
+                ["STR_NOTF_Impounded", [_typeName, [_value] call life_fnc_numberText]] remoteExecCall ["life_fnc_econResult", owner _unit];
+            };
+        };
+    };
     if (count _vInfo isEqualTo 0) then  {
         life_impound_inuse = false;
         (owner _unit) publicVariableClient "life_impound_inuse";

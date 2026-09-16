@@ -20,6 +20,13 @@
 #define CONST(var1,var2) var1 = compileFinal (if (var2 isEqualType "") then {var2} else {str(var2)})
 #define CONSTVAR(var) var = compileFinal (if (var isEqualType "") then {var} else {str(var)})
 #define FETCH_CONST(var) (call var)
+//Absender eines Remote-Aufrufs (Sicherheitsphase 0.1): owner-ID des Clients, 2 bei Aufrufen des Servers selbst.
+//Immer ganz oben in der Funktion auswerten, vor jedem sleep/waitUntil.
+#define CALLER_OWNER (if (isRemoteExecuted) then {remoteExecutedOwner} else {2})
+//Sicherheitsphase 0.2: Fraktion eines Spielers (UID) aus dem Server-Speicher; die Objekt-Variable life_side kann jeder Client setzen
+#define AUTH_SIDE(UID) ([UID, "side", sideUnknown] call TON_fnc_serverGet)
+//Geld-Umbau (docs/ECONOMY_AUTHORITY.md): 0 = aus, 1 = Schattenmodus, 2 = Server entscheidet (noch nicht gebaut)
+#define ECONOMY_MODE (getNumber (missionConfigFile >> "CfgServer" >> "EconomyMode"))
 #define EXTDB "extDB3" callExtension
 #define EXTDB_SETTING(TYPE,SETTING) TYPE(missionConfigFile >> "CfgServer" >> SETTING)
 #define EXTDB_FAILED(MESSAGE) \

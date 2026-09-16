@@ -5,6 +5,8 @@
     Description:
     Initiates the wire-transfer
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
+if (ECONOMY_MODE >= 1) exitWith {}; //Geld-Umbau Schritt 2: Ueberweisungen bucht der Server (TON_fnc_econBank)
 params [
     ["_value",0,[0]],
     ["_from","",[""]]

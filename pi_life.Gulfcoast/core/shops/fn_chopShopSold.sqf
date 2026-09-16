@@ -6,6 +6,7 @@
 	Description:
 	Finish chopshop sell process properly
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 params [
     ["_price",-1,[-1]],
     ["_displayName","",[""]]

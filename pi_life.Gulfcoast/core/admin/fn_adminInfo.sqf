@@ -5,6 +5,7 @@
     Description:
     Output information received to admin menu.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_ret","_unit","_prim","_sec","_vest","_uni","_bp","_attach","_steamName","_secondary"];
 _ret = _this;
 disableSerialization;

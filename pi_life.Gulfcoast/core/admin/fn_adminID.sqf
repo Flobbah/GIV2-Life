@@ -1,9 +1,11 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_adminID.sqf
     Author: Bryan "Tonic" Boardwine
     Description:
     Output information received to admin menu.
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 private ["_display","_ret","_text"];
 disableSerialization;
 _ret = _this select 0;

@@ -22,8 +22,8 @@ if (_action) then {
     if (_unitID isEqualTo "") exitWith {[ localize "STR_GNOTF_badUID",true,"fast"] call life_fnc_notification_system;}; //Unlikely?
     group player setVariable ["gang_owner",_unitID,true];
     group player selectLeader _unit;
-    [_unit,group player] remoteExec ["TON_fnc_clientGangLeader",_unit]; //Boot that bitch!
-    if (life_HC_isActive) then {
+    ["TON_fnc_clientGangLeader",[_unit,group player],_unit] call life_fnc_relaySend; //Boot that bitch!
+    if (LIFE_HC_ACTIVE) then {
         [3,group player] remoteExec ["HC_fnc_updateGang",HC_Life]; //Update the database.
     } else {
         [3,group player] remoteExec ["TON_fnc_updateGang",RSERV]; //Update the database.

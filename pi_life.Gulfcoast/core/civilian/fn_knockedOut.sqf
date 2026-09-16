@@ -5,6 +5,7 @@
     Description:
     Starts and monitors the knocked out state.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private "_obj";
 params [
     ["_target",objNull,[objNull]],

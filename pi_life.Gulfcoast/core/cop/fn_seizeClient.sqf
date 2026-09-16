@@ -5,6 +5,7 @@
     Description:
     Removes the players weapons client side
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 private ["_exempt","_uniform","_vest","_headgear"];
 _exempt = LIFE_SETTINGS(getArray,"seize_exempt");
 _headgear = LIFE_SETTINGS(getArray,"seize_headgear");

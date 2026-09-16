@@ -19,11 +19,15 @@ if (_value < 1) exitWith {};
 if (!([str(_value)] call TON_fnc_isnumber)) exitWith {[ localize "STR_ATM_notnumeric",true,"fast"] call life_fnc_notification_system};
 if (_deposit && _value > CASH) exitWith {[ localize "STR_ATM_NotEnoughCash",true,"fast"] call life_fnc_notification_system};
 if (!_deposit && _value > _gFund) exitWith {[ localize "STR_ATM_NotEnoughFundsG",true,"fast"] call life_fnc_notification_system};
+if (ECONOMY_MODE >= 1) exitWith { //Geld-Umbau Schritt 2: Gangkasse fuehrt der Server
+    [["gangWithdraw","gangDeposit"] select _deposit, _value] remoteExecCall ["TON_fnc_econBank",RSERV];
+    life_action_delay = time;
+};
 if (_deposit) then {
     CASH = CASH - _value;
     [] call life_fnc_atmMenu;
 };
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [1,group player,_deposit,_value,player,CASH] remoteExecCall ["HC_fnc_updateGang",HC_Life]; //Update the database.
 } else {
     [1,group player,_deposit,_value,player,CASH] remoteExecCall ["TON_fnc_updateGang",RSERV]; //Update the database.

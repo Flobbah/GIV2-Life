@@ -21,7 +21,7 @@ private _uid = getPlayerUID _target;
 if !(_uid regexMatch "\d{17}") exitWith {};
 private _adminName = _admin getVariable ["realname",name _admin];
 private _targetName = _target getVariable ["realname",name _target];
-private _targetFlag = switch ((_target getVariable ["life_side",side _target])) do {case west: {"cop"}; case civilian: {"civ"}; case independent: {"med"}; default {""};};
+private _targetFlag = switch (AUTH_SIDE(_uid)) do {case west: {"cop"}; case civilian: {"civ"}; case independent: {"med"}; default {""};};
 
 if (_action isEqualTo "license") exitWith {
     _data params [["_cls","",[""]],["_flag","",[""]],["_grant",true,[true]]];
@@ -41,6 +41,7 @@ _level = round _level;
 private _max = [13,8] select (_action isEqualTo "mediclevel");
 if (_level < 0 || {_level > _max}) exitWith {};
 [format ["UPDATE players SET %1='%2' WHERE pid='%3'",_action,_level,_uid],1] call DB_fnc_asyncCall;
+if (_action isEqualTo "coplevel") then {[_uid, "coplevel", _level] call TON_fnc_serverSet}; //Gehalt nach Rang
 [_action,_level,_adminName] remoteExec ["life_fnc_adminRankReceive",_target];
 diag_log format ["[ADMIN MANAGE] %1 (%2) -> %3 (%4): %5 = %6",_adminName,getPlayerUID _admin,_targetName,_uid,_action,_level];
 private _rankKey = ["STR_Admin_ManageCopRank","STR_Admin_ManageMedicRank"] select (_action isEqualTo "mediclevel");

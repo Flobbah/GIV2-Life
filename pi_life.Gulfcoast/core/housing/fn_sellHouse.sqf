@@ -23,7 +23,7 @@ _action = [
 ] call BIS_fnc_guiMessage;
 if (_action) then {
     _house setVariable ["house_sold",true,true];
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [_house] remoteExecCall ["HC_fnc_sellHouse",HC_Life];
     } else {
         [_house] remoteExecCall ["TON_fnc_sellHouse",RSERV];
@@ -31,8 +31,10 @@ if (_action) then {
     _house setVariable ["locked",false,true];
     deleteMarkerLocal format ["house_%1",_house getVariable "uid"];
     _house setVariable ["uid",nil,true];
-    BANK = BANK + (round((_houseCfg select 0)/2));
-    [1] call SOCK_fnc_updatePartial;
+    if (ECONOMY_MODE isEqualTo 0) then { //ab Modus 1 zahlt der Server nach der Besitzpruefung (TON_fnc_sellHouse)
+        BANK = BANK + (round((_houseCfg select 0)/2));
+        [1] call SOCK_fnc_updatePartial;
+    };
     _index = life_vehicles find _house;
     if (LIFE_SETTINGS(getNumber,"player_advancedLog") isEqualTo 1) then {
         if (LIFE_SETTINGS(getNumber,"battlEye_friendlyLogging") isEqualTo 1) then {
@@ -40,7 +42,7 @@ if (_action) then {
         } else {
             advanced_log = format [localize "STR_DL_AL_soldHouse",profileName,(getPlayerUID player),(round((_houseCfg select 0)/2)),[BANK] call life_fnc_numberText];
             };
-        publicVariableServer "advanced_log";
+        [advanced_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
     };
     if !(_index isEqualTo -1) then {
         life_vehicles deleteAt _index;
@@ -57,7 +59,7 @@ if (_action) then {
     if (count _containers > 0) then {
         {
             _x setVariable ["Trunk",nil,true];
-            if (life_HC_isActive) then {
+            if (LIFE_HC_ACTIVE) then {
                 [_x] remoteExecCall ["HC_fnc_sellHouseContainer",HC_Life];
             } else {
                 [_x] remoteExecCall ["TON_fnc_sellHouseContainer",RSERV];

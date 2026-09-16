@@ -1,3 +1,4 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_medicRequest.sqf
     Author: Bryan "Tonic" Boardwine
@@ -5,6 +6,7 @@
     Notifies the medics that someone has requested emergency and prompts them
     if they want to take the request or not.
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
 params [
     ["_caller",objNull,[objNull]],
     ["_callerName","Unknown Player",[""]]

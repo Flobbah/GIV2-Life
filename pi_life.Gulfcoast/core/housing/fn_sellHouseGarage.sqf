@@ -21,7 +21,8 @@ _action = [
     localize "STR_Global_Cancel"
 ] call BIS_fnc_guiMessage;
 if (_action) then {
-    if (life_HC_isActive) then {
+    if (ECONOMY_MODE >= 1) exitWith {[_uid,_house,1] remoteExec ["TON_fnc_houseGarage",RSERV];}; //Geld-Umbau Schritt 2: bucht der Server
+    if (LIFE_HC_ACTIVE) then {
         [_uid,_house,1] remoteExec ["HC_fnc_houseGarage",HC_Life];
     } else {
         [_uid,_house,1] remoteExec ["TON_fnc_houseGarage",RSERV];

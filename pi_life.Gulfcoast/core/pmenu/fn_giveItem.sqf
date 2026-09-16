@@ -32,7 +32,7 @@ call {
     if !([false,_item, parseNumber _value] call life_fnc_handleInv) exitWith {
         [ localize "STR_NOTF_couldNotGive",true,"fast"] call life_fnc_notification_system;
     };
-    [_unit, _value, _item, player] remoteExecCall ["life_fnc_receiveItem", _unit];
+    ["life_fnc_receiveItem",[_unit, _value, _item, player],_unit] call life_fnc_relaySend;
     private _type = M_CONFIG(getText,"VirtualItems",_item,"displayName");
     [ format [localize "STR_NOTF_youGaveItem", _unit getVariable ["realname", name _unit], _value, localize _type],true,"fast"] call life_fnc_notification_system;
     [] call life_fnc_p_updateMenu;

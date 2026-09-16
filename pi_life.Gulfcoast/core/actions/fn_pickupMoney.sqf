@@ -5,6 +5,8 @@
     Description:
     Picks up money
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
+if (ECONOMY_MODE >= 1) exitWith {}; //Geld-Umbau Schritt 2: Aufheben bucht der Server (TON_fnc_pickupAction)
 private "_value";
 if ((time - life_action_delay) < 1.5) exitWith {[ localize "STR_NOTF_ActionDelay",true,"fast"] call life_fnc_notification_system; _this setVariable ["inUse",false,true];};
 if (isNull _this || {player distance _this > 3}) exitWith {_this setVariable ["inUse",false,true];};
@@ -27,6 +29,6 @@ if (!isNil "_value") exitWith {
         } else {
             money_log = format [localize "STR_DL_ML_pickedUpMoney",profileName,(getPlayerUID player),[_value] call life_fnc_numberText,[BANK] call life_fnc_numberText,[CASH] call life_fnc_numberText];
         };
-    publicVariableServer "money_log";
+    [money_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
     };
 };

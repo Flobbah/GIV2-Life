@@ -6,6 +6,7 @@
     Upon first join inital player data is sent to the server and added to the database.
     Setup data gets sent to life_server\Functions\MySQL\fn_insertRequest.sqf
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 if (life_session_completed) exitWith {}; //Why did this get executed when the client already initialized? Fucking arma...
 cutText[localize "STR_Session_QueryFail","BLACK FADED"];
 0 cutFadeOut 9999999;
@@ -21,7 +22,7 @@ switch (life_side) do {
         _bank = LIFE_SETTINGS(getNumber,"bank_med");
     };
 };
-if (life_HC_isActive) then {
+if (LIFE_HC_ACTIVE) then {
     [getPlayerUID player,profileName,CASH,_bank,player] remoteExecCall ["HC_fnc_insertRequest",HC_Life];
 } else {
     [getPlayerUID player,profileName,CASH,_bank,player] remoteExecCall ["DB_fnc_insertRequest",RSERV];

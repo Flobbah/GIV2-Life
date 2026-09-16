@@ -1,9 +1,11 @@
+#include "..\..\script_macros.hpp"
 /*
     File: fn_vehicleAnimate.sqf
     Author: Bryan "Tonic" Boardwine
     Description:
     Pass what you want to be animated.
 */
+SERVER_ONLY_REMOTE; //Sicherheitsphase 0.1: nur der Server darf diese Funktion remote aufrufen
 private ["_vehicle","_animate","_state"];
 _vehicle = [_this,0,objNull,[objNull]] call BIS_fnc_param;
 if (isNull _vehicle) exitWith {}; //FUCK

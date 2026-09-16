@@ -63,7 +63,7 @@ if (_zone isEqualTo "") exitWith {
     life_action_inUse = false;
 };
 _vehicle setVariable ["mining",true,true]; //Lock the device
-_vehicle remoteExec ["life_fnc_soundDevice",RCLIENT]; //Broadcast the 'mining' sound of the device for nearby units.
+["life_fnc_soundDevice",[_vehicle],RCLIENT] call life_fnc_relaySend; //Broadcast the 'mining' sound of the device for nearby units.
 life_action_inUse = false; //Unlock it since it's going to do it's own thing...
 for "_i" from 0 to 1 step 0 do {
     if (!alive _vehicle || isNull _vehicle) exitWith {};
@@ -122,7 +122,7 @@ for "_i" from 0 to 1 step 0 do {
     if (local _vehicle) then {
         _vehicle setFuel (fuel _vehicle)-0.05;
     } else {
-        [_vehicle,(fuel _vehicle)-0.05] remoteExec ["life_fnc_setFuel",_vehicle];
+        ["life_fnc_setFuel",[_vehicle,(fuel _vehicle)-0.05],_vehicle] call life_fnc_relaySend;
     };
     if (fuel _vehicle < 0.1) exitWith {
         titleText[localize "STR_NOTF_OutOfFuel","PLAIN"];

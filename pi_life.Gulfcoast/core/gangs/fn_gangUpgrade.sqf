@@ -23,11 +23,12 @@ if (_action) then {
             [_upgradePrice - BANK] call life_fnc_numberText
         ],false,"fast"] call life_fnc_notification_system;
     };
+    if (ECONOMY_MODE >= 1) exitWith {[2,group player] remoteExec ["TON_fnc_updateGang",RSERV];}; //Geld-Umbau Schritt 2: Preis und Plaetze bestimmt der Server
     BANK = BANK - _upgradePrice;
     [1] call SOCK_fnc_updatePartial;
     group player setVariable ["gang_maxMembers",_slotUpgrade,true];
     [ parseText format [localize "STR_GNOTF_UpgradeSuccess",_maxMembers,_slotUpgrade,[_upgradePrice] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
-    if (life_HC_isActive) then {
+    if (LIFE_HC_ACTIVE) then {
         [2,group player] remoteExec ["HC_fnc_updateGang",HC_Life];
     } else {
         [2,group player] remoteExec ["TON_fnc_updateGang",RSERV];

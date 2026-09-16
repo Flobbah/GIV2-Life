@@ -10,12 +10,16 @@
 */
 private _ret = param [0,objNull,[objNull]];
 if (isNull _ret) exitWith {};
+//Sicherheitsphase 0.1: Fahndungsliste nur fuer Polizei
+private _caller = CALLER_OWNER; //Sicherheitsphase 0.1: Absender pruefen
+if !([_caller, _ret, "", sideUnknown, "life_fnc_wantedFetch"] call TON_fnc_checkCaller) exitWith {};
+if (!(_caller isEqualTo 2) && {!((AUTH_SIDE(getPlayerUID _ret)) isEqualTo west)} && {[_caller, "life_fnc_wantedFetch", "sender is not a cop"] call TON_fnc_denyCaller}) exitWith {};
 _ret = owner _ret;
 private _inStatement = "";
 private _list = [];
 private _units = [];
 {
-    if ((_x getVariable ["life_side",side _x]) isEqualTo civilian) then {_units pushBack (getPlayerUID _x)};
+    if ((AUTH_SIDE(getPlayerUID _x)) isEqualTo civilian) then {_units pushBack (getPlayerUID _x)};
     false
 } count playableUnits;
 if (count _units isEqualTo 0) exitWith {[_list] remoteExec ["life_fnc_wantedList",_ret];};

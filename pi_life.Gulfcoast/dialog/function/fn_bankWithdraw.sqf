@@ -13,6 +13,7 @@ if (_value < 0) exitWith {};
 if (!([str(_value)] call TON_fnc_isnumber)) exitWith {[ localize "STR_ATM_notnumeric",true,"fast"] call life_fnc_notification_system};
 if (_value > BANK) exitWith {[ localize "STR_ATM_NotEnoughFunds",true,"fast"] call life_fnc_notification_system};
 if (_value < 100 && BANK > 20000000) exitWith {[ localize "STR_ATM_WithdrawMin",true,"fast"] call life_fnc_notification_system}; //Temp fix for something.
+if (ECONOMY_MODE >= 1) exitWith {if (_value > 0) then {["withdraw", _value] remoteExecCall ["TON_fnc_econBank",RSERV]};}; //Geld-Umbau Schritt 2: bucht der Server
 CASH = CASH + _value;
 BANK = BANK - _value;
 [ format [localize "STR_ATM_WithdrawSuccess",[_value] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
@@ -24,5 +25,5 @@ if (LIFE_SETTINGS(getNumber,"player_moneyLog") isEqualTo 1) then {
     } else {
         money_log = format [localize "STR_DL_ML_withdrewBank",profileName,(getPlayerUID player),_value,[BANK] call life_fnc_numberText,[CASH] call life_fnc_numberText];
     };
-    publicVariableServer "money_log";
+    [money_log] remoteExecCall ["TON_fnc_clientLog",RSERV];
 };

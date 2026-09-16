@@ -5,6 +5,8 @@
     Description:
     Receives money
 */
+RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
+if (ECONOMY_MODE >= 1) exitWith {}; //Geld-Umbau Schritt 2: Geld geben bucht der Server (TON_fnc_econPlayer)
 params [
     ["_unit",objNull,[objNull]],
     ["_val","",[""]],

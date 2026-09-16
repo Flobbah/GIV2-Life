@@ -50,7 +50,7 @@ if (_badDistance) exitWith {titleText[localize "STR_Medic_TooFar","PLAIN"]; life
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel", "PLAIN"]; life_action_inUse = false;};
 life_action_inUse = false;
 _target setVariable ["Revive", true, true];
-[profileName] remoteExecCall ["life_fnc_revived", _target];
+["life_fnc_revived",[profileName],_target] call life_fnc_relaySend;
 if (life_side isEqualTo independent) then {
     titleText[format [localize "STR_Medic_RevivePayReceive", _targetName,[_reviveCost] call life_fnc_numberText], "PLAIN"];
     BANK = BANK + _reviveCost;
