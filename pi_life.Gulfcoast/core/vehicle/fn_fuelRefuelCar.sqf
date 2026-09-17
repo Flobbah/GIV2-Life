@@ -51,7 +51,11 @@ if ((BANK - (_fueltoput * _fuelCost)) > 0) then {
         };
     };
     private _toPay = floor((_fueltoput * _fuelCost) * _cP);
-    BANK = BANK - _toPay; //pay the received fuel
+    if (ECONOMY_MODE >= 1) then {
+        ["TON_fnc_econIncome", ["fuelPump", _car, floor (_fueltoput * _cP)]] call life_fnc_econRequest; //Geld-Umbau Schritt 3: Literpreis bucht der Server
+    } else {
+        BANK = BANK - _toPay; //pay the received fuel
+    };
     ["life_fnc_setFuel",[_car,_cP * _setfuel],_car] call life_fnc_relaySend; //update the fuel
     "progressBar" cutText ["","PLAIN"];
     if (_car distance player > 10 || !(isNull objectParent player)) then {

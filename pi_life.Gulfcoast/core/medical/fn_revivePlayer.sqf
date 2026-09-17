@@ -51,10 +51,13 @@ if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "ST
 life_action_inUse = false;
 _target setVariable ["Revive", true, true];
 ["life_fnc_revived",[profileName],_target] call life_fnc_relaySend;
+if (ECONOMY_MODE >= 1) then {["TON_fnc_econIncome", ["revive", _target]] call life_fnc_econRequest;}; //Geld-Umbau Schritt 3: Gebuehr und Lohn bucht der Server
 if (life_side isEqualTo independent) then {
     titleText[format [localize "STR_Medic_RevivePayReceive", _targetName,[_reviveCost] call life_fnc_numberText], "PLAIN"];
-    BANK = BANK + _reviveCost;
-    [1] call SOCK_fnc_updatePartial;
+    if (ECONOMY_MODE isEqualTo 0) then {
+        BANK = BANK + _reviveCost;
+        [1] call SOCK_fnc_updatePartial;
+    };
 };
 sleep .6;
 player reveal _target;

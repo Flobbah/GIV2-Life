@@ -28,6 +28,19 @@ if (_cash && {ECONOMY_MODE >= 1}) exitWith {
         ["STR_NOTF_PickedMoney", [[_value] call life_fnc_numberText]] remoteExecCall ["life_fnc_econResult", owner _client];
     };
 };
+//Geld-Umbau Schritt 3: Beweismittel (illegale Gegenstaende, die die Polizei aufhebt) zahlt der Server
+private _itemClass = (_obj getVariable ["item", []]) param [0, "", [""]];
+private _evidence = !_cash && {ECONOMY_MODE >= 1} && {(AUTH_SIDE(getPlayerUID _client)) isEqualTo west} && {isClass (missionConfigFile >> "VirtualItems" >> _itemClass)} && {(getNumber (missionConfigFile >> "VirtualItems" >> _itemClass >> "illegal")) isEqualTo 1};
+if (_evidence) exitWith {
+    if (_obj getVariable ["inUse", false]) exitWith {};
+    _obj setVariable ["inUse", true, true];
+    private _value = round ((getNumber (missionConfigFile >> "VirtualItems" >> _itemClass >> "sellPrice")) / 2);
+    deleteVehicle _obj;
+    private _uid = getPlayerUID _client;
+    if (_value > 0 && {[_uid, "police", _value, name _client] call TON_fnc_econEarnCheck} && {[_uid, "bank", _value, "evidence", "", _itemClass] call TON_fnc_moneyChange}) then {
+        ["STR_NOTF_PickedEvidence", [getText (missionConfigFile >> "VirtualItems" >> _itemClass >> "displayName"), [_value] call life_fnc_numberText]] remoteExecCall ["life_fnc_econResult", owner _client];
+    };
+};
 if (!(_obj getVariable ["inUse",false])) exitWith {
     _client = owner _client;
     _obj setVariable ["inUse",true,true];

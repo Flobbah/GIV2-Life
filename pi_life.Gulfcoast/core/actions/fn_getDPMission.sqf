@@ -19,6 +19,7 @@ if (str(_target) in LIFE_SETTINGS(getArray,"delivery_points")) then {
     _dp = selectRandom (LIFE_SETTINGS(getArray,"delivery_points"));
 };
 life_dp_start = _target;
+if (ECONOMY_MODE >= 1) then {["TON_fnc_econIncome", ["deliveryStart", _target]] call life_fnc_econRequest;}; //Geld-Umbau Schritt 3: Start merkt sich der Server
 life_delivery_in_progress = true;
 life_dp_point = call compile format ["%1",_dp];
 _dp = toUpper((_dp splitString "_") joinString " ");

@@ -13,7 +13,9 @@ params [
 ];
 life_action_inUse = false;
 if (_price > 0) then {
-    CASH = CASH + _price;
-    [0] call SOCK_fnc_updatePartial;
+    if (ECONOMY_MODE isEqualTo 0) then { //ab Modus 1 bucht der Server den Erloes (TON_fnc_chopShopSell)
+        CASH = CASH + _price;
+        [0] call SOCK_fnc_updatePartial;
+    };
     titleText [format[(localize "STR_NOTF_ChopSoldCar"),_displayName,[_price] call life_fnc_numberText],"PLAIN",1];
 };

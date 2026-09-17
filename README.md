@@ -53,7 +53,9 @@
     once (new installs get the table from `altislife.sql`). The database user needs no extra rights.
   - Security switches in `description.ext` (`CfgServer`): `CallerCheckMode` (0 off, 1 log only, 2 log and
     block rejected client requests, log tag `[SECURITY]`) and `EconomyMode` (0 = original client-side money,
-    1 = the server books money, log tag `[ECONOMY]`). The player-to-player relay can be switched off with
+    1 = the server books money and follows the clients' saves, 2 = the server decides and client saves no
+    longer change cash or bank; log tag `[ECONOMY]`). Mode 2 is the default. On a running server it is worth
+    starting with 1 for a few days and reading the `client_save` rows of `money_transactions` first. The player-to-player relay can be switched off with
     `enabled = 0` in `config/Config_Relay.hpp`. The debug console works for admins logged in with `#login`.
   - BattlEye: copy `BEFilters/*.txt` into the server's BattlEye folder. For the first sessions change the
     `5 ""` lines to `1 ""` (log only) and check the `.log` files before enabling kicks.

@@ -53,6 +53,9 @@ class CfgFunctions {
             file = "\life_server\Functions\Economy";
             class econInit {};
             class walletLoad {};
+            class walletEnsure {};
+            class walletPush {};
+            class walletSync {};
             class walletShadow {};
             class moneyChange {};
             class moneyLog {};
@@ -69,6 +72,9 @@ class CfgFunctions {
             class econCash {};
             class publishProtected {};
             class econRobbery {};
+            class econEarnCheck {};
+            class econIncome {};
+            class econResync {};
         };
         class Systems {
             file = "\life_server\Functions\Systems";

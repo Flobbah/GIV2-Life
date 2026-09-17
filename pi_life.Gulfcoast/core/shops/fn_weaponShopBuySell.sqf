@@ -18,6 +18,20 @@ if ((_itemInfo select 6) != "CfgVehicles") then {
     };
 };
 if (_bad != "") exitWith {[ _bad,true,"fast"] call life_fnc_notification_system};
+if ((uiNamespace getVariable ["Weapon_Shop_Filter",0]) isEqualTo 1 && {ECONOMY_MODE >= 1}) exitWith {
+    //Geld-Umbau Schritt 3: Verkaufspreis aus Config_Weapons und Stundengrenze prueft der Server
+    [_item,false] call life_fnc_handleItem;
+    ["TON_fnc_econIncome", ["sellWeapon", uiNamespace getVariable ["Weapon_Shop",""], _item], {
+        (_this select 1) params ["_item", "_itemName"];
+        [ parseText format [localize "STR_Shop_Weapon_Sold",_itemName,[(_this select 0) param [0, 0]] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
+        [nil,(uiNamespace getVariable ["Weapon_Shop_Filter",0])] call life_fnc_weaponShopFilter;
+        [3] call SOCK_fnc_updatePartial;
+    }, {
+        [(_this select 1) select 0,true] call life_fnc_handleItem;
+        [ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system;
+        [nil,(uiNamespace getVariable ["Weapon_Shop_Filter",0])] call life_fnc_weaponShopFilter;
+    }, [_item, _itemInfo select 1]] call life_fnc_econRequest;
+};
 if ((uiNamespace getVariable ["Weapon_Shop_Filter",0]) isEqualTo 1) then {
     CASH = CASH + _price;
     [_item,false] call life_fnc_handleItem;

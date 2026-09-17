@@ -69,6 +69,7 @@ private _pgText = _ui displayCtrl 38202;
 _pgText ctrlSetText format ["Tank  %1 Ltr / %2 Ltr",_fuelState,_fuelSpace];
 private _fuelLevel = (1 / _fuelSpace) * _fuelState;
 _progress progressSetPosition _fuelLevel;
+private _fuelStart = _fuelState;
 waitUntil {
     if (!alive _vehicle || isNull _vehicle) exitWith {true};
     if (isEngineOn _vehicle) exitWith {titleText[localize "STR_FuelTank_Stopped","PLAIN"]; true};
@@ -96,8 +97,15 @@ waitUntil {
 if (_fuelFeedState <= 0) then {titleText [localize "STR_FuelTank_FeedFull","PLAIN"]};
 if (_fuelState <= 0) then {titleText [localize "STR_FuelTank_Empty","PLAIN"]};
 sleep 2;
-CASH = CASH + _win;
-[0] call SOCK_fnc_updatePartial;
-titleText [format [localize "STR_FuelTank_Money", _win], "PLAIN"];
+if (ECONOMY_MODE >= 1) then {
+    //Geld-Umbau Schritt 3: Literpreis nach Entfernung zum Tanklager und Stundengrenze prueft der Server
+    ["TON_fnc_econIncome", ["fuelTanker", _vehicle, _fuelStart - _fuelState], {
+        titleText [format [localize "STR_FuelTank_Money", (_this select 0) param [0, 0]], "PLAIN"];
+    }] call life_fnc_econRequest;
+} else {
+    CASH = CASH + _win;
+    [0] call SOCK_fnc_updatePartial;
+    titleText [format [localize "STR_FuelTank_Money", _win], "PLAIN"];
+};
 "progressBar" cutText ["","PLAIN"];
 _vehicle setVariable ["fuelTankWork",nil,true];

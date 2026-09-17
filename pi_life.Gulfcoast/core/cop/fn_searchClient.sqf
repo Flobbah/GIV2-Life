@@ -25,6 +25,7 @@ _robber = false;
 if (!life_use_atm) then  {
     if (ECONOMY_MODE >= 1) then {["forfeit"] remoteExecCall ["TON_fnc_econCash",RSERV]}; //Geld-Umbau Schritt 2: Beute verfaellt auf dem Server
     CASH = 0;
+    if (ECONOMY_MODE >= 2) then {[] remoteExecCall ["TON_fnc_walletSync",RSERV]}; //Schritt 4: Kontostand vom Server
     _robber = true;
 };
 ["life_fnc_copSearch",[player,_inv,_robber],_cop] call life_fnc_relaySend;

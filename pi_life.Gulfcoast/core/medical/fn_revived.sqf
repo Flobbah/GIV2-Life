@@ -15,10 +15,12 @@ closeDialog 0;
 life_deathCamera cameraEffect ["TERMINATE","BACK"];
 camDestroy life_deathCamera;
 //Take fee for services.
-if (BANK > _reviveCost) then {
-    BANK = BANK - _reviveCost;
-} else {
-    BANK = 0;
+if (ECONOMY_MODE isEqualTo 0) then { //ab Modus 1 bucht der Server die Gebuehr (TON_fnc_econIncome revive)
+    if (BANK > _reviveCost) then {
+        BANK = BANK - _reviveCost;
+    } else {
+        BANK = 0;
+    };
 };
 //Bring me back to life.
 player setDir (getDir life_corpse);

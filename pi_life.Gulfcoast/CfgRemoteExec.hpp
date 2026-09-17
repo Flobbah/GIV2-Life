@@ -139,6 +139,8 @@ class CfgRemoteExec {
         F(TON_fnc_econShop,SERVER)
         F(TON_fnc_econCash,SERVER)
         F(TON_fnc_econRobbery,SERVER)
+        F(TON_fnc_econIncome,SERVER)
+        F(TON_fnc_walletSync,SERVER)
         F(BIS_fnc_debugConsoleExec,SERVER) //Debug-Konsole im MP: laeuft immer ueber den Server, der prueft selbst auf eingeloggten Admin (#login)
         /* HeadlessClient only functions */
         F(HC_fnc_addContainer,HC)

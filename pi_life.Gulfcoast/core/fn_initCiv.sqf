@@ -13,6 +13,7 @@ if (life_is_alive && !life_is_arrested) then {
     if (!life_is_alive && !life_is_arrested) then {
         if (LIFE_SETTINGS(getNumber,"save_civilian_positionStrict") isEqualTo 1) then {
             [] call life_fnc_startLoadout;
+            if (ECONOMY_MODE >= 1) then {["forfeit"] remoteExecCall ["TON_fnc_econCash",RSERV]}; //Geld-Umbau: Bargeld verfaellt auf dem Server
             CASH = 0;
             [0] call SOCK_fnc_updatePartial;
         };

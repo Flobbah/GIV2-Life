@@ -42,6 +42,12 @@ for "_i" from 0 to 1 step 0 do {
 if (player distance _house > 13) exitWith {life_action_inUse = false; titleText[localize "STR_House_Raid_TooFar","PLAIN"]};
 if (!alive player) exitWith {life_action_inUse = false;};
 life_action_inUse = false;
+if (ECONOMY_MODE >= 1) exitWith {
+    //Geld-Umbau Schritt 3: Wert, Belohnung und Entfernen der illegalen Gegenstaende uebernimmt der Server
+    ["TON_fnc_econIncome", ["seize", _house, "house"], {}, {
+        [ localize "STR_House_Raid_NoIllegal",true,"fast"] call life_fnc_notification_system;
+    }] call life_fnc_econRequest;
+};
 _houseInvData = (_houseInv select 0);
 _houseInvVal = (_houseInv select 1);
 _value = 0;

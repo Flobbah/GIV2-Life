@@ -39,4 +39,5 @@ if (count _dbInfo > 0) then {
     [_query,1] call DB_fnc_asyncCall;
 };
 deleteVehicle _vehicle;
+if (ECONOMY_MODE >= 1) then {[getPlayerUID _unit, "cash", round _price, "sale_chop_shop", "", _priceClass] call TON_fnc_moneyChange}; //Geld-Umbau: bucht der Server
 [_price,_displayName] remoteExecCall ["life_fnc_chopShopSold", _caller];

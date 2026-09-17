@@ -13,6 +13,7 @@ life_hunger = 100;
 life_thirst = 100;
 life_carryWeight = 0;
 CASH = 0; //Make sure we don't get our cash back.
+if (ECONOMY_MODE >= 2) then {[] remoteExecCall ["TON_fnc_walletSync",RSERV]}; //Geld-Umbau Schritt 4: Kontostand vom Server
 life_respawned = false;
 player playMove "AmovPercMstpSnonWnonDnon";
 life_corpse setVariable ["Revive",nil,true];

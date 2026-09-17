@@ -27,6 +27,12 @@ _illegalValue = 0;
     };
 } forEach (_vehicleInfo select 0);
 _value = _illegalValue;
+if (ECONOMY_MODE >= 1) exitWith {
+    //Geld-Umbau Schritt 3: Wert, Belohnung und Leeren des Kofferraums uebernimmt der Server
+    ["TON_fnc_econIncome", ["seize", _vehicle, "vehicle"], {}, {
+        [ localize "STR_Cop_NoIllegalVeh",true,"fast"] call life_fnc_notification_system;
+    }] call life_fnc_econRequest;
+};
 if (_value > 0) then {
     ["life_fnc_broadcast",[0,"STR_NOTF_VehContraband",true,[[_value] call life_fnc_numberText]],RCLIENT] call life_fnc_relaySend;
     BANK = BANK + _value;

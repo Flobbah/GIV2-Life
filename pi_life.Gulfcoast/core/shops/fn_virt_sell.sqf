@@ -19,6 +19,22 @@ life_action_delay = time;
 _price = (_price * _amount);
 _name = M_CONFIG(getText,"VirtualItems",_type,"displayName");
 if ([false,_type,_amount] call life_fnc_handleInv) then {
+    if (ECONOMY_MODE >= 1) exitWith {
+        //Geld-Umbau Schritt 3: Preis und Stundengrenze prueft der Server; ohne Zusage kommen die Gegenstaende zurueck
+        ["TON_fnc_econIncome", ["sellItem", life_shop_type, _type, _amount], {
+            (_this select 1) params ["_type", "_amount", "_name"];
+            [ format [localize "STR_Shop_Virt_SellItem",_amount,(localize _name),[(_this select 0) param [0, 0]] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
+            ["carry", _amount * ([_type] call life_fnc_itemWeight) * (getNumber (missionConfigFile >> "CfgSkills" >> "carry" >> "xpPerWeight"))] call life_fnc_skillAddXP;
+            [] call life_fnc_virt_update;
+            [3] call SOCK_fnc_updatePartial;
+        }, {
+            (_this select 1) params ["_type", "_amount"];
+            [true,_type,_amount] call life_fnc_handleInv;
+            [ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system;
+            [] call life_fnc_virt_update;
+            [3] call SOCK_fnc_updatePartial;
+        }, [_type, _amount, _name]] call life_fnc_econRequest;
+    };
     [ format [localize "STR_Shop_Virt_SellItem",_amount,(localize _name),[_price] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
     CASH = CASH + _price;
     //Skill Tragkraft: XP nach verkauftem Gewicht (nicht je Vorgang)
