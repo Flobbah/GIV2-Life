@@ -23,6 +23,9 @@ call {
     };
     if (isNull _unit || {_unit isEqualTo player}) exitWith {};
     private _item = lbData [2005, lbCurSel 2005];
+    if (_item isEqualTo "") exitWith {
+        [ localize "STR_NOTF_didNotSelectItemToGive",true,"fast"] call life_fnc_notification_system;
+    };
     if !([_value] call TON_fnc_isnumber) exitWith {
         [ localize "STR_NOTF_notNumberFormat",true,"fast"] call life_fnc_notification_system;
     };

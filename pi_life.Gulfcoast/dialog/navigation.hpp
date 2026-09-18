@@ -14,6 +14,7 @@ class Life_Navigation {
         PHONE_FRAME
     };
     class controls {
+
         PHONE_APPBAR(-1,"$STR_NAV_Title","closeDialog 0;")
         class NavInfoCard : Life_RscPhoneCard {
             y = PH_Y(2.8);
@@ -66,9 +67,11 @@ class Life_Navigation {
         class NavHint : Life_RscPhoneStructured {
             idc = -1;
             text = "$STR_NAV_Hint";
-            y = PH_Y(17.6);
-            h = PH_H(2.6);
-            size = PH_FONT(0.75);
+            y = PH_Y(17.5);
+            h = PH_H(2.4);
+            size = PH_FONT(0.66);
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };

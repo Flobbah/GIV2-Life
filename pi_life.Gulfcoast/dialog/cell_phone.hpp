@@ -13,6 +13,7 @@ class Life_cell_phone {
         PHONE_FRAME
     };
     class controls {
+
         PHONE_APPBAR(3001,"$STR_CELL_Title","closeDialog 0;")
         class TextToSend : Life_RscPhoneLabel {
             idc = 3002;
@@ -74,5 +75,7 @@ class Life_cell_phone {
             y = PH_Y(14.9);
             onButtonClick = "[] call TON_fnc_cell_adminmsgall";
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };

@@ -35,6 +35,11 @@ waitUntil {life_session_completed};
 0 cutText[localize "STR_Init_ClientFinish","BLACK FADED",99999999];
 [] spawn life_fnc_escInterupt;
 [] call life_fnc_dutyPaycheck; //Gehalt nach Fraktion und Cop-Rang (auch nach Dienstwechsel)
+//Ohne Lobby kann der zugewiesene Slot einer anderen Seite gehoeren als die Fraktion, mit der man
+//startet. Die Gruppe zieht deshalb nach - genau wie beim Dienstwechsel.
+if !(life_side isEqualTo (side (group player))) then {
+    [player] joinSilent (createGroup [life_side, true]);
+};
 switch (life_side) do {
     case west: {[] call life_fnc_initCop;};
     case civilian: {[] call life_fnc_initCiv;};

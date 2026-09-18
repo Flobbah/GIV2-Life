@@ -13,6 +13,7 @@ class SettingsMenu {
         PHONE_FRAME
     };
     class controls {
+
         PHONE_APPBAR(-1,"$STR_SM_Title","closeDialog 0;")
         /* Sichtweiten */
         class VDonFoot : Life_RscPhoneLabel {
@@ -145,5 +146,7 @@ class SettingsMenu {
             onCheckedChanged = "['broadcast',_this select 1] call life_fnc_s_onCheckedChange;";
             y = PH_Y(13.55);
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };

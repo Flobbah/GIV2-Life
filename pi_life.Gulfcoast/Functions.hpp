@@ -353,6 +353,9 @@ class Life_Client_Core {
         class markerFilterToggle {};
         class p_openMenu {};
         class p_showPage {};
+        class p_openApp {};
+        class p_home {};
+        class p_back {};
         class p_updateMenu {};
         class pardon {};
         class phoneStatus {};

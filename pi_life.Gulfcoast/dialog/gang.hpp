@@ -14,6 +14,7 @@ class Life_My_Gang_Diag {
         PHONE_FRAME
     };
     class controls {
+
         // Titel (2629) wird von fn_gangMenu auf den Gangnamen gesetzt
         PHONE_APPBAR(2629,"$STR_Gang_Title","closeDialog 0;[] call life_fnc_p_updateMenu;")
         class GangBank : Life_RscPhoneLabel {
@@ -81,6 +82,8 @@ class Life_My_Gang_Diag {
             y = PH_Y(18.8);
             w = PH_W(9.3);
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };
 class Life_Create_Gang_Diag {
@@ -115,5 +118,7 @@ class Life_Create_Gang_Diag {
             y = PH_Y(7.2);
             onButtonClick = "[] call life_fnc_createGang";
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };

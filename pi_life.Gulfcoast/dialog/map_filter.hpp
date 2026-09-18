@@ -22,6 +22,7 @@ class Life_Map_Filter {
         PHONE_FRAME
     };
     class controls {
+
         PHONE_APPBAR(-1,"$STR_MF_Title","closeDialog 0;")
         MF_ROW(0,2.8)
         MF_ROW(1,4.1)
@@ -54,6 +55,8 @@ class Life_Map_Filter {
             h = PH_H(2.5);
             size = PH_FONT(0.75);
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };
 #undef MF_ROW

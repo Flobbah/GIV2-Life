@@ -2842,6 +2842,18 @@
             <English>Recipient</English>
             <German>Empfänger</German>
         </Key>
+        <Key ID="STR_PM_Nav_Home">
+            <English>Home</English>
+            <German>Start</German>
+        </Key>
+        <Key ID="STR_PM_Nav_Back">
+            <English>Back</English>
+            <German>Zurueck</German>
+        </Key>
+        <Key ID="STR_PM_InvEmpty">
+            <English>You are not carrying anything</English>
+            <German>Du traegst nichts bei dir</German>
+        </Key>
         <Key ID="STR_PM_Weight">
             <English>Weight: %1 / %2</English>
             <German>Gewicht: %1 / %2</German>
@@ -2939,8 +2951,8 @@
             <German>Route beenden</German>
         </Key>
         <Key ID="STR_NAV_Hint">
-            <English>The route follows the roads and is drawn on the map (M). The distance is shown at the bottom of the screen.</English>
-            <German>Die Route folgt den Straßen und wird auf der Karte (M) als Linie gezeichnet. Die Entfernung steht unten in der Mitte des Bildschirms.</German>
+            <English>The route follows the roads and is drawn on the map (M).</English>
+            <German>Die Route folgt den Strassen und wird auf der Karte (M) gezeichnet.</German>
         </Key>
         <Key ID="STR_NAV_NoRoute">
             <English>No active route</English>
@@ -3075,8 +3087,8 @@
             <German>Noch kein Bonus</German>
         </Key>
         <Key ID="STR_SK_Hint">
-            <English>You gain experience by doing the activity. Every level improves the bonus; progress is saved automatically.</English>
-            <German>Erfahrung sammelst du durch die jeweilige Tätigkeit. Jede Stufe verbessert den Bonus, der Fortschritt wird automatisch gespeichert.</German>
+            <English>Experience comes from doing the work. Each level improves the bonus.</English>
+            <German>Erfahrung kommt durch die Taetigkeit selbst. Jede Stufe verbessert den Bonus.</German>
         </Key>
     </Package>
     <Package name="Settings_Menu">
@@ -14643,8 +14655,8 @@
             <German>Dienst beenden (Zivilist)</German>
         </Key>
         <Key ID="STR_DUTY_Hint">
-            <English>Switching is only possible at a duty station (police HQ or hospital). Gear, licenses and vehicle keys are stored per faction, money is shared. Items that are not saved anyway are lost like on relog.</English>
-            <German>Der Wechsel geht nur an einer Dienststelle (Polizeiwache bzw. Krankenhaus). Ausrüstung, Lizenzen und Fahrzeugschlüssel werden je Fraktion gespeichert, Geld ist gemeinsam. Nicht speicherbare Gegenstände gehen wie beim Neueinloggen verloren.</German>
+            <English>Switching only works at a duty station. Gear, licences and keys are kept per faction, money is shared.</English>
+            <German>Wechsel nur an einer Dienststelle. Ausruestung, Lizenzen und Schluessel liegen je Fraktion getrennt, Geld ist gemeinsam.</German>
         </Key>
         <Key ID="STR_DUTY_Saving">
             <English>Saving your data ...</English>

@@ -15,8 +15,13 @@
 
     Feste IDCs in jedem Telefon-Dialog: 2097 = Spielername (Statusleiste), 2098 = Uhrzeit.
 */
-#define PH_X(n) (GUI_GRID_CENTER_X + (14.75 + (n)) * GUI_GRID_CENTER_W)
-#define PH_Y(n) (GUI_GRID_CENTER_Y + (1.5 + (n)) * GUI_GRID_CENTER_H)
+//Lage des Telefons: mittig am unteren Bildrand, mit etwas Luft nach unten fuer die Statusleiste.
+//Gerechnet wird ab der Mitte bzw. der Unterkante der Safezone, also am echten Bildrand.
+//GUI_GRID_CENTER_X/Y beziehen sich dagegen auf eine zentrierte Box, die bei breiten Bildschirmen
+//deutlich schmaler ist als das Bild - damit sass das Geraet vorher nicht dort, wo es sollte.
+//Die Groesse bleibt an GUI_GRID_CENTER_W/H gekoppelt (10,5 x 22 Einheiten).
+#define PH_X(n) (safezoneX + safezoneW / 2 - (5.25 - (n)) * GUI_GRID_CENTER_W)
+#define PH_Y(n) (safezoneY + safezoneH - (23.2 - (n)) * GUI_GRID_CENTER_H)
 #define PH_W(n) ((n) * GUI_GRID_CENTER_W)
 #define PH_H(n) ((n) * GUI_GRID_CENTER_H)
 #define PH_FONT(n) (GUI_GRID_CENTER_H * (n))
@@ -261,7 +266,29 @@ class Life_RscPhoneStructured : Life_RscStructuredText {
     class PhoneScreen : Life_RscPhoneScreen {}; \
     class PhoneStatusClock : Life_RscPhoneStatusClock {}; \
     class PhoneStatusName : Life_RscPhoneStatusName {};
+/* Feste Leiste unten: Home in der Mitte, Zurueck rechts daneben - wie bei einem Telefon.
+   Home schliesst auf der Startseite und fuehrt sonst dorthin, Zurueck geht eine Ebene hoch. */
+class Life_RscPhoneNavHome : Life_RscPhoneButtonAlt {
+    x = PH_X(3.95);
+    y = PH_Y(20.05);
+    w = PH_W(2.6);
+    h = PH_H(1.2);
+    onButtonClick = "[] call life_fnc_p_home;";
+};
+class Life_RscPhoneNavBack : Life_RscPhoneNavHome {
+    x = PH_X(7.3);
+    onButtonClick = "[] call life_fnc_p_back;";
+};
+class Life_RscPhoneNavSave : Life_RscPhoneNavHome {
+    x = PH_X(0.6);
+    onButtonClick = "[] call SOCK_fnc_syncData;";
+};
+#define PHONE_NAVBAR \
+    class PhoneNavSave : Life_RscPhoneNavSave { text = "$STR_PM_App_Sync"; }; \
+    class PhoneNavHome : Life_RscPhoneNavHome { text = "$STR_PM_Nav_Home"; }; \
+    class PhoneNavBack : Life_RscPhoneNavBack { text = "$STR_PM_Nav_Back"; };
+//BACKCODE bleibt als Parameter erhalten, damit die Dialoge unveraendert bleiben; zurueck geht
+//es seit der festen Leiste unten ueber life_fnc_p_back.
 #define PHONE_APPBAR(TITLEIDC,TITLETEXT,BACKCODE) \
     class PhoneAppBar : Life_RscPhoneAppBar {}; \
-    class PhoneAppTitle : Life_RscPhoneAppTitle { idc = TITLEIDC; text = TITLETEXT; }; \
-    class PhoneBackButton : Life_RscPhoneBack { onButtonClick = BACKCODE; };
+    class PhoneAppTitle : Life_RscPhoneAppTitle { idc = TITLEIDC; text = TITLETEXT; };

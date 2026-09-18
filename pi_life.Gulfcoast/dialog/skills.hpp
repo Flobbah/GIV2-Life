@@ -29,6 +29,7 @@ class Life_Skills {
         PHONE_FRAME
     };
     class controls {
+
         PHONE_APPBAR(-1,"$STR_SK_Title","closeDialog 0;")
         SK_ROW(0,2.8)
         SK_ROW(1,6.05)
@@ -38,10 +39,12 @@ class Life_Skills {
         class SkHint : Life_RscPhoneStructured {
             idc = -1;
             text = "$STR_SK_Hint";
-            y = PH_Y(19.0);
-            h = PH_H(2.0);
+            y = PH_Y(18.75);
+            h = PH_H(1.2);
             size = PH_FONT(0.7);
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };
 #undef SK_ROW

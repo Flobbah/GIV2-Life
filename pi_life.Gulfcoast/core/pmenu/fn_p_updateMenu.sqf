@@ -38,17 +38,51 @@ _mstatus ctrlSetStructuredText parseText format ["<img size='1.1' image='\pi_dat
 _mpage ctrlSetStructuredText parseText format ["<img size='1.2' image='\pi_data\icons\ico_bank.paa'/> <t size='0.95'>%1: $%2</t><br/><img size='1.2' image='\pi_data\icons\ico_money.paa'/> <t size='0.95'>%3: $%4</t>",localize "STR_PM_Bank",_bank,localize "STR_PM_Cash",_cash];
 ctrlSetText[2031,player getVariable ["realname",name player]];
 ctrlSetText[2009,format [localize "STR_PM_Weight", life_carryWeight, life_maxWeight]];
-//Inventar
+//Inventar: nach Namen sortiert, mit Menge und Gewicht des Stapels; illegale Ware faellt auf
+private _rows = [];
 {
-    if (ITEM_VALUE(configName _x) > 0) then {
-        _inv lbAdd format ["%2 [x%1]",ITEM_VALUE(configName _x),localize (getText(_x >> "displayName"))];
-        _inv lbSetData [(lbSize _inv)-1,configName _x];
-        _icon = M_CONFIG(getText,"VirtualItems",configName _x,"icon");
-        if (!(_icon isEqualTo "")) then {
-            _inv lbSetPicture [(lbSize _inv)-1,_icon];
-        };
+    private _class = configName _x;
+    private _num = ITEM_VALUE(_class);
+    if (_num > 0) then {
+        _rows pushBack [
+            localize (getText (_x >> "displayName")),
+            _class,
+            _num,
+            _num * ([_class] call life_fnc_itemWeight),
+            (getNumber (_x >> "illegal")) isEqualTo 1,
+            getText (_x >> "icon")
+        ];
     };
 } forEach ("true" configClasses (missionConfigFile >> "VirtualItems"));
+_rows sort true; //nach dem ersten Eintrag, also dem Namen
+{
+    _x params ["_name", "_class", "_num", "_weight", "_illegal", "_icon"];
+    _inv lbAdd format ["%1   x%2   (%3)", _name, _num, _weight];
+    _inv lbSetData [(lbSize _inv)-1, _class];
+    if (!(_icon isEqualTo "")) then {_inv lbSetPicture [(lbSize _inv)-1, _icon]};
+    if (_illegal) then {_inv lbSetColor [(lbSize _inv)-1, [0.95, 0.65, 0.45, 1]]};
+} forEach _rows;
+if (_rows isEqualTo []) then {
+    _inv lbAdd localize "STR_PM_InvEmpty";
+    _inv lbSetData [(lbSize _inv)-1, ""];
+    _inv lbSetColor [(lbSize _inv)-1, [0.55, 0.57, 0.62, 1]];
+};
+//Gewichtsbalken: Breite und Farbe nach Auslastung
+private _max = 1 max life_maxWeight;
+private _ratio = ((life_carryWeight / _max) max 0) min 1;
+private _track = CONTROL(2001,2070);
+private _fill = CONTROL(2001,2071);
+if (!isNull _track && {!isNull _fill}) then {
+    private _pos = ctrlPosition _track;
+    _fill ctrlSetPosition [_pos select 0, _pos select 1, (_pos select 2) * _ratio, _pos select 3];
+    _fill ctrlSetBackgroundColor (switch (true) do {
+        case (_ratio > 0.9): {[0.78, 0.30, 0.30, 1]};
+        case (_ratio > 0.7): {[0.85, 0.65, 0.25, 1]};
+        default {[0.24, 0.62, 0.42, 1]};
+    });
+    _fill ctrlCommit 0;
+};
+ctrlSetText [2072, format [localize "STR_PM_Weight", life_carryWeight, life_maxWeight]];
 //Lizenzen
 {
     _displayName = getText(_x >> "displayName");

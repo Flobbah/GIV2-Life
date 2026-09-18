@@ -27,7 +27,7 @@ for "_i" from 0 to (count life_vehicles)-1 do {
         };
         _name = getText(configFile >> "CfgVehicles" >> (typeOf _veh) >> "displayName");
         _pic = [typeOf _veh] call life_fnc_vehiclePicture;
-        _vehicles lbAdd format ["%1 %3 - [Distance: %2m]",_name,round(player distance _veh),_text];
+        _vehicles lbAdd format ["%1 %3  (%2 m)",_name,round(player distance _veh),_text]; //kurz, sonst laeuft die Zeile ueber
         if !(_pic isEqualTo "") then {
             _vehicles lbSetPicture [(lbSize _vehicles)-1,_pic];
         };

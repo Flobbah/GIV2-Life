@@ -12,13 +12,16 @@
 life_action_delay = time;
 life_trunk_vehicle = objNull;
 life_session_completed = false;
-//Dienst-System: aktuelle Fraktion, aenderbar im Spiel ueber die Telefon-App "Dienst" (statt Engine-playerSide)
+//Dienst-System: aktuelle Fraktion, aenderbar im Spiel ueber die Telefon-App "Dienst" (statt Engine-playerSide).
+//Ohne Lobby vergibt die Engine irgendeinen freien Slot - deshalb zaehlt der Slot nicht mehr, jeder
+//faengt als Zivilist an und geht im Spiel in den Dienst.
 life_side = playerSide;
+if ((getNumber (missionConfigFile >> "CfgServer" >> "StartAsCivilian")) isEqualTo 1) then {life_side = civilian};
 life_duty_busy = false;
 life_duty_last = -9999;
 life_duty_info = [];
 life_placement_active = false; //freies Abstellen von Fahrzeugen (core\placement)
-life_duty_housesInit = playerSide isEqualTo civilian;
+life_duty_housesInit = life_side isEqualTo civilian;
 //Alle Lizenzvariablen aller Seiten mit false vorbelegen: Shop-Bedingungen greifen direkt darauf zu, die Datenbank
 //liefert beim Login nur die Lizenzen der eigenen Seite (und nur die, die es beim Anlegen des Spielers schon gab)
 {

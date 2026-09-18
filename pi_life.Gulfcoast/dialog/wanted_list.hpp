@@ -14,6 +14,7 @@ class life_wanted_menu {
         PHONE_FRAME
     };
     class controls {
+
         PHONE_APPBAR(-1,"$STR_Wanted_Title","closeDialog 0;")
         class WantedConnection : Life_RscPhoneLabel {
             idc = 2404;
@@ -87,5 +88,7 @@ class life_wanted_menu {
             w = PH_W(4.5);
             onButtonClick = "[] call life_fnc_pardon; closeDialog 0;";
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };

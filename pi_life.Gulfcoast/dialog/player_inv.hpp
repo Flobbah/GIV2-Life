@@ -15,10 +15,13 @@ class playerSettings {
     idd = playersys_DIALOG;
     movingEnable = 0;
     enableSimulation = 1;
+    //Uhrzeit und Name fuellt der Dialog selbst - egal ob er ueber die Taste, Home oder Zurueck aufgeht
+    onLoad = "[_this select 0] call life_fnc_phoneStatus;";
     class controlsBackground {
         PHONE_FRAME
     };
     class controls {
+
         /* ===================== Startseite ===================== */
         class HomeHeaderCard : Life_RscPhoneCard {
             idc = 2030;
@@ -75,14 +78,14 @@ class playerSettings {
             text = "$STR_PM_App_Keys";
             x = PH_X(0.6);
             y = PH_Y(7.8);
-            onButtonClick = "createDialog ""Life_key_management"";";
+            onButtonClick = "[""Life_key_management""] call life_fnc_p_openApp;";
         };
         class TilePhone : Life_RscPhoneTileCyan {
             idc = 2035;
             text = "$STR_PM_App_Phone";
             x = PH_X(3.8);
             y = PH_Y(7.8);
-            onButtonClick = "createDialog ""Life_cell_phone"";";
+            onButtonClick = "[""Life_cell_phone""] call life_fnc_p_openApp;";
         };
         class TileSettings : Life_RscPhoneTileGrey {
             idc = 2036;
@@ -111,14 +114,14 @@ class playerSettings {
             text = "$STR_PM_App_Map";
             x = PH_X(0.6);
             y = PH_Y(10.8);
-            onButtonClick = "createDialog ""Life_Map_Filter"";";
+            onButtonClick = "[""Life_Map_Filter""] call life_fnc_p_openApp;";
         };
         class TileNav : Life_RscPhoneTileNavy {
             idc = 2049;
             text = "$STR_PM_App_Nav";
             x = PH_X(3.8);
             y = PH_Y(10.8);
-            onButtonClick = "createDialog ""Life_Navigation"";";
+            onButtonClick = "[""Life_Navigation""] call life_fnc_p_openApp;";
         };
         // Reihe 4: Skills, Admin (nur fuer Admins)
         class TileSkills : Life_RscPhoneTileGold {
@@ -126,7 +129,7 @@ class playerSettings {
             text = "$STR_PM_App_Skills";
             x = PH_X(0.6);
             y = PH_Y(13.8);
-            onButtonClick = "createDialog ""Life_Skills"";";
+            onButtonClick = "[""Life_Skills""] call life_fnc_p_openApp;";
         };
         class TileAdmin : Life_RscPhoneTileMagenta {
             idc = 2021;
@@ -136,35 +139,12 @@ class playerSettings {
             onButtonClick = "closeDialog 0; createDialog ""life_admin_menu"";";
         };
         // Dock
-        class HomeDock : Life_RscPhoneCard {
-            idc = 2039;
-            y = PH_Y(16.9);
-            h = PH_H(3.2);
-        };
         class TileDuty : Life_RscPhoneTileSteel {
             idc = 2054;
             text = "$STR_PM_App_Duty";
             x = PH_X(7.0);
             y = PH_Y(13.8);
-            onButtonClick = "createDialog ""Life_Duty"";";
-        };
-        class DockSync : Life_RscPhoneTilePurple {
-            idc = 2037;
-            text = "$STR_PM_App_Sync";
-            x = PH_X(0.9);
-            y = PH_Y(17.5);
-            w = PH_W(4.2);
-            h = PH_H(2.0);
-            onButtonClick = "[] call SOCK_fnc_syncData;";
-        };
-        class DockClose : Life_RscPhoneTileGrey {
-            idc = 2038;
-            text = "$STR_Global_Close";
-            x = PH_X(5.4);
-            y = PH_Y(17.5);
-            w = PH_W(4.2);
-            h = PH_H(2.0);
-            onButtonClick = "closeDialog 0;";
+            onButtonClick = "[""Life_Duty""] call life_fnc_p_openApp;";
         };
 
         /* ===================== Seite: Inventar ===================== */
@@ -175,14 +155,32 @@ class playerSettings {
             idc = 2041;
             text = "$STR_PM_App_Inventory";
         };
-        class InvBack : Life_RscPhoneBack {
-            idc = 2042;
-            onButtonClick = "['home'] call life_fnc_p_showPage;";
-        };
         class InvList : Life_RscPhoneList {
             idc = item_list;
             y = PH_Y(2.8);
-            h = PH_H(9.6);
+            h = PH_H(8.55);
+        };
+        /* Gewicht: Beschriftung (11.4 - 12.05), darunter Spur und Fuellung (12.1 - 12.5),
+           die Mengenzeile beginnt bei 12.7. Gefuellt wird beides in fn_p_updateMenu. */
+        class InvWeightLabel : Life_RscPhoneLabel {
+            idc = 2072;
+            text = "";
+            y = PH_Y(11.4);
+            h = PH_H(0.65);
+            sizeEx = PH_FONT(0.72);
+        };
+        class InvWeightTrack : Life_RscPhoneCard {
+            idc = 2070;
+            y = PH_Y(12.1);
+            h = PH_H(0.4);
+            colorBackground[] = {0.10, 0.11, 0.14, 1};
+        };
+        class InvWeightFill : Life_RscPhoneCard {
+            idc = 2071;
+            y = PH_Y(12.1);
+            w = PH_W(0.1);
+            h = PH_H(0.4);
+            colorBackground[] = {0.24, 0.62, 0.42, 1};
         };
         class InvAmountLabel : Life_RscPhoneLabel {
             idc = 2043;
@@ -238,10 +236,6 @@ class playerSettings {
             idc = 2051;
             text = "$STR_PM_App_Licenses";
         };
-        class LicBack : Life_RscPhoneBack {
-            idc = 2052;
-            onButtonClick = "['home'] call life_fnc_p_showPage;";
-        };
         class LicGroup : Life_RscControlsGroup {
             idc = 2053;
             x = PH_X(0.6);
@@ -268,10 +262,6 @@ class playerSettings {
         class MoneyTitle : Life_RscPhoneAppTitle {
             idc = 2061;
             text = "$STR_PM_App_Money";
-        };
-        class MoneyBack : Life_RscPhoneBack {
-            idc = 2062;
-            onButtonClick = "['home'] call life_fnc_p_showPage;";
         };
         class MoneyCard : Life_RscPhoneStructured {
             idc = 2063;
@@ -306,5 +296,7 @@ class playerSettings {
             y = PH_Y(8.3);
             onButtonClick = "[] call life_fnc_giveMoney";
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };

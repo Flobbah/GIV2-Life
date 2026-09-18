@@ -13,6 +13,7 @@ class Life_key_management {
         PHONE_FRAME
     };
     class controls {
+
         PHONE_APPBAR(-1,"$STR_PM_App_Keys","closeDialog 0;")
         class KeyChainList : Life_RscPhoneList {
             idc = 2701;
@@ -45,5 +46,7 @@ class Life_key_management {
             w = PH_W(4.5);
             onButtonClick = "[] call life_fnc_keyDrop";
         };
+        /* Leiste zuletzt, damit sie ueber den Inhalten liegt und Klicks bekommt */
+        PHONE_NAVBAR
     };
 };
