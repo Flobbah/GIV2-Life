@@ -26,4 +26,17 @@ _container setVariable ["container_owner",nil,true];
 [_container, "container_owner"] call TON_fnc_serverSet;
 [_query,1] call DB_fnc_asyncCall;
 ["CALL deleteOldContainers",1] call DB_fnc_asyncCall;
+//Inventar-Umbau: die Kiste kommt ins Inventar des Absenders zurueck, nicht durch den Client
+if (INVENTORY_MODE >= 1 && {!(_caller isEqualTo 2)}) then {
+    private _uid = ([_caller] call TON_fnc_callerInfo) param [0, ""];
+    private _class = toLower (typeOf _container);
+    private _item = "";
+    {
+        if ((toLower (getText (missionConfigFile >> "VirtualItems" >> (configName _x) >> "storageClass"))) isEqualTo _class) exitWith {_item = configName _x};
+    } forEach ("true" configClasses (missionConfigFile >> "VirtualItems"));
+    if (_item isEqualTo "") then {
+        _item = ["storageSmall", "storageBig"] select ((toLower _class) isEqualTo "land_cargobox_v1_f");
+    };
+    if !(_uid isEqualTo "") then {[_uid, _item, 1, "container_pickup"] call TON_fnc_invChange};
+};
 deleteVehicle _container;

@@ -11,7 +11,8 @@ life_interrupted = false;
 if (isNull _vehicle) exitWith {[ localize "STR_ISTR_Jerry_NotLooking",true,"fast"] call life_fnc_notification_system};
 if (!(_vehicle isKindOF "LandVehicle") && !(_vehicle isKindOf "Air") && !(_vehicle isKindOf "Ship")) exitWith {};
 if (player distance _vehicle > 7.5) exitWith {[ localize "STR_ISTR_Jerry_NotNear",true,"fast"] call life_fnc_notification_system};
-if (!([false,"fuelFull",1] call life_fnc_handleInv)) exitWith {};
+if (INVENTORY_MODE isEqualTo 0 && {!([false,"fuelFull",1] call life_fnc_handleInv)}) exitWith {};
+if (INVENTORY_MODE >= 1 && {life_inv_fuelFull < 1}) exitWith {};
 life_action_inUse = true;
 _displayName = FETCH_CONFIG2(getText,"CfgVehicles",(typeOf _vehicle),"displayName");
 _upp = format [localize "STR_ISTR_Jerry_Process",_displayName];
@@ -71,4 +72,9 @@ switch (true) do {
     };
 };
 titleText[format [localize "STR_ISTR_Jerry_Success",_displayName],"PLAIN"];
-[true,"fuelEmpty",1] call life_fnc_handleInv;
+//Inventar-Umbau: ab Modus 1 tauscht der Server voll gegen leer
+if (INVENTORY_MODE >= 1) then {
+    ["TON_fnc_invConvert", ["fuelFull", "fuelEmpty"], {}, {}] call life_fnc_econRequest;
+} else {
+    [true,"fuelEmpty",1] call life_fnc_handleInv;
+};

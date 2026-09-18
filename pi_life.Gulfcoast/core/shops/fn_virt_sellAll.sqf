@@ -15,7 +15,8 @@ if ((time - life_action_delay) < 0.2) exitWith {[localize "STR_NOTF_ActionDelay"
 life_action_delay = time;
 _price = (_price * _amount);
 _name = M_CONFIG(getText,"VirtualItems",_type,"displayName");
-if ([false,_type,_amount] call life_fnc_handleInv) then {
+//Inventar-Umbau Paket 2: ab Modus 1 nimmt der Server die Ware aus dem Inventar
+if (INVENTORY_MODE >= 1 || {[false,_type,_amount] call life_fnc_handleInv}) then {
     if (ECONOMY_MODE >= 1) exitWith {
         //Geld-Umbau Schritt 3: Preis und Stundengrenze prueft der Server; ohne Zusage kommen die Gegenstaende zurueck
         ["TON_fnc_econIncome", ["sellItem", life_shop_type, _type, _amount], {
@@ -26,7 +27,7 @@ if ([false,_type,_amount] call life_fnc_handleInv) then {
             [3] call SOCK_fnc_updatePartial;
         }, {
             (_this select 1) params ["_type", "_amount"];
-            [true,_type,_amount] call life_fnc_handleInv;
+            if (INVENTORY_MODE isEqualTo 0) then {[true,_type,_amount] call life_fnc_handleInv};
             [ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system;
             [] call life_fnc_virt_update;
             [3] call SOCK_fnc_updatePartial;

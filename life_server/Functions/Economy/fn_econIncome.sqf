@@ -53,8 +53,13 @@ switch (_kind) do {
         switch (true) do {
             case (!isClass _shopCfg || {!(_item in getArray (_shopCfg >> "items"))}): {format ["shop %1 does not buy %2", _a, _item] call _deny};
             case (_price < 0 || {_amount < 1} || {_amount > 10000}): {format ["invalid sale %1 x%2", _item, _amount] call _deny};
+            //Inventar-Umbau Paket 2: verkauft wird nur, was der Spieler laut Serverkopie hat
+            case (INVENTORY_MODE >= 1 && {([_uid, _item] call TON_fnc_invGet) < _amount}): {[false, ["items"]] call _answer};
             case (!(["cash", _price * _amount, "itemSale", "sale_item", format ["%1 %2x%3", _a, _item, _amount]] call _pay)): {[false, ["limit"]] call _answer};
-            default {[true, [round (_price * _amount)]] call _answer};
+            default {
+                if (INVENTORY_MODE >= 1) then {[_uid, _item, -_amount, "sale_item"] call TON_fnc_invChange};
+                [true, [round (_price * _amount)]] call _answer;
+            };
         };
     };
     case "sellWeapon": {

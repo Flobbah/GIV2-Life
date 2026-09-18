@@ -60,20 +60,27 @@ if (_action) then {
     if (player getVariable ["restrained",false]) exitWith {life_action_inUse = false;};
     if (!isNil "_badDistance") exitWith {titleText[localize "STR_ISTR_Lock_TooFar","PLAIN"]; life_action_inUse = false;};
     if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
-    if (!([false,"fuelEmpty",1] call life_fnc_handleInv)) exitWith {life_action_inUse = false;};
+    if (INVENTORY_MODE isEqualTo 0 && {!([false,"fuelEmpty",1] call life_fnc_handleInv)}) exitWith {life_action_inUse = false;};
+    if (INVENTORY_MODE >= 1 && {life_inv_fuelEmpty < 1}) exitWith {life_action_inUse = false;};
     life_action_inUse = false;
     if (ECONOMY_MODE >= 1) exitWith {
         //Geld-Umbau Schritt 2: die Gebuehr bucht der Server; ohne Zusage gibt es den leeren Kanister zurueck
         ["TON_fnc_econFee", ["jerryCan"], {
+            //Inventar-Umbau: ab Modus 1 tauscht der Server leer gegen voll
+            if (INVENTORY_MODE >= 1) exitWith {["TON_fnc_invConvert", ["fuelEmpty", "fuelFull"], {}, {}] call life_fnc_econRequest};
             [true,"fuelFull",1] call life_fnc_handleInv;
             [ localize "STR_ISTR_Jerry_Refueled",false,"fast"] call life_fnc_notification_system;
         }, {
-            [true,"fuelEmpty",1] call life_fnc_handleInv;
+            if (INVENTORY_MODE isEqualTo 0) then {[true,"fuelEmpty",1] call life_fnc_handleInv};
             [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
         }] call life_fnc_econRequest;
     };
     CASH = CASH - _fuelCost;
-    [true,"fuelFull",1] call life_fnc_handleInv;
+    if (INVENTORY_MODE >= 1) then {
+        ["TON_fnc_invConvert", ["fuelEmpty", "fuelFull"], {}, {}] call life_fnc_econRequest;
+    } else {
+        [true,"fuelFull",1] call life_fnc_handleInv;
+    };
     [ localize "STR_ISTR_Jerry_Refueled",false,"fast"] call life_fnc_notification_system;
 } else {
     [ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system;

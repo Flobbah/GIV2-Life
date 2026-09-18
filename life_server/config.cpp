@@ -95,6 +95,7 @@ class CfgFunctions {
             class invLoad {};
             class invHarvest {};
             class invTrunk {};
+            class invConvert {};
             class trunkGet {};
             class trunkSet {};
             class trunkWeight {};

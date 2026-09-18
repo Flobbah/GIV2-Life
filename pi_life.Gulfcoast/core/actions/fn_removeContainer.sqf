@@ -37,5 +37,5 @@ if (_action) then {
         };
     } forEach _containers;
     _house setVariable ["containers",_containers,true];
-    [true,_box,1] call life_fnc_handleInv;
+    if (INVENTORY_MODE isEqualTo 0) then {[true,_box,1] call life_fnc_handleInv}; //Inventar-Umbau: ab Modus 1 bucht der Server
 };
