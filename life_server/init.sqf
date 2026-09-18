@@ -63,6 +63,7 @@ publicVariable "life_server_extDB_notLoaded";
 ["CALL deleteOldHouses",1] call DB_fnc_asyncCall;
 ["CALL deleteOldGangs",1] call DB_fnc_asyncCall;
 [] spawn TON_fnc_econInit; //Geld-Umbau Schritt 1: Kontostaende und Transaktionslog
+[] spawn TON_fnc_invInit; //Inventar-Umbau Paket 1: Kopie der virtuellen Inventare
 _timeStamp = diag_tickTime;
 diag_log "----------------------------------------------------------------------------------------------------";
 diag_log "---------------------------------- Starting Altis Life Server Init ---------------------------------";

@@ -13,6 +13,7 @@ class CfgServer {
     DebugMode = 0; //Enable many server/hc debugging logs. Default: 0 (1 = Enabled / 0 = Disabled)
     CallerCheckMode = 2; //Sicherheit: Absenderpruefung fuer Client-Anfragen an den Server. 0 = aus, 1 = nur protokollieren, 2 = protokollieren und blockieren. Log: [SECURITY]
     EconomyMode = 2; //Geld-Umbau (docs/ECONOMY_AUTHORITY.md): 0 = aus wie Altis Life 5.0, 1 = Schattenmodus (Server fuehrt Kontostaende mit, Transaktionslog, [ECONOMY]-Warnungen), 2 = Server entscheidet (Speicherungen des Clients aendern Geld nicht mehr)
+    InventoryMode = 1; //Inventar-Umbau (docs/INVENTORY_AUTHORITY.md): 0 = aus wie Altis Life 5.0, 1 = Schattenmodus (Server fuehrt die virtuellen Inventare mit, [INVENTORY]-Warnungen), 2 = Server entscheidet (noch nicht verfuegbar, nicht setzen)
     HeadlessSupport = 0; //Enable/Disable Headless client support. Default: 1 (1 = Enabled / 0 = Disabled)
     /*
     Enabled: When HeadlessSupport is set to 1 (enabled), the server will run without fault when no Headless Client is connected. However, it will support the Headless Client if you choose to connect one.

@@ -39,4 +39,8 @@ if (_math) then {
         } else {_return = false;};
     };
 };
+//Inventar-Umbau Paket 1: jede Aenderung geht auch an den Server (docs/INVENTORY_AUTHORITY.md)
+if (_return && {INVENTORY_MODE >= 1}) then {
+    [_item,([-_num,_num] select _math)] remoteExecCall ["TON_fnc_invTrack",RSERV];
+};
 _return;

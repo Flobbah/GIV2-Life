@@ -295,6 +295,10 @@ class Life_Client_Core {
         class revived {};
         class revivePlayer {};
     };
+    class Inventory {
+        file = "core\inventory";
+        class invReport {};
+    };
     class Economy {
         file = "core\economy";
         class moneyUpdate {};

@@ -98,6 +98,7 @@ if (_side in [west,independent]) then {[] call life_fnc_placeablesInit;};
 {
     missionNamespace setVariable [ITEM_VARNAME(configName _x),0];
 } forEach ("true" configClasses (missionConfigFile >> "VirtualItems"));
+if (INVENTORY_MODE >= 1) then {[] call life_fnc_invReport}; //Inventar-Umbau: geleert ohne handleInv, dem Server melden
 life_carryWeight = 0;
 life_gear = _gear;
 [] call life_fnc_loadGear;

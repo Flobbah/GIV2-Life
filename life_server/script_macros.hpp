@@ -27,6 +27,7 @@
 #define AUTH_SIDE(UID) ([UID, "side", sideUnknown] call TON_fnc_serverGet)
 //Geld-Umbau (docs/ECONOMY_AUTHORITY.md): 0 = aus, 1 = Schattenmodus, 2 = Server entscheidet (noch nicht gebaut)
 #define ECONOMY_MODE (getNumber (missionConfigFile >> "CfgServer" >> "EconomyMode"))
+#define INVENTORY_MODE (getNumber (missionConfigFile >> "CfgServer" >> "InventoryMode"))
 #define EXTDB "extDB3" callExtension
 #define EXTDB_SETTING(TYPE,SETTING) TYPE(missionConfigFile >> "CfgServer" >> SETTING)
 #define EXTDB_FAILED(MESSAGE) \

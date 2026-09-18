@@ -76,6 +76,15 @@ class CfgFunctions {
             class econIncome {};
             class econResync {};
         };
+        class Inventory {
+            file = "\life_server\Functions\Inventory";
+            class invInit {};
+            class invSync {};
+            class invTrack {};
+            class invReport {};
+            class invWarn {};
+            class invGet {};
+        };
         class Systems {
             file = "\life_server\Functions\Systems";
             class adminManageAuth {};

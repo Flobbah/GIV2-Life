@@ -104,3 +104,4 @@ _unit = _this select 0;
         };
     };
 } forEach (("true" configClasses (missionConfigFile >> "VirtualItems")) + ["life_cash"]);
+if (INVENTORY_MODE >= 1) then {[] call life_fnc_invReport}; //Inventar-Umbau: geleert ohne handleInv, dem Server melden

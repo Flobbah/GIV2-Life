@@ -18,6 +18,7 @@
 #define LIFE_HC_ACTIVE ((getNumber (missionConfigFile >> "CfgServer" >> "HeadlessSupport")) isEqualTo 1 && {life_HC_isActive isEqualTo true})
 //Geld-Umbau (docs/ECONOMY_AUTHORITY.md): ab 1 bucht der Server die umgestellten Geldfluesse, der Client fragt nur an
 #define ECONOMY_MODE (getNumber (missionConfigFile >> "CfgServer" >> "EconomyMode"))
+#define INVENTORY_MODE (getNumber (missionConfigFile >> "CfgServer" >> "InventoryMode"))
 //Sicherheitsphase 0.1b: Aktion zwischen Spielern. Solange CfgRelay >> enabled = 1 ist (config\Config_Relay.hpp), nimmt
 //die Funktion Remote-Aufrufe nur vom Server (TON_fnc_relay) oder vom eigenen Client an; lokale Aufrufe bleiben erlaubt
 #define RELAY_ONLY_REMOTE if (isRemoteExecuted && {!(remoteExecutedOwner in [2, clientOwner])} && {(getNumber (missionConfigFile >> "CfgRelay" >> "enabled")) isEqualTo 1}) exitWith {diag_log format ["[SECURITY] %1: direct remote call from owner %2 ignored, CfgRelay is active", (if (isNil "_fnc_scriptName") then {"?"} else {_fnc_scriptName}), remoteExecutedOwner]}

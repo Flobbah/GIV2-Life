@@ -209,3 +209,4 @@ class Life_Settings {
 #include "Config_Navigation.hpp"
 #include "Config_Relay.hpp"
 #include "Config_Economy.hpp"
+#include "Config_Inventory.hpp"
