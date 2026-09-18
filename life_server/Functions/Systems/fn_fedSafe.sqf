@@ -8,7 +8,7 @@
     only a mirror for the action menu and the dialog. Answers through life_fnc_econReply.
     Parameters:
         0: NUMBER - request id
-        1: STRING - "take", "store" or "close"
+        1: STRING - "take", "store", "close" or "defuse"
         2: NUMBER - gold bars
     Answer data: take/store [amount, new total], failure ["amount", total] or ["denied"]
 */
@@ -56,12 +56,27 @@ switch (_kind) do {
             };
         };
     };
+    case "defuse": {
+        switch (true) do {
+            case (!(_side isEqualTo west)): {"only police defuse a charge" call _deny};
+            case (!(["server", "fedCharge", false] call TON_fnc_serverGet)): {[false, ["nothing"]] call _answer};
+            default {
+                ["server", "fedCharge", false] call TON_fnc_serverSet;
+                fed_bank setVariable ["chargeplaced", false, true];
+                diag_log format ["[VAULT] %1 (%2) defused the blasting charge", name _unit, _uid];
+                [0, "STR_ISTR_Defuse_Success", true, []] remoteExecCall ["life_fnc_broadcast", west];
+                [true] call _answer;
+            };
+        };
+    };
     case "close": {
         switch (true) do {
             case (!(_side isEqualTo west)): {"only police close the vault" call _deny};
             default {
                 ["server", "fedOpen", false] call TON_fnc_serverSet;
+                ["server", "fedCharge", false] call TON_fnc_serverSet;
                 fed_bank setVariable ["safe_open", false, true];
+                fed_bank setVariable ["chargeplaced", false, true];
                 [true] call _answer;
             };
         };

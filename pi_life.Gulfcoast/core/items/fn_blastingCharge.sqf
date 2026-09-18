@@ -4,6 +4,8 @@
     Author: Bryan "Tonic" Boardwine
     Description:
     Blasting charge is used for the federal reserve vault and nothing  more.. Yet.
+    Sicherheitsphase 0.2 Welle 2: Ob eine Ladung liegt, entscheidet der Server. Die Pruefungen hier
+    sind nur die schnelle Rueckmeldung; abgelehnt gibt es die Ladung zurueck ins Inventar.
 */
 private ["_vault","_handle"];
 _vault = param [0,ObjNull,[ObjNull]];
@@ -20,8 +22,15 @@ private _tanoaArray = [11074.2,11501.5,0.00137329];
 private _pos = [[["Gulfcoast", _altisArray], ["Tanoa", _tanoaArray]]] call TON_fnc_terrainSort;
 if ((nearestObject [_pos,_vaultHouse]) getVariable ["locked",true]) exitWith {[ localize "STR_ISTR_Blast_Exploit",true,"fast"] call life_fnc_notification_system};
 if (!([false,"blastingcharge",1] call life_fnc_handleInv)) exitWith {}; //Error?
-_vault setVariable ["chargeplaced",true,true];
-["life_fnc_broadcast",[0,"STR_ISTR_Blast_Placed",true,[]],west] call life_fnc_relaySend;
-[ localize "STR_ISTR_Blast_KeepOff",false,"fast"] call life_fnc_notification_system;
-["life_fnc_demoChargeTimer",[],[west,player]] call life_fnc_relaySend;
-[] remoteExec ["TON_fnc_handleBlastingCharge",2];
+["TON_fnc_handleBlastingCharge", [], {
+    [ localize "STR_ISTR_Blast_KeepOff",false,"fast"] call life_fnc_notification_system;
+}, {
+    params ["_data"];
+    [true,"blastingcharge",1] call life_fnc_handleInv; //Der Server hat abgelehnt, Ladung zurueck
+    switch ((_data param [0, ""])) do {
+        case "open": {[ localize "STR_ISTR_Blast_AlreadyOpen",true,"fast"] call life_fnc_notification_system};
+        case "placed": {[ localize "STR_ISTR_Blast_AlreadyPlaced",true,"fast"] call life_fnc_notification_system};
+        case "cops": {[ format [localize "STR_Civ_NotEnoughCops",(LIFE_SETTINGS(getNumber,"minimum_cops"))],true,"fast"] call life_fnc_notification_system};
+        default {[ localize "STR_ISTR_Blast_Exploit",true,"fast"] call life_fnc_notification_system};
+    };
+}] call life_fnc_econRequest;

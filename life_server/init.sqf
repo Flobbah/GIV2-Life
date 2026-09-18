@@ -100,6 +100,7 @@ localNamespace setVariable ["life_radio_indep", radioChannelCreate [[0, 0.95, 1,
 //Sicherheitsphase 0.2 Welle 2: Bestand und Zustand fuehrt der Server (TON_fnc_fedSafe), am Objekt steht nur die Anzeige
 ["server", "fedSafe", count playableUnits] call TON_fnc_serverSet;
 ["server", "fedOpen", false] call TON_fnc_serverSet;
+["server", "fedCharge", false] call TON_fnc_serverSet;
 fed_bank setVariable ["safe",count playableUnits,true];
 fed_bank setVariable ["safe_open",false,true];
 [] spawn TON_fnc_federalUpdate;

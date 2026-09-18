@@ -1,29 +1,53 @@
 #include "\life_server\script_macros.hpp"
 /*
     Author: GetSomePanda / Panda
-    SteamID: 76561198145366418
     File Name: fn_handleBlastingCharge.sqf
-    Information: Nothing really special, just handles the fed explosion over the server so if the client who place the charge logs out it still blows up.
+    Information: Handles the federal reserve explosion on the server, so it still goes off when the
+    player who placed the charge logs out.
+    Sicherheitsphase 0.2 Welle 2 (Audit #7): Frueher setzte der Client die oeffentliche Objektvariable
+    "chargeplaced" selbst und der Server glaubte sie - damit liess sich der Tresor ohne Ladung oeffnen.
+    Der Server entscheidet jetzt, ob eine Ladung liegt (Serverspeicher "fedCharge"), und meldet sich
+    ueber life_fnc_econReply zurueck; am Objekt steht nur noch die Anzeige fuer den Countdown.
+    Parameters:
+        0: NUMBER - request id
 */
-private ["_bomb","_time"];
-//Sicherheitsphase 0.1: nur wenn eine Ladung liegt und der Absender am Tresor steht
-private _caller = CALLER_OWNER;
-private _deny = "";
-if !(_caller isEqualTo 2) then {
-    private _info = [_caller] call TON_fnc_callerInfo;
-    switch (true) do {
-        case (_info isEqualTo []): {_deny = "unknown sender";};
-        case (isNil "fed_bank"): {_deny = "no federal reserve vault on this map";};
-        case (((_info select 1) distance fed_bank) > 30): {_deny = "sender too far from the vault";};
-        case (!(fed_bank getVariable ["chargeplaced", false])): {_deny = "no charge placed";};
+private _owner = CALLER_OWNER;
+params [["_id", -1, [0]]];
+private _info = [_owner] call TON_fnc_callerInfo;
+if (_info isEqualTo []) exitWith {};
+_info params ["_uid", "_unit", "_side", "_name"];
+private _answer = {
+    params ["_ok", ["_data", []]];
+    [_id, _ok, _data] remoteExecCall ["life_fnc_econReply", _owner];
+};
+private _deny = {
+    [_owner, "TON_fnc_handleBlastingCharge", _this] call TON_fnc_denyCaller;
+    [false, ["denied"]] call _answer;
+};
+private _cops = {(AUTH_SIDE(getPlayerUID _x)) isEqualTo west} count allPlayers;
+switch (true) do {
+    case (isNil "fed_bank" || {isNull fed_bank}): {[false, ["denied"]] call _answer};
+    case (!(_side isEqualTo civilian)): {"only civilians place a charge" call _deny};
+    case ((_unit distance fed_bank) > 30): {"sender too far from the vault" call _deny};
+    case (["server", "fedOpen", false] call TON_fnc_serverGet): {[false, ["open"]] call _answer};
+    case (["server", "fedCharge", false] call TON_fnc_serverGet): {[false, ["placed"]] call _answer};
+    case (_cops < (LIFE_SETTINGS(getNumber,"minimum_cops"))): {[false, ["cops"]] call _answer};
+    default {
+        ["server", "fedCharge", true] call TON_fnc_serverSet;
+        fed_bank setVariable ["chargeplaced", true, true];
+        diag_log format ["[VAULT] %1 (%2) placed a blasting charge, %3 police online", _name, _uid, _cops];
+        [true] call _answer;
+        [0, "STR_ISTR_Blast_Placed", true, []] remoteExecCall ["life_fnc_broadcast", west];
+        [] remoteExec ["life_fnc_demoChargeTimer", west];
+        [] remoteExec ["life_fnc_demoChargeTimer", _owner];
+        [] spawn {
+            uiSleep (5 * 60);
+            if (!(["server", "fedCharge", false] call TON_fnc_serverGet)) exitWith {};
+            "Bo_GBU12_LGB_MI10" createVehicle [getPosATL fed_bank select 0, getPosATL fed_bank select 1, (getPosATL fed_bank select 2) + 0.5];
+            ["server", "fedCharge", false] call TON_fnc_serverSet;
+            ["server", "fedOpen", true] call TON_fnc_serverSet;
+            fed_bank setVariable ["chargeplaced", false, true];
+            fed_bank setVariable ["safe_open", true, true];
+        };
     };
 };
-if (!(_deny isEqualTo "") && {[_caller, "TON_fnc_handleBlastingCharge", _deny] call TON_fnc_denyCaller}) exitWith {};
-_time = time + (5 * 60);
-waitUntil{(round(_time - time) < 1)};
-sleep 0.9;
-if (!(fed_bank getVariable["chargeplaced",false])) exitWith {};
-_bomb = "Bo_GBU12_LGB_MI10" createVehicle [getPosATL fed_bank select 0, getPosATL fed_bank select 1, (getPosATL fed_bank select 2)+0.5];
-fed_bank setVariable ["chargeplaced",false,true];
-["server", "fedOpen", true] call TON_fnc_serverSet; //Sicherheitsphase 0.2 Welle 2
-fed_bank setVariable ["safe_open",true,true];
