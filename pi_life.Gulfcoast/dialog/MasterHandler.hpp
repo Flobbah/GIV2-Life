@@ -19,6 +19,7 @@
 #include "new_HUD.hpp"
 #include "admin_menu.hpp"
 #include "admin_manage.hpp"
+#include "admin_money.hpp"
 #include "cell_phone.hpp"
 #include "wanted_list.hpp"
 #include "ticket.hpp"

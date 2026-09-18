@@ -186,6 +186,13 @@ class life_admin_menu {
             x = ADM_COL(1);
             y = ADM_ROW(4);
         };
+        class BtnMoney: Life_RscAdminButton {
+            idc = 2921;
+            text = "$STR_Admin_Money";
+            onButtonClick = "createDialog ""Life_Admin_Money"";";
+            x = ADM_COL(2);
+            y = ADM_ROW(4);
+        };
     };
 };
 #undef ADM_COL

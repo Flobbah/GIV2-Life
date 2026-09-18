@@ -14466,6 +14466,26 @@
             <English>%1 vehicles</English>
             <German>%1 Fahrzeuge</German>
         </Key>
+        <Key ID="STR_Admin_Money">
+            <English>Transactions</English>
+            <German>Transaktionen</German>
+        </Key>
+        <Key ID="STR_Admin_MoneyFilter">
+            <English>Filter</English>
+            <German>Filtern</German>
+        </Key>
+        <Key ID="STR_Admin_MoneyLoading">
+            <English>Loading ...</English>
+            <German>Wird geladen ...</German>
+        </Key>
+        <Key ID="STR_Admin_MoneyRows">
+            <English>%1 entries</English>
+            <German>%1 Eintraege</German>
+        </Key>
+        <Key ID="STR_Admin_MoneyDenied">
+            <English>Not allowed or no log table</English>
+            <German>Nicht erlaubt oder keine Log-Tabelle</German>
+        </Key>
         <Key ID="STR_Admin_Manage">
             <English>Manage Player</English>
             <German>Spieler verwalten</German>

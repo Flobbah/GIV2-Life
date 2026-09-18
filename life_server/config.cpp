@@ -113,6 +113,7 @@ class CfgFunctions {
             class clientLog {};
             class adminManageQuery {};
             class adminManageAction {};
+            class adminMoneyQuery {};
             class skillsLoad {};
             class skillsSave {};
             class dutyInfo {};
