@@ -42,6 +42,7 @@ _containerss = [];
     _container setPosATL [(_posX - _fixX), (_posY - _fixY), (_posZ - _fixZ)];
     _container setVectorDirAndUp _direction;
     _container setVariable ["Trunk",_trunk,true];
+    if (INVENTORY_MODE >= 1) then {[_container, _trunk param [0, []]] call TON_fnc_trunkSet}; //Inventar-Umbau Paket 4
     _container setVariable ["container_owner",[_x select 0],true];
     _container setVariable ["container_id",_x select 6,true];
     [_container, "container_owner", [_x select 0]] call TON_fnc_serverSet; //Sicherheitsphase 0.2

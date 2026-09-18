@@ -38,6 +38,16 @@ if (_ctrl == "money") then {
     life_trunk_vehicle setVariable ["Trunk",[_data,(_old select 1) - _weight],true];
     [life_trunk_vehicle] call life_fnc_vehInventory;
 } else {
+    //Inventar-Umbau Paket 4: der Server verschiebt zwischen Kofferraum und Spieler
+    if (INVENTORY_MODE >= 1) exitWith {
+        ["TON_fnc_invTrunk", ["take", life_trunk_vehicle, _ctrl, _num, life_maxWeight - life_carryWeight], {
+        (_this select 0) params [["_item",""],["_num",0]];
+        [ format [localize "STR_NOTF_Trunk_Taken",_num,(localize (M_CONFIG(getText,"VirtualItems",_item,"displayName")))],false,"fast"] call life_fnc_notification_system;
+        [life_trunk_vehicle] call life_fnc_vehInventory;
+    }, {
+        [ localize "STR_NOTF_InvFull",true,"fast"] call life_fnc_notification_system;
+    }] call life_fnc_econRequest;
+    };
     if ([true,_ctrl,_num] call life_fnc_handleInv) then {
         if (_num == _value) then {
             _data deleteAt _index;

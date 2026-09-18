@@ -158,6 +158,7 @@ _vehicle disableTIEquipment true; //No Thermals.. They're cheap but addictive.
 [_vehicle] call life_fnc_clearVehicleAmmo;
 if (LIFE_SETTINGS(getNumber,"save_vehicle_virtualItems") isEqualTo 1) then {
     _vehicle setVariable ["Trunk",_trunk,true];
+    if (INVENTORY_MODE >= 1) then {[_vehicle, _trunk param [0, []]] call TON_fnc_trunkSet}; //Inventar-Umbau Paket 4
     
     if (_wasIllegal) then {
         private _refPoint = switch (true) do {
@@ -187,6 +188,7 @@ if (LIFE_SETTINGS(getNumber,"save_vehicle_virtualItems") isEqualTo 1) then {
     };
 } else {
     _vehicle setVariable ["Trunk",[[],0],true];
+    if (INVENTORY_MODE >= 1) then {[_vehicle, []] call TON_fnc_trunkSet}; //Inventar-Umbau Paket 4
 };
 if (LIFE_SETTINGS(getNumber,"save_vehicle_fuel") isEqualTo 1) then {
     _vehicle setFuel (_vInfo select 11);

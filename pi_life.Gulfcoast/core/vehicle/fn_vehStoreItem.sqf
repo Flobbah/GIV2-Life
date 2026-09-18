@@ -34,6 +34,20 @@ if (_ctrl == "money") then {
     life_trunk_vehicle setVariable ["Trunk",[_inv,(_veh_data select 1) + _itemWeight],true];
     [life_trunk_vehicle] call life_fnc_vehInventory;
 } else {
+    //Inventar-Umbau Paket 4: der Server verschiebt zwischen Spieler und Kofferraum
+    if (INVENTORY_MODE >= 1) exitWith {
+        ["TON_fnc_invTrunk", ["store", life_trunk_vehicle, _ctrl, _num], {
+        (_this select 0) params [["_item",""],["_num",0]];
+        [ format [localize "STR_NOTF_Trunk_Stored",_num,(localize (M_CONFIG(getText,"VirtualItems",_item,"displayName")))],false,"fast"] call life_fnc_notification_system;
+        [life_trunk_vehicle] call life_fnc_vehInventory;
+    }, {
+        if ((((_this select 0) param [0,""]) isEqualTo "space")) then {
+            [ localize "STR_NOTF_VehicleFullOrInsufCap",true,"fast"] call life_fnc_notification_system;
+        } else {
+            [ localize "STR_CouldNotRemoveItemsToPutInVeh",true,"fast"] call life_fnc_notification_system;
+        };
+    }] call life_fnc_econRequest;
+    };
     if (((_totalWeight select 1) + _itemWeight) > (_totalWeight select 0)) exitWith {[ localize "STR_NOTF_VehicleFullOrInsufCap",true,"fast"] call life_fnc_notification_system;};
     if (!([false,_ctrl,_num] call life_fnc_handleInv)) exitWith {[ localize "STR_CouldNotRemoveItemsToPutInVeh",true,"fast"] call life_fnc_notification_system;};
     _index = [_ctrl,_inv] call TON_fnc_index;

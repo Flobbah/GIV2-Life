@@ -54,6 +54,20 @@ if(_ctrl == "money") then
 }
  else
 {
+ //Inventar-Umbau Paket 4: der Server nimmt so viel, wie Bestand und Platz hergeben
+ if (INVENTORY_MODE >= 1) exitWith {
+        ["TON_fnc_invTrunk", ["store", life_trunk_vehicle, _ctrl, -1], {
+        (_this select 0) params [["_item",""],["_num",0]];
+        [ format [localize "STR_NOTF_Trunk_Stored",_num,(localize (M_CONFIG(getText,"VirtualItems",_item,"displayName")))],false,"fast"] call life_fnc_notification_system;
+        [life_trunk_vehicle] call life_fnc_vehInventory;
+    }, {
+        if ((((_this select 0) param [0,""]) isEqualTo "space")) then {
+            [ localize "STR_NOTF_VehicleFullOrInsufCap",true,"fast"] call life_fnc_notification_system;
+        } else {
+            [ localize "STR_CouldNotRemoveItemsToPutInVeh",true,"fast"] call life_fnc_notification_system;
+        };
+    }] call life_fnc_econRequest;
+ };
  if(((_totalWeight select 1) + _itemWeight) > (_totalWeight select 0)) exitWith {["Das Fahrzeug ist voll.",true,"fast","orange","Error"]spawn Life_fnc_msg;};
  if(!([false,_ctrl,_num] call Life_fnc_handleInv)) exitWith {["Konnte das Item nicht umlagern.",true,"fast","orange","Error"]spawn Life_fnc_msg;};
  _index = [_ctrl,_inv] call TON_fnc_index;

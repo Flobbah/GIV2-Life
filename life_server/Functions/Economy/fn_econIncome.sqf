@@ -118,7 +118,7 @@ switch (_kind) do {
     case "seize": {
         private _mode = [_b] param [0, "", [""]];
         if (!(_side isEqualTo west) || {!(_a isEqualType objNull)} || {isNull _a} || {(_unit distance _a) > 20} || {!(_mode in ["vehicle", "container", "house"])}) exitWith {"seizure not allowed" call _deny};
-        private _trunk = _a getVariable ["Trunk", [[], 0]];
+        private _trunk = if (INVENTORY_MODE >= 1) then {[_a] call TON_fnc_trunkGet} else {_a getVariable ["Trunk", [[], 0]]};
         _trunk params [["_items", [], [[]]], ["_weight", 0, [0]]];
         private _value = 0;
         private _keep = [];
@@ -143,10 +143,14 @@ switch (_kind) do {
         } forEach _items;
         if (_value <= 0) exitWith {[false, ["empty"]] call _answer};
         private _payout = [_value, round (_value / 2)] select (_mode isEqualTo "house");
-        if (_mode isEqualTo "house") then {
-            _a setVariable ["Trunk", [_keep, _weight max 0], true];
+        if (INVENTORY_MODE >= 1) then {
+            [_a, [_keep, []] select (!(_mode isEqualTo "house"))] call TON_fnc_trunkSet;
         } else {
-            _a setVariable ["Trunk", [[], 0], true];
+            if (_mode isEqualTo "house") then {
+                _a setVariable ["Trunk", [_keep, _weight max 0], true];
+            } else {
+                _a setVariable ["Trunk", [[], 0], true];
+            };
         };
         if (_mode in ["container", "house"]) then {[_a] spawn TON_fnc_updateHouseTrunk};
         private _key = switch (_mode) do {case "vehicle": {"STR_NOTF_VehContraband"}; case "container": {"STR_NOTF_ContainerContraband"}; default {"STR_House_Raid_Successful"}};

@@ -4116,6 +4116,14 @@
             <Polish>Podniosłeś %1 %2</Polish>
 			<Chinesesimp>你采集了 %1 个 %2</Chinesesimp>
         </Key>
+        <Key ID="STR_NOTF_Trunk_Stored">
+            <English>You stored %1 %2</English>
+            <German>Du hast %1 %2 eingelagert.</German>
+        </Key>
+        <Key ID="STR_NOTF_Trunk_Taken">
+            <English>You took %1 %2 out</English>
+            <German>Du hast %1 %2 entnommen.</German>
+        </Key>
         <Key ID="STR_NOTF_Collected">
             <English>You have collected some %1</English>
             <Czech>Jste nasbírali řadu%1</Czech>

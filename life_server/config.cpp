@@ -94,6 +94,11 @@ class CfgFunctions {
             class invDropped {};
             class invLoad {};
             class invHarvest {};
+            class invTrunk {};
+            class trunkGet {};
+            class trunkSet {};
+            class trunkWeight {};
+            class trunkSpace {};
         };
         class Systems {
             file = "\life_server\Functions\Systems";
