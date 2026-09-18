@@ -31,33 +31,11 @@ private _deny = {
 };
 if (!(_kind in ["gather", "mine"])) exitWith {"unknown kind" call _deny};
 if (!isNull objectParent _unit) exitWith {"sender is in a vehicle" call _deny};
-private _cfg = missionConfigFile >> "CfgGather" >> (["Resources", "Minerals"] select (_kind isEqualTo "mine"));
-private _entry = configNull;
-{
-    private _class = _x;
-    private _size = getNumber (_class >> "zoneSize");
-    if (((getArray (_class >> "zones")) findIf {(_unit distance2D (getMarkerPos _x)) < _size}) > -1) exitWith {_entry = _class};
-} forEach ("true" configClasses _cfg);
-if (isNull _entry) exitWith {"no gathering zone at the sender's position" call _deny};
-private _required = getText (_entry >> "item");
+//Zone, Rohstoff und Menge kommen aus der gemeinsamen Suche (auch vom Bergbaugeraet genutzt)
+([_unit, [_kind]] call TON_fnc_invZone) params [["_resource", ""], ["_max", 0], ["_required", ""]];
+if (_resource isEqualTo "") exitWith {"no gathering zone at the sender's position" call _deny};
 if (!(_required isEqualTo "") && {([_uid, _required] call TON_fnc_invGet) < 1}) exitWith {[false, ["tool", _required]] call _answer};
-private _resource = "";
-if (_kind isEqualTo "mine") then {
-    private _mined = getArray (_entry >> "mined");
-    private _percent = (floor random 100) + 1;
-    {
-        if (_x isEqualType "") exitWith {_resource = _x};
-        if (_percent >= (_x param [1, 0]) && {_percent <= (_x param [2, 0])}) exitWith {_resource = _x param [0, ""]};
-    } forEach _mined;
-    if (_resource isEqualTo "" && {!(_mined isEqualTo [])}) then {
-        private _first = _mined select 0;
-        _resource = if (_first isEqualType "") then {_first} else {_first param [0, ""]};
-    };
-} else {
-    _resource = configName _entry;
-};
-if (_resource isEqualTo "" || {!isClass (missionConfigFile >> "VirtualItems" >> _resource)}) exitWith {[false, ["denied"]] call _answer};
-private _amount = (round (random (getNumber (_entry >> "amount")))) + 1;
+private _amount = (round (random _max)) + 1;
 private _cap = (getNumber (missionConfigFile >> "CfgSkills" >> "gather" >> "bonusPerLevel")) * (count (getArray (missionConfigFile >> "CfgSkills" >> "xpLevels")));
 _amount = round (_amount * (1 + ((0 max (_bonus min _cap)) / 100)));
 private _weight = getNumber (missionConfigFile >> "VirtualItems" >> _resource >> "weight");

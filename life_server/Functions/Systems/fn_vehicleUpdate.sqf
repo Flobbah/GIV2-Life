@@ -32,7 +32,8 @@ switch (_mode) do {
     };
     case 2: {
         _resourceItems = LIFE_SETTINGS(getArray,"save_vehicle_items");
-        _trunk = _vehicle getVariable ["Trunk",[[],0]];
+        //Inventar-Umbau Paket 4: Stand des Servers statt der Objektvariable
+        _trunk = if (INVENTORY_MODE >= 1) then {[_vehicle] call TON_fnc_trunkGet} else {_vehicle getVariable ["Trunk",[[],0]]};
         _itemList = _trunk select 0;
         _totalweight = 0;
         _items = [];

@@ -129,9 +129,17 @@ for "_i" from 0 to 1 step 0 do {
         _vehicle setVariable ["mining",nil,true];
     };
     _itemName = M_CONFIG(getText,"VirtualItems",_resource,"displayName");
-    titleText[format [localize "STR_NOTF_DeviceMined",_sum,(localize _itemName)],"PLAIN"];
-    _itemWeight = ([_resource] call life_fnc_itemWeight) * _sum;
-    _vehicle setVariable ["Trunk",[_inv,_space + _itemWeight],true];
+    //Inventar-Umbau Paket 4: der Server prueft die Zone und bucht in seinen Kofferraum
+    if (INVENTORY_MODE >= 1) then {
+        ["TON_fnc_trunkMine", [_vehicle, _sum], {
+            (_this select 0) params [["_res",""],["_num",0]];
+            titleText[format [localize "STR_NOTF_DeviceMined",_num,(localize (M_CONFIG(getText,"VirtualItems",_res,"displayName")))],"PLAIN"];
+        }, {}] call life_fnc_econRequest;
+    } else {
+        titleText[format [localize "STR_NOTF_DeviceMined",_sum,(localize _itemName)],"PLAIN"];
+        _itemWeight = ([_resource] call life_fnc_itemWeight) * _sum;
+        _vehicle setVariable ["Trunk",[_inv,_space + _itemWeight],true];
+    };
     _weight = [_vehicle] call life_fnc_vehicleWeight;
     _sum = [_resource,_random,(_weight select 1),(_weight select 0)] call life_fnc_calWeightDiff; //Get a sum base of the remaining weight..
     if (_sum < 1) exitWith {

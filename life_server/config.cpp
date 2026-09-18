@@ -100,6 +100,8 @@ class CfgFunctions {
             class trunkSet {};
             class trunkWeight {};
             class trunkSpace {};
+            class trunkMine {};
+            class invZone {};
         };
         class Systems {
             file = "\life_server\Functions\Systems";

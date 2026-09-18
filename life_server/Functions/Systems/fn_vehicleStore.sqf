@@ -100,7 +100,8 @@ if !(_uid isEqualTo getPlayerUID _unit) exitWith {
     (owner _unit) publicVariableClient "life_garage_store";
 };
 // sort out whitelisted items!
-_trunk = _vehicle getVariable ["Trunk", [[], 0]];
+//Inventar-Umbau Paket 4: gespeichert wird der Stand des Servers, nicht die faelschbare Objektvariable
+_trunk = if (INVENTORY_MODE >= 1) then {[_vehicle] call TON_fnc_trunkGet} else {_vehicle getVariable ["Trunk", [[], 0]]};
 _itemList = _trunk select 0;
 _totalweight = 0;
 _items = [];
