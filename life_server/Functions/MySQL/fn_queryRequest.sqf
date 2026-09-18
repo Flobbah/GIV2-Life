@@ -81,6 +81,7 @@ _queryResult set[6,_old];
 _new = [(_queryResult select 8)] call DB_fnc_mresToArray;
 if (_new isEqualType "") then {_new = call compile format ["%1", _new];};
 _queryResult set[8,_new];
+[_uid, _new] call TON_fnc_invLoad; //Inventar-Umbau: gespeicherte Gegenstaende in die Serverkopie
 //Parse data for specific side.
 switch (_side) do {
     case west: {

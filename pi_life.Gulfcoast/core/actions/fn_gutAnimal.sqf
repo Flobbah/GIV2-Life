@@ -50,6 +50,15 @@ life_action_inUse = false;
 if (isNull _animalCorpse) exitWith {life_action_inUse = false;};
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
 if !(isNull objectParent player) exitWith {titleText[localize "STR_NOTF_ActionInVehicle","PLAIN"];};
+//Inventar-Umbau Paket 3: der Server prueft den Kadaver, bucht das Fleisch und loescht ihn
+if (INVENTORY_MODE >= 1) exitWith {
+    ["TON_fnc_invHarvest", [_animalCorpse], {
+        (_this select 1) params ["_displayName"];
+        titleText[format [(localize "STR_NOTF_Guttingfinish"),_displayName],"PLAIN"];
+    }, {
+        titleText[(localize "STR_NOTF_InvFull"),"PLAIN"];
+    }, [_displayName]] call life_fnc_econRequest;
+};
 if ([true,_item,1] call life_fnc_handleInv) then {
     deleteVehicle _animalCorpse;
     titleText[format [(localize "STR_NOTF_Guttingfinish"),_displayName],"PLAIN"];
