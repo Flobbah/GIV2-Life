@@ -87,15 +87,26 @@ if (_hasLicense) then {
         if (player distance _vendor > 10) exitWith {};
     };
     if (player distance _vendor > 10) exitWith {[ localize "STR_Process_Stay",true,"fast"] call life_fnc_notification_system; "progressBar" cutText ["","PLAIN"]; life_is_processing = false; life_action_inUse = false;};
-    {
-        [false,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
-    } count _oldItem;
-    {
-        [true,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
-    } count _newItem;
-    ["process", _minimumConversions * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP; //XP je Stueck
     "progressBar" cutText ["","PLAIN"];
-    if (_minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
+    //Inventar-Umbau Paket 3: der Server prueft die Materialien und bucht beide Seiten
+    if (INVENTORY_MODE >= 1) then {
+        ["TON_fnc_invProcess", [_type, _minimumConversions], {
+            (_this select 0) params [["_conv",0],["_complete",true]];
+            ["process", _conv * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP;
+            if (_complete) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system};
+        }, {
+            [ localize "STR_NOTF_NotEnoughItemProcess",true,"fast"] call life_fnc_notification_system;
+        }] call life_fnc_econRequest;
+    } else {
+        {
+            [false,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
+        } count _oldItem;
+        {
+            [true,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
+        } count _newItem;
+        ["process", _minimumConversions * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP; //XP je Stueck
+        if (_minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
+    };
     life_is_processing = false; life_action_inUse = false;
 } else {
     if (CASH < _cost) exitWith {[ format [localize "STR_Process_License",[_cost] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system; "progressBar" cutText ["","PLAIN"]; life_is_processing = false; life_action_inUse = false;};
@@ -115,7 +126,17 @@ if (_hasLicense) then {
         life_is_processing = false;
         life_action_inUse = false;
         ["TON_fnc_econFee", ["process", _type], {
-            (_this select 1) params ["_oldItem", "_newItem", "_conversions", "_complete"];
+            (_this select 1) params ["_oldItem", "_newItem", "_conversions", "_complete", "_type"];
+            //Inventar-Umbau Paket 3: ab Modus 1 bucht der Server die Materialien
+            if (INVENTORY_MODE >= 1) exitWith {
+                ["TON_fnc_invProcess", [_type, _conversions], {
+                    (_this select 0) params [["_conv",0],["_complete",true]];
+                    ["process", _conv * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP;
+                    if (_complete) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system};
+                }, {
+                    [ localize "STR_NOTF_NotEnoughItemProcess",true,"fast"] call life_fnc_notification_system;
+                }] call life_fnc_econRequest;
+            };
             private _removed = true;
             {
                 if !([false,(_x select 0),((_x select 1)*_conversions)] call life_fnc_handleInv) exitWith {_removed = false;};
@@ -128,17 +149,27 @@ if (_hasLicense) then {
             if (_complete) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
         }, {
             [ format [localize "STR_Process_License",[(_this select 0) param [1, 0]] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;
-        }, [_oldItem, _newItem, _minimumConversions, _minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)]] call life_fnc_econRequest;
+        }, [_oldItem, _newItem, _minimumConversions, _minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum), _type]] call life_fnc_econRequest;
     };
-    {
-        [false,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
-    } count _oldItem;
-    {
-        [true,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
-    } count _newItem;
-    ["process", _minimumConversions * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP; //XP je Stueck
     "progressBar" cutText ["","PLAIN"];
-    if (_minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
+    if (INVENTORY_MODE >= 1) then {
+        ["TON_fnc_invProcess", [_type, _minimumConversions], {
+            (_this select 0) params [["_conv",0],["_complete",true]];
+            ["process", _conv * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP;
+            if (_complete) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system};
+        }, {
+            [ localize "STR_NOTF_NotEnoughItemProcess",true,"fast"] call life_fnc_notification_system;
+        }] call life_fnc_econRequest;
+    } else {
+        {
+            [false,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
+        } count _oldItem;
+        {
+            [true,(_x select 0),((_x select 1)*(_minimumConversions))] call life_fnc_handleInv;
+        } count _newItem;
+        ["process", _minimumConversions * (getNumber (missionConfigFile >> "CfgSkills" >> "process" >> "xpPerItem"))] call life_fnc_skillAddXP; //XP je Stueck
+        if (_minimumConversions isEqualTo (_totalConversions call BIS_fnc_lowestNum)) then {[ localize "STR_NOTF_ItemProcess",false,"fast"] call life_fnc_notification_system;} else {[ localize "STR_Process_Partial",true,"fast"] call life_fnc_notification_system;};
+    };
     CASH = CASH - _cost;
     [0] call SOCK_fnc_updatePartial;
     life_is_processing = false;
