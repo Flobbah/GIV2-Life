@@ -85,10 +85,23 @@ for "_i" from 0 to 4 do {
     };
     sleep 0.5;
 };
-if (([true, _mined, _diff] call life_fnc_handleInv)) then {
-    ["gather"] call life_fnc_skillAddXP;
-    _itemName = M_CONFIG(getText, "VirtualItems", _mined, "displayName");
-    titleText[format [localize "STR_NOTF_Mine_Success", (localize _itemName), _diff], "PLAIN"];
+//Inventar-Umbau Paket 3: Ort, Werkzeug, Fundstueck und Menge entscheidet der Server
+if (INVENTORY_MODE >= 1) then {
+    ["TON_fnc_invGather", ["mine", life_maxWeight - life_carryWeight, ["gather"] call life_fnc_skillBonus], {
+        (_this select 0) params [["_res",""],["_num",0]];
+        ["gather"] call life_fnc_skillAddXP;
+        titleText[format [localize "STR_NOTF_Mine_Success", (localize (M_CONFIG(getText,"VirtualItems",_res,"displayName"))), _num], "PLAIN"];
+    }, {
+        if ((((_this select 0) param [0,""]) isEqualTo "full")) then {
+            [ localize "STR_NOTF_InvFull",true,"fast"] call life_fnc_notification_system;
+        };
+    }] call life_fnc_econRequest;
+} else {
+    if (([true, _mined, _diff] call life_fnc_handleInv)) then {
+        ["gather"] call life_fnc_skillAddXP;
+        _itemName = M_CONFIG(getText, "VirtualItems", _mined, "displayName");
+        titleText[format [localize "STR_NOTF_Mine_Success", (localize _itemName), _diff], "PLAIN"];
+    };
 };
 sleep 2.5;
 life_action_inUse = false;

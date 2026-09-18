@@ -84,6 +84,9 @@ class CfgFunctions {
             class invReport {};
             class invWarn {};
             class invGet {};
+            class invChange {};
+            class invPush {};
+            class invGather {};
         };
         class Systems {
             file = "\life_server\Functions\Systems";

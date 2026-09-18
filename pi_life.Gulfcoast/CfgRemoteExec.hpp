@@ -30,6 +30,7 @@ class CfgRemoteExec {
         F(life_fnc_dutyReceive,CLIENT)
         F(life_fnc_moneyUpdate,CLIENT)
         F(life_fnc_invReport,CLIENT)
+        F(life_fnc_invUpdate,CLIENT)
         F(life_fnc_econResult,CLIENT)
         F(life_fnc_paycheckReceive,CLIENT)
         F(life_fnc_bailPaid,CLIENT)
@@ -145,6 +146,7 @@ class CfgRemoteExec {
         F(TON_fnc_fedSafe,SERVER)
         F(TON_fnc_invTrack,SERVER)
         F(TON_fnc_invReport,SERVER)
+        F(TON_fnc_invGather,SERVER)
         F(BIS_fnc_debugConsoleExec,SERVER) //Debug-Konsole im MP: laeuft immer ueber den Server, der prueft selbst auf eingeloggten Admin (#login)
         /* HeadlessClient only functions */
         F(HC_fnc_addContainer,HC)
