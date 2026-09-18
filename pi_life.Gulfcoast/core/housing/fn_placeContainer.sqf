@@ -50,7 +50,7 @@ if (!isNull _house) then {
 };
 if (_isPlaced) exitWith {};
 deleteVehicle _container;
-[true,_type,1] call life_fnc_handleInv;
+if (INVENTORY_MODE isEqualTo 0) then {[true,_type,1] call life_fnc_handleInv}; //Inventar-Umbau: ab Modus 1 wurde nichts abgebucht
 if (_message isEqualTo 0 || _message isEqualTo 1) then {
     [ localize "STR_House_Container_House_Near",true,"fast"] call life_fnc_notification_system;
 };

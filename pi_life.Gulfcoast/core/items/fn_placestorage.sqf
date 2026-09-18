@@ -17,9 +17,9 @@ _container setPosATL [getPosATL _container select 0, getPosATL _container select
 _container allowDamage false;
 _container enableRopeAttach false;
 if ((typeOf _container) == "B_supplyCrate_F") then {
-    [false,"storagebig",1] call life_fnc_handleInv;
+    if (INVENTORY_MODE isEqualTo 0) then {[false,"storagebig",1] call life_fnc_handleInv}; //Inventar-Umbau: ab Modus 1 bucht TON_fnc_addContainer
 } else {
-    [false,"storagesmall",1] call life_fnc_handleInv;
+    if (INVENTORY_MODE isEqualTo 0) then {[false,"storagesmall",1] call life_fnc_handleInv}; //Inventar-Umbau: ab Modus 1 bucht TON_fnc_addContainer
 };
 [_container, _isFloating] call life_fnc_placeContainer;
 life_container_active = false;

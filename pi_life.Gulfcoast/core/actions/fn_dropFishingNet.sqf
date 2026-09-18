@@ -23,9 +23,17 @@ if (_fish isEqualTo []) exitWith {titleText[localize "STR_NOTF_NetDropFail","PLA
             default {_type = "";};
         };
         sleep 3;
-        if ([true,_type,1] call life_fnc_handleInv) then {
-            deleteVehicle _x;
-            titleText[format [(localize "STR_NOTF_Fishing"),_typeName],"PLAIN"];
+        //Inventar-Umbau Paket 3: der Server prueft den Fisch, bucht ihn und loescht ihn
+        if (INVENTORY_MODE >= 1) then {
+            ["TON_fnc_invHarvest", [_x], {
+                (_this select 1) params ["_typeName"];
+                titleText[format [(localize "STR_NOTF_Fishing"),_typeName],"PLAIN"];
+            }, {}, [_typeName]] call life_fnc_econRequest;
+        } else {
+            if ([true,_type,1] call life_fnc_handleInv) then {
+                deleteVehicle _x;
+                titleText[format [(localize "STR_NOTF_Fishing"),_typeName],"PLAIN"];
+            };
         };
     };
 } forEach (_fish);

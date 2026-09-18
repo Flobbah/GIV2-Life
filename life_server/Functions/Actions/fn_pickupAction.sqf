@@ -68,6 +68,10 @@ if (!_cash && {INVENTORY_MODE >= 1} && {count _drop isEqualTo 2}) exitWith {
     };
     ["STR_NOTF_Picked", [str _take, getText (missionConfigFile >> "VirtualItems" >> _item >> "displayName")]] remoteExecCall ["life_fnc_econResult", owner _client];
 };
+//Inventar-Umbau: im scharfen Modus ist ein unbekanntes Bodenobjekt einen Blick wert
+if (!_cash && {INVENTORY_MODE >= 2} && {count _drop < 2}) then {
+    [getPlayerUID _client, name _client, format ["picked up %1, which the server does not know", typeOf _obj]] call TON_fnc_invWarn;
+};
 if (!(_obj getVariable ["inUse",false])) exitWith {
     _client = owner _client;
     _obj setVariable ["inUse",true,true];

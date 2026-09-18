@@ -81,4 +81,6 @@ if (_side isEqualTo civilian) then {
 [_uid, "side", _side] call TON_fnc_serverSet; //Sicherheitsphase 0.2: Fraktion fuer alle Serverpruefungen
 [_uid, "coplevel", _coplevel] call TON_fnc_serverSet; //Gehalt nach Rang (TON_fnc_econPaycheck)
 diag_log format ["[DUTY] %1 (%2) wechselt zu %3 (Cop %4, Medic %5)", name _unit, _uid, _side, _coplevel, _mediclevel];
+//Inventar-Umbau: die Serverkopie gehoert jetzt zur Ausruestung der neuen Fraktion
+[_uid, _gear] call TON_fnc_invLoad;
 [_side,_clean,_gear,_coplevel,_mediclevel,_blacklist,_arrested,_keys,_houses,_gang] remoteExec ["life_fnc_dutyReceive",_owner];

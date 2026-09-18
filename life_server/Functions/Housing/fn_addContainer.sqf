@@ -27,5 +27,10 @@ _query = format ["SELECT id FROM containers WHERE pos='%1' AND pid='%2' AND owne
 _queryResult = [_query,2] call DB_fnc_asyncCall;
 //systemChat format ["House ID assigned: %1",_queryResult select 0];
 _container setVariable ["container_id",(_queryResult select 0),true];
+//Inventar-Umbau: die Kiste verlaesst das Inventar erst, wenn sie wirklich steht
+if (INVENTORY_MODE >= 1 && {!(_caller isEqualTo 2)}) then {
+    private _item = ["storageSmall", "storageBig"] select ((toLower _className) isEqualTo "land_cargobox_v1_f");
+    [_uid, _item, -1, "container_place"] call TON_fnc_invChange;
+};
 [_container, "container_id", _queryResult param [0, nil]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
 [_container, "container_owner", [_uid]] call TON_fnc_serverSet;

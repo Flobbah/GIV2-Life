@@ -33,6 +33,8 @@ switch (true) do {
     case (["server", "fedCharge", false] call TON_fnc_serverGet): {[false, ["placed"]] call _answer};
     case (_cops < (LIFE_SETTINGS(getNumber,"minimum_cops"))): {[false, ["cops"]] call _answer};
     default {
+        //Inventar-Umbau: die Ladung nimmt der Server aus dem Inventar, wenn er sie annimmt
+        if (INVENTORY_MODE >= 1 && {!([_uid, "blastingcharge", -1, "blasting_charge"] call TON_fnc_invChange)}) exitWith {[false, ["items"]] call _answer};
         ["server", "fedCharge", true] call TON_fnc_serverSet;
         fed_bank setVariable ["chargeplaced", true, true];
         diag_log format ["[VAULT] %1 (%2) placed a blasting charge, %3 police online", _name, _uid, _cops];

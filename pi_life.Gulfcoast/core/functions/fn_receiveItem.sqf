@@ -6,6 +6,8 @@
     Receive an item from a player.
 */
 RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
+//Inventar-Umbau Paket 3: ab Modus 1 laeuft die Weitergabe ueber TON_fnc_invGive, dieser Weg ist zu
+if (INVENTORY_MODE >= 1) exitWith {};
 private ["_unit","_val","_item","_from","_diff"];
 _unit = _this select 0;
 if !(_unit isEqualTo player) exitWith {};

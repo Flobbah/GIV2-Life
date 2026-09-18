@@ -6,6 +6,8 @@
     ??A?SD?ADS?A
 */
 RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber den Server (CfgRelay)
+//Inventar-Umbau Paket 3: ab Modus 1 gibt der Server zurueck, was nicht gepasst hat
+if (INVENTORY_MODE >= 1) exitWith {};
 private ["_unit","_item","_val","_from","_bool"];
 _unit = _this select 0;
 if !(_unit isEqualTo player) exitWith {};

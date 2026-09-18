@@ -21,12 +21,13 @@ private _altisArray = [14778.333,12362.36,0];
 private _tanoaArray = [11074.2,11501.5,0.00137329];
 private _pos = [[["Gulfcoast", _altisArray], ["Tanoa", _tanoaArray]]] call TON_fnc_terrainSort;
 if ((nearestObject [_pos,_vaultHouse]) getVariable ["locked",true]) exitWith {[ localize "STR_ISTR_Blast_Exploit",true,"fast"] call life_fnc_notification_system};
-if (!([false,"blastingcharge",1] call life_fnc_handleInv)) exitWith {}; //Error?
+if (INVENTORY_MODE isEqualTo 0 && {!([false,"blastingcharge",1] call life_fnc_handleInv)}) exitWith {}; //Error?
+if (INVENTORY_MODE >= 1 && {life_inv_blastingcharge < 1}) exitWith {};
 ["TON_fnc_handleBlastingCharge", [], {
     [ localize "STR_ISTR_Blast_KeepOff",false,"fast"] call life_fnc_notification_system;
 }, {
     params ["_data"];
-    [true,"blastingcharge",1] call life_fnc_handleInv; //Der Server hat abgelehnt, Ladung zurueck
+    if (INVENTORY_MODE isEqualTo 0) then {[true,"blastingcharge",1] call life_fnc_handleInv}; //Der Server hat abgelehnt, Ladung zurueck
     switch ((_data param [0, ""])) do {
         case "open": {[ localize "STR_ISTR_Blast_AlreadyOpen",true,"fast"] call life_fnc_notification_system};
         case "placed": {[ localize "STR_ISTR_Blast_AlreadyPlaced",true,"fast"] call life_fnc_notification_system};
