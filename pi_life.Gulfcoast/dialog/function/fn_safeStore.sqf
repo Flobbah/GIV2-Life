@@ -18,7 +18,8 @@ if (_num < 1) exitWith {[ localize "STR_Cop_VaultUnder1",true,"fast"] call life_
 if (!(_ctrl isEqualTo "goldBar")) exitWith {[ localize "STR_Cop_OnlyGold",true,"fast"] call life_fnc_notification_system};
 if (_num > life_inv_goldbar) exitWith {[ format [localize "STR_Cop_NotEnoughGold",_num],true,"fast"] call life_fnc_notification_system;};
 //Store it.
-if (!([false,_ctrl,_num] call life_fnc_handleInv)) exitWith {[ localize "STR_Cop_CantRemove",false,"fast"] call life_fnc_notification_system;};
+//Inventar-Umbau Paket 3: ab Modus 1 nimmt der Server die Barren aus dem Inventar
+if (INVENTORY_MODE isEqualTo 0 && {!([false,_ctrl,_num] call life_fnc_handleInv)}) exitWith {[ localize "STR_Cop_CantRemove",false,"fast"] call life_fnc_notification_system;};
 ["TON_fnc_fedSafe", ["store", _num], {
     params ["_data"];
     life_safeObj setVariable ["safe", (_data param [1, 0])];
@@ -26,6 +27,6 @@ if (!([false,_ctrl,_num] call life_fnc_handleInv)) exitWith {[ localize "STR_Cop
 }, {
     params ["", "_ctx"];
     _ctx params ["_item", "_amount"];
-    [true,_item,_amount] call life_fnc_handleInv; //Der Server hat abgelehnt, Gold zurueck ins Inventar
+    if (INVENTORY_MODE isEqualTo 0) then {[true,_item,_amount] call life_fnc_handleInv}; //Der Server hat abgelehnt, Gold zurueck ins Inventar
     [ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system;
 }, [_ctrl, _num]] call life_fnc_econRequest;

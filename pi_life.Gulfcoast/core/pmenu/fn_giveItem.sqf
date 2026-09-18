@@ -29,6 +29,13 @@ call {
     if (parseNumber _value <= 0) exitWith {
         [ localize "STR_NOTF_enterAmountGive",true,"fast"] call life_fnc_notification_system;
     };
+    //Inventar-Umbau Paket 3: ab Modus 1 gibt der Server weiter, er prueft den Bestand des Absenders
+    if (INVENTORY_MODE >= 1) exitWith {
+        ["TON_fnc_invGive", [_unit, _item, parseNumber _value], {}, {
+            [ localize "STR_NOTF_couldNotGive",true,"fast"] call life_fnc_notification_system;
+        }] call life_fnc_econRequest;
+        [] call life_fnc_p_updateMenu;
+    };
     if !([false,_item, parseNumber _value] call life_fnc_handleInv) exitWith {
         [ localize "STR_NOTF_couldNotGive",true,"fast"] call life_fnc_notification_system;
     };

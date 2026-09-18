@@ -299,6 +299,7 @@ class Life_Client_Core {
         file = "core\inventory";
         class invReport {};
         class invUpdate {};
+        class invOffer {};
     };
     class Economy {
         file = "core\economy";

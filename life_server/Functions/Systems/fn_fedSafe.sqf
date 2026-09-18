@@ -39,6 +39,8 @@ switch (_kind) do {
                 private _left = _funds - _amount;
                 ["server", "fedSafe", _left] call TON_fnc_serverSet;
                 fed_bank setVariable ["safe", _left, true];
+                //Inventar-Umbau Paket 3: die Barren bucht der Server
+                if (INVENTORY_MODE >= 1) then {[_uid, "goldbar", _amount, "vault_take"] call TON_fnc_invChange};
                 diag_log format ["[VAULT] %1 (%2) took %3 gold bars, %4 left", name _unit, _uid, _amount, _left];
                 [true, [_amount, _left]] call _answer;
             };
@@ -48,7 +50,10 @@ switch (_kind) do {
         switch (true) do {
             case (!(_side isEqualTo civilian)): {"only civilians put gold into the vault" call _deny};
             case (_amount < 1 || {_amount > 5000}): {[false, ["amount", _funds]] call _answer};
+            //Inventar-Umbau Paket 3: eingelagert wird nur, was der Spieler laut Serverkopie hat
+            case (INVENTORY_MODE >= 1 && {([_uid, "goldbar"] call TON_fnc_invGet) < _amount}): {[false, ["items"]] call _answer};
             default {
+                if (INVENTORY_MODE >= 1) then {[_uid, "goldbar", -_amount, "vault_store"] call TON_fnc_invChange};
                 private _total = _funds + _amount;
                 ["server", "fedSafe", _total] call TON_fnc_serverSet;
                 fed_bank setVariable ["safe", _total, true];

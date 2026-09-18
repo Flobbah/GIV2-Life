@@ -23,7 +23,8 @@ if ((_price * _amount) > CASH && {!isNil "_hideout" && {!isNil {group player get
 if ((time - life_action_delay) < 0.2) exitWith {[ localize "STR_NOTF_ActionDelay",true,"fast"] call life_fnc_notification_system;};
 life_action_delay = time;
 _name = M_CONFIG(getText,"VirtualItems",_type,"displayName");
-if ([true,_type,_amount] call life_fnc_handleInv) then {
+//Inventar-Umbau Paket 3: ab Modus 1 bucht der Server die Ware nach der Bezahlung
+if (INVENTORY_MODE >= 1 || {[true,_type,_amount] call life_fnc_handleInv}) then {
     if (!isNil "_hideout" && {!isNil {group player getVariable "gang_bank"}} && {(group player getVariable "gang_bank") >= _price}) then {
         _action = [
             format [(localize "STR_Shop_Virt_Gang_FundsMSG")+ "<br/><br/>" +(localize "STR_Shop_Virt_Gang_Funds")+ " <t color='#8cff9b'>$%1</t><br/>" +(localize "STR_Shop_Virt_YourFunds")+ " <t color='#8cff9b'>$%2</t>",
@@ -42,7 +43,7 @@ if ([true,_type,_amount] call life_fnc_handleInv) then {
                     [] call life_fnc_virt_update;
                 }, {
                     (_this select 1) params ["_type", "_amount"];
-                    [false,_type,_amount] call life_fnc_handleInv;
+                    if (INVENTORY_MODE isEqualTo 0) then {[false,_type,_amount] call life_fnc_handleInv};
                     [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
                     [] call life_fnc_virt_update;
                     [3] call SOCK_fnc_updatePartial;
@@ -58,7 +59,7 @@ if ([true,_type,_amount] call life_fnc_handleInv) then {
                 };
             };
         } else {
-            if ((_price * _amount) > CASH) exitWith {[false,_type,_amount] call life_fnc_handleInv; [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;};
+            if ((_price * _amount) > CASH) exitWith {if (INVENTORY_MODE isEqualTo 0) then {[false,_type,_amount] call life_fnc_handleInv}; [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;};
             [ format [localize "STR_Shop_Virt_BoughtItem",_amount,(localize _name),[(_price * _amount)] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
             if (ECONOMY_MODE >= 1) then {
                 //Geld-Umbau Schritt 2: der Server bucht den Preis aus Config_vItems; ohne Zusage werden die Gegenstaende wieder entfernt
@@ -66,7 +67,7 @@ if ([true,_type,_amount] call life_fnc_handleInv) then {
                     [] call life_fnc_virt_update;
                 }, {
                     (_this select 1) params ["_type", "_amount"];
-                    [false,_type,_amount] call life_fnc_handleInv;
+                    if (INVENTORY_MODE isEqualTo 0) then {[false,_type,_amount] call life_fnc_handleInv};
                     [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
                     [] call life_fnc_virt_update;
                     [3] call SOCK_fnc_updatePartial;
@@ -76,7 +77,7 @@ if ([true,_type,_amount] call life_fnc_handleInv) then {
             };
         };
     } else {
-        if ((_price * _amount) > CASH) exitWith {[ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system; [false,_type,_amount] call life_fnc_handleInv;}; //vorher true: Gegenstaende doppelt statt entfernt
+        if ((_price * _amount) > CASH) exitWith {[ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system; if (INVENTORY_MODE isEqualTo 0) then {[false,_type,_amount] call life_fnc_handleInv};}; //vorher true: Gegenstaende doppelt statt entfernt
         [ format [localize "STR_Shop_Virt_BoughtItem",_amount,(localize _name),[(_price * _amount)] call life_fnc_numberText],false,"fast"] call life_fnc_notification_system;
         if (ECONOMY_MODE >= 1) then {
             //Geld-Umbau Schritt 2: der Server bucht den Preis aus Config_vItems; ohne Zusage werden die Gegenstaende wieder entfernt
@@ -84,7 +85,7 @@ if ([true,_type,_amount] call life_fnc_handleInv) then {
                 [] call life_fnc_virt_update;
             }, {
                 (_this select 1) params ["_type", "_amount"];
-                [false,_type,_amount] call life_fnc_handleInv;
+                if (INVENTORY_MODE isEqualTo 0) then {[false,_type,_amount] call life_fnc_handleInv};
                 [ localize "STR_NOTF_NotEnoughMoney",true,"fast"] call life_fnc_notification_system;
                 [] call life_fnc_virt_update;
                 [3] call SOCK_fnc_updatePartial;

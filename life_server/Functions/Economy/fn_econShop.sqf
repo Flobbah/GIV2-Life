@@ -105,7 +105,11 @@ if (_gangFunds) exitWith {
         case (_gangId < 0): {[false, ["denied"]] call _answer};
         case ((nearestObjects [_unit, _hideoutClasses, 30]) isEqualTo []): {[_owner, "TON_fnc_econShop " + _kind, "gang purchase away from a hideout"] call TON_fnc_denyCaller; [false, ["denied"]] call _answer};
         case (_price > 0 && {!([_gangId, -_price, "gang_shop_" + _kind, _uid, _meta] call TON_fnc_gangMoney)}): {[false, ["money", _price]] call _answer};
-        default {[true, [_price]] call _answer};
+        default {
+            //Inventar-Umbau Paket 3: gekaufte virtuelle Gegenstaende bucht der Server
+            if (_kind isEqualTo "virtual" && {INVENTORY_MODE >= 1}) then {[_uid, _item, _amount, "shop_buy"] call TON_fnc_invChange};
+            [true, [_price]] call _answer;
+        };
     };
 };
 if (_price > 0 && {!([_uid, "cash", -_price, "shop_" + _kind, "", _meta] call TON_fnc_moneyChange)}) exitWith {
@@ -116,4 +120,6 @@ if (_kind isEqualTo "vehicle" && {!(_amount isEqualTo 1)}) then {
     _paid pushBack [_item, diag_tickTime];
     [_uid, "vehiclesPaid", _paid] call TON_fnc_serverSet;
 };
+//Inventar-Umbau Paket 3: gekaufte virtuelle Gegenstaende bucht der Server
+if (_kind isEqualTo "virtual" && {INVENTORY_MODE >= 1}) then {[_uid, _item, _amount, "shop_buy"] call TON_fnc_invChange};
 [true, [_price]] call _answer;

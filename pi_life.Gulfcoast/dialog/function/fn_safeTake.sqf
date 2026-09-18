@@ -27,7 +27,8 @@ if (_num isEqualTo 0) exitWith {[ localize "STR_NOTF_InvFull",true,"fast"] call 
     _data params [["_got", 0], ["_left", 0]];
     _ctx params ["_item"];
     life_safeObj setVariable ["safe", _left]; //Anzeige sofort, der Server schickt denselben Wert nach
-    if (!([true,_item,_got] call life_fnc_handleInv)) exitWith {[ localize "STR_NOTF_CouldntAdd",true,"fast"] call life_fnc_notification_system;};
+    //Inventar-Umbau Paket 3: ab Modus 1 bucht der Server die Barren
+    if (INVENTORY_MODE isEqualTo 0 && {!([true,_item,_got] call life_fnc_handleInv)}) exitWith {[ localize "STR_NOTF_CouldntAdd",true,"fast"] call life_fnc_notification_system;};
     if (!isNull (findDisplay 3500)) then {[life_safeObj] call life_fnc_safeInventory};
 }, {
     params ["_data"];

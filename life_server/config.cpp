@@ -88,6 +88,8 @@ class CfgFunctions {
             class invPush {};
             class invGather {};
             class invProcess {};
+            class invGive {};
+            class invAccept {};
         };
         class Systems {
             file = "\life_server\Functions\Systems";
