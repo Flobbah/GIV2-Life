@@ -21,6 +21,7 @@ _unit = _this select 0;
                 ["life_fnc_simDisable",[_obj],RANY] call life_fnc_relaySend;
                 _obj setPos _pos;
                 _obj setVariable ["item",[_item,_value],true];
+                if (INVENTORY_MODE >= 1) then {[_obj,_item,_value] remoteExecCall ["TON_fnc_invDropped",RSERV]}; //Inventar-Umbau Paket 3
                 missionNamespace setVariable [_itemName,0];
             };
         };
@@ -32,6 +33,7 @@ _unit = _this select 0;
                 ["life_fnc_simDisable",[_obj],RANY] call life_fnc_relaySend;
                 _obj setPos _pos;
                 _obj setVariable ["item",[_item,_value],true];
+                if (INVENTORY_MODE >= 1) then {[_obj,_item,_value] remoteExecCall ["TON_fnc_invDropped",RSERV]}; //Inventar-Umbau Paket 3
                 missionNamespace setVariable [_itemName,0];
             };
         };
@@ -43,6 +45,7 @@ _unit = _this select 0;
                 ["life_fnc_simDisable",[_obj],RANY] call life_fnc_relaySend;
                 _obj setPos _pos;
                 _obj setVariable ["item",[_item,_value],true];
+                if (INVENTORY_MODE >= 1) then {[_obj,_item,_value] remoteExecCall ["TON_fnc_invDropped",RSERV]}; //Inventar-Umbau Paket 3
                 missionNamespace setVariable [_itemName,0];
             };
         };
@@ -54,6 +57,7 @@ _unit = _this select 0;
                 ["life_fnc_simDisable",[_obj],RANY] call life_fnc_relaySend;
                 _obj setPos _pos;
                 _obj setVariable ["item",[_item,_value],true];
+                if (INVENTORY_MODE >= 1) then {[_obj,_item,_value] remoteExecCall ["TON_fnc_invDropped",RSERV]}; //Inventar-Umbau Paket 3
                 missionNamespace setVariable [_itemName,0];
             };
         };
@@ -65,6 +69,7 @@ _unit = _this select 0;
                 ["life_fnc_simDisable",[_obj],RANY] call life_fnc_relaySend;
                 _obj setPos _pos;
                 _obj setVariable ["item",[_item,_value],true];
+                if (INVENTORY_MODE >= 1) then {[_obj,_item,_value] remoteExecCall ["TON_fnc_invDropped",RSERV]}; //Inventar-Umbau Paket 3
                 missionNamespace setVariable [_itemName,0];
             };
         };
@@ -76,6 +81,7 @@ _unit = _this select 0;
                 ["life_fnc_simDisable",[_obj],RANY] call life_fnc_relaySend;
                 _obj setPos _pos;
                 _obj setVariable ["item",[_item,_value],true];
+                if (INVENTORY_MODE >= 1) then {[_obj,_item,_value] remoteExecCall ["TON_fnc_invDropped",RSERV]}; //Inventar-Umbau Paket 3
                 missionNamespace setVariable [_itemName,0];
             };
         };
@@ -99,6 +105,7 @@ _unit = _this select 0;
                 ["life_fnc_simDisable",[_obj],RANY] call life_fnc_relaySend;
                 _obj setPos _pos;
                 _obj setVariable ["item",[_item,_value],true];
+                if (INVENTORY_MODE >= 1) then {[_obj,_item,_value] remoteExecCall ["TON_fnc_invDropped",RSERV]}; //Inventar-Umbau Paket 3
                 missionNamespace setVariable [_itemName,0];
             };
         };

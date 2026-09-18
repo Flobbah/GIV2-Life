@@ -151,6 +151,8 @@ class CfgRemoteExec {
         F(TON_fnc_invProcess,SERVER)
         F(TON_fnc_invGive,SERVER)
         F(TON_fnc_invAccept,SERVER)
+        F(TON_fnc_invDrop,SERVER)
+        F(TON_fnc_invDropped,SERVER)
         F(BIS_fnc_debugConsoleExec,SERVER) //Debug-Konsole im MP: laeuft immer ueber den Server, der prueft selbst auf eingeloggten Admin (#login)
         /* HeadlessClient only functions */
         F(HC_fnc_addContainer,HC)

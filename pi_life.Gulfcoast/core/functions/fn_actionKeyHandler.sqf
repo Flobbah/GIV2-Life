@@ -103,7 +103,7 @@ if (isPlayer _curObject && _curObject isKindOf "CAManBase") then {
     } else {
         //OK, it wasn't a vehicle so let's see what else it could be?
         if ((typeOf _curObject) in _miscItems) then {
-            [_curObject,player,false] remoteExecCall ["TON_fnc_pickupAction",RSERV];
+            [_curObject,player,false,life_maxWeight - life_carryWeight] remoteExecCall ["TON_fnc_pickupAction",RSERV];
         } else {
             //It wasn't a misc item so is it money?
             if ((typeOf _curObject) isEqualTo "Land_Money_F" && {!(_curObject getVariable ["inUse",false])}) then {

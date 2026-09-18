@@ -8,7 +8,8 @@
 params [
     ["_obj",objNull,[objNull]],
     ["_client",objNull,[objNull]],
-    ["_cash",false,[true]]
+    ["_cash",false,[true]],
+    ["_free",0,[0]]
 ];
 if (isNull _obj || {isNull _client}) exitWith {systemChat "Obj or client is null?";}; //No.
 private _caller = CALLER_OWNER; //Sicherheitsphase 0.1: Absender pruefen
@@ -40,6 +41,32 @@ if (_evidence) exitWith {
     if (_value > 0 && {[_uid, "police", _value, name _client] call TON_fnc_econEarnCheck} && {[_uid, "bank", _value, "evidence", "", _itemClass] call TON_fnc_moneyChange}) then {
         ["STR_NOTF_PickedEvidence", [getText (missionConfigFile >> "VirtualItems" >> _itemClass >> "displayName"), [_value] call life_fnc_numberText]] remoteExecCall ["life_fnc_econResult", owner _client];
     };
+};
+//Inventar-Umbau Paket 3: liegt zu dem Objekt ein Eintrag vor, bucht der Server genau den
+private _drop = [_obj, "drop", []] call TON_fnc_serverGet;
+if (!_cash && {INVENTORY_MODE >= 1} && {count _drop isEqualTo 2}) exitWith {
+    if (_obj getVariable ["inUse", false]) exitWith {};
+    _obj setVariable ["inUse", true, true];
+    _drop params ["_item", "_stored"];
+    private _uid = getPlayerUID _client;
+    private _weight = getNumber (missionConfigFile >> "VirtualItems" >> _item >> "weight");
+    private _take = _stored;
+    if (_weight > 0) then {_take = _take min (floor ((0 max _free) / _weight))};
+    if (_take < 1) exitWith {
+        _obj setVariable ["inUse", false, true];
+        ["STR_NOTF_InvFull", [], true] remoteExecCall ["life_fnc_econResult", owner _client];
+    };
+    if !([_uid, _item, _take, "pickup"] call TON_fnc_invChange) exitWith {_obj setVariable ["inUse", false, true]};
+    private _left = _stored - _take;
+    if (_left > 0) then {
+        [_obj, "drop", [_item, _left]] call TON_fnc_serverSet;
+        _obj setVariable ["item", [_item, _left], true];
+        _obj setVariable ["inUse", false, true];
+    } else {
+        [_obj, "drop"] call TON_fnc_serverSet;
+        deleteVehicle _obj;
+    };
+    ["STR_NOTF_Picked", [str _take, getText (missionConfigFile >> "VirtualItems" >> _item >> "displayName")]] remoteExecCall ["life_fnc_econResult", owner _client];
 };
 if (!(_obj getVariable ["inUse",false])) exitWith {
     _client = owner _client;
