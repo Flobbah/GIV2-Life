@@ -1,3 +1,3 @@
 //regex
 1 ""
-5 "" !=life_fnc_RequestClientId !=money_log !=advanced_log !=(cop|civ)_[\d]{1,3} !=medic_[1-6] !=life_broadcastTimer !=cba_.* !=DevB_BankRobbing !=life_nextrob !=tf_.* !=TFAR_.*
+5 "" !=life_fnc_RequestClientId !=(cop|civ)_[\d]{1,3} !=medic_[1-6] !=cba_.* !=DevB_BankRobbing !=life_nextrob !=tf_.* !=TFAR_.*

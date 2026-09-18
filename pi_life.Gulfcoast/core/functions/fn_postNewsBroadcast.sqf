@@ -24,8 +24,7 @@ if (ECONOMY_MODE >= 1) exitWith {
     ["TON_fnc_econFee", ["news"], {
         (_this select 1) params ["_header", "_message"];
         [_header,_message,profileName] remoteExec ['life_fnc_AAN',-2];
-        life_broadcastTimer = time;
-        publicVariable "life_broadcastTimer";
+        life_broadcastTimer = time; //Sicherheitsphase 0.2 Welle 2: nur noch lokal, die Wartezeit fuer alle prueft der Server
     }, {
         if (((_this select 0) param [0, ""]) isEqualTo "money") then {
             [ format [localize "STR_News_NotEnough",[(_this select 0) param [1, 0]] call life_fnc_numberText],true,"fast"] call life_fnc_notification_system;
@@ -37,5 +36,4 @@ if (ECONOMY_MODE >= 1) exitWith {
 [_broadcastHeader,_broadcastMessage,profileName] remoteExec ['life_fnc_AAN',-2];
 CASH = CASH - LIFE_SETTINGS(getNumber,"news_broadcast_cost");
 [0] call SOCK_fnc_updatePartial;
-life_broadcastTimer = time;
-publicVariable "life_broadcastTimer";
+life_broadcastTimer = time; //Sicherheitsphase 0.2 Welle 2: kein publicVariable mehr, in Modus 0 gilt die Wartezeit je Spieler

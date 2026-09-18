@@ -42,5 +42,5 @@ for "_i" from 0 to 1 step 0 do {
 if (!alive player) exitWith {life_action_inUse = false;};
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
 life_action_inUse = false;
-_vault setVariable ["safe_open",false,true];
+["TON_fnc_fedSafe", ["close", 0], {}, {}] call life_fnc_econRequest; //Sicherheitsphase 0.2 Welle 2: der Server schliesst den Tresor
 [ localize "STR_Cop_VaultRepaired",false,"fast"] call life_fnc_notification_system;

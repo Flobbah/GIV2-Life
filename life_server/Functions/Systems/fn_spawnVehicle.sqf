@@ -24,7 +24,8 @@ private _name = name _unit;
 private _side = AUTH_SIDE(_pid); //Sicherheitsphase 0.2: _pid ist per checkCaller die UID des Absenders
 _unit = owner _unit;
 if (_vid isEqualTo -1 || {_pid isEqualTo ""}) exitWith {};
-if (_vid in serv_sv_use) exitWith {};
+private _svUse = localNamespace getVariable ["serv_sv_use", []]; //Sicherheitsphase 0.2 Welle 2
+if (_vid in _svUse) exitWith {};
 private _placed = (_sp isEqualTypeArray [[],[],[],true]) && {(_sp select 0) isEqualTypeArray [0,0,0]} && {(_sp select 1) isEqualTypeArray [0,0,0]} && {(_sp select 2) isEqualTypeArray [0,0,0]};
 private _badSp = !_placed && {_sp isEqualType []} && {!(_sp isEqualTypeArray [0,0,0])};
 if (_placed) then {
@@ -37,8 +38,8 @@ if (_badSp) exitWith {
     if (ECONOMY_MODE isEqualTo 0) then {[_price,_unit_return] remoteExecCall ["life_fnc_garageRefund",_unit]}; //ab Modus 1 wird erst beim Erfolg gebucht
     [1,"STR_PLC_ErrServer",true] remoteExecCall ["life_fnc_broadcast",_unit];
 };
-serv_sv_use pushBack _vid;
-private _servIndex = serv_sv_use find _vid;
+_svUse pushBack _vid;
+private _servIndex = _svUse find _vid;
 private _query = format ["SELECT id, side, classname, type, pid, alive, active, plate, color, inventory, gear, fuel, damage, blacklist FROM vehicles WHERE id='%1' AND pid='%2'",_vid,_pid];
 private _tickTime = diag_tickTime;
 private _queryResult = [_query,2] call DB_fnc_asyncCall;
@@ -51,14 +52,14 @@ if (EXTDB_SETTING(getNumber,"DebugMode") isEqualTo 1) then {
 };
 if (_queryResult isEqualType "") exitWith {};
 private _vInfo = _queryResult;
-if (isNil "_vInfo") exitWith {serv_sv_use deleteAt _servIndex;};
-if (count _vInfo isEqualTo 0) exitWith {serv_sv_use deleteAt _servIndex;};
+if (isNil "_vInfo") exitWith {_svUse deleteAt _servIndex;};
+if (count _vInfo isEqualTo 0) exitWith {_svUse deleteAt _servIndex;};
 if ((_vInfo select 5) isEqualTo 0) exitWith {
-    serv_sv_use deleteAt _servIndex;
+    _svUse deleteAt _servIndex;
     [1,"STR_Garage_SQLError_Destroyed",true,[_vInfo select 2]] remoteExecCall ["life_fnc_broadcast",_unit];
 };
 if ((_vInfo select 6) isEqualTo 1) exitWith {
-    serv_sv_use deleteAt _servIndex;
+    _svUse deleteAt _servIndex;
     [1,"STR_Garage_SQLError_Active",true,[_vInfo select 2]] remoteExecCall ["life_fnc_broadcast",_unit];
 };
 private "_nearVehicles";
@@ -73,7 +74,7 @@ if (_placed) then {
     };
 };
 if (count _nearVehicles > 0) exitWith {
-    serv_sv_use deleteAt _servIndex;
+    _svUse deleteAt _servIndex;
     if (ECONOMY_MODE isEqualTo 0) then {[_price,_unit_return] remoteExecCall ["life_fnc_garageRefund",_unit]}; //ab Modus 1 wird erst beim Erfolg gebucht
     [1,"STR_Garage_SpawnPointError",true] remoteExecCall ["life_fnc_broadcast",_unit];
 };
@@ -84,7 +85,7 @@ if (ECONOMY_MODE >= 1) then {
     if !([_pid, "bank", -_fee, "garage_fee", "", (_vInfo select 2)] call TON_fnc_moneyChange) then {_feeFailed = _fee};
 };
 if (_feeFailed >= 0) exitWith {
-    serv_sv_use deleteAt _servIndex;
+    _svUse deleteAt _servIndex;
     [1,"STR_Garage_CashError",true,[[_feeFailed] call life_fnc_numberText]] remoteExecCall ["life_fnc_broadcast",_unit];
 };
 _query = format ["UPDATE vehicles SET active='1', damage='""[]""' WHERE pid='%1' AND id='%2'",_pid,_vid];
@@ -227,4 +228,4 @@ if ((_vInfo select 1) isEqualTo "med" && (_vInfo select 2) isEqualTo "C_Offroad_
     [_vehicle,"med_offroad",true] remoteExecCall ["life_fnc_vehicleAnimate",_unit];
 };
 [1,_spawntext] remoteExecCall ["life_fnc_broadcast",_unit];
-serv_sv_use deleteAt _servIndex;
+_svUse deleteAt _servIndex;

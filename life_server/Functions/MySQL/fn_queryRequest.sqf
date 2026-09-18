@@ -92,14 +92,12 @@ switch (_side) do {
         //Playtime
         _new = [(_queryResult select 11)] call DB_fnc_mresToArray;
         if (_new isEqualType "") then {_new = call compile format ["%1", _new];};
-        _index = TON_fnc_playtime_values_request find [_uid, _new];
-        if (_index != -1) then {
-            TON_fnc_playtime_values_request set[_index,-1];
-            TON_fnc_playtime_values_request = TON_fnc_playtime_values_request - [-1];
-            TON_fnc_playtime_values_request pushBack [_uid, _new];
-        } else {
-            TON_fnc_playtime_values_request pushBack [_uid, _new];
-        };
+        //Sicherheitsphase 0.2 Welle 2: Spielzeiten bleiben auf dem Server
+        private _ptRequest = localNamespace getVariable ["TON_fnc_playtime_values_request", []];
+        _index = _ptRequest find [_uid, _new];
+        if (_index != -1) then {_ptRequest deleteAt _index};
+        _ptRequest pushBack [_uid, _new];
+        localNamespace setVariable ["TON_fnc_playtime_values_request", _ptRequest];
         [_uid,_new select 0] call TON_fnc_setPlayTime;
     };
     case civilian: {
@@ -116,14 +114,12 @@ switch (_side) do {
         //Playtime
         _new = [(_queryResult select 12)] call DB_fnc_mresToArray;
         if (_new isEqualType "") then {_new = call compile format ["%1", _new];};
-        _index = TON_fnc_playtime_values_request find [_uid, _new];
-        if (_index != -1) then {
-            TON_fnc_playtime_values_request set[_index,-1];
-            TON_fnc_playtime_values_request = TON_fnc_playtime_values_request - [-1];
-            TON_fnc_playtime_values_request pushBack [_uid, _new];
-        } else {
-            TON_fnc_playtime_values_request pushBack [_uid, _new];
-        };
+        //Sicherheitsphase 0.2 Welle 2: Spielzeiten bleiben auf dem Server
+        private _ptRequest = localNamespace getVariable ["TON_fnc_playtime_values_request", []];
+        _index = _ptRequest find [_uid, _new];
+        if (_index != -1) then {_ptRequest deleteAt _index};
+        _ptRequest pushBack [_uid, _new];
+        localNamespace setVariable ["TON_fnc_playtime_values_request", _ptRequest];
         [_uid,_new select 2] call TON_fnc_setPlayTime;
         /* Make sure nothing else is added under here */
         _houseData = _uid spawn TON_fnc_fetchPlayerHouses;
@@ -141,18 +137,15 @@ switch (_side) do {
         //Playtime
         _new = [(_queryResult select 10)] call DB_fnc_mresToArray;
         if (_new isEqualType "") then {_new = call compile format ["%1", _new];};
-        _index = TON_fnc_playtime_values_request find [_uid, _new];
-        if !(_index isEqualTo -1) then {
-            TON_fnc_playtime_values_request set[_index,-1];
-            TON_fnc_playtime_values_request = TON_fnc_playtime_values_request - [-1];
-            TON_fnc_playtime_values_request pushBack [_uid, _new];
-        } else {
-            TON_fnc_playtime_values_request pushBack [_uid, _new];
-        };
+        //Sicherheitsphase 0.2 Welle 2: Spielzeiten bleiben auf dem Server
+        private _ptRequest = localNamespace getVariable ["TON_fnc_playtime_values_request", []];
+        _index = _ptRequest find [_uid, _new];
+        if !(_index isEqualTo -1) then {_ptRequest deleteAt _index};
+        _ptRequest pushBack [_uid, _new];
+        localNamespace setVariable ["TON_fnc_playtime_values_request", _ptRequest];
         [_uid,_new select 1] call TON_fnc_setPlayTime;
     };
 };
-publicVariable "TON_fnc_playtime_values_request";
 _keyArr = missionNamespace getVariable [format ["%1_KEYS_%2",_uid,_side],[]];
 _queryResult pushBack _keyArr;
 _queryResult remoteExec ["SOCK_fnc_requestReceived",_ownerID];

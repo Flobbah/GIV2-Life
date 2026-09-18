@@ -25,4 +25,5 @@ sleep 0.9;
 if (!(fed_bank getVariable["chargeplaced",false])) exitWith {};
 _bomb = "Bo_GBU12_LGB_MI10" createVehicle [getPosATL fed_bank select 0, getPosATL fed_bank select 1, (getPosATL fed_bank select 2)+0.5];
 fed_bank setVariable ["chargeplaced",false,true];
+["server", "fedOpen", true] call TON_fnc_serverSet; //Sicherheitsphase 0.2 Welle 2
 fed_bank setVariable ["safe_open",true,true];

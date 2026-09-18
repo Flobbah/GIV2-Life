@@ -108,6 +108,28 @@ switch (_mode) do {
     case 4: {
         _members = ([_group getVariable "gang_members"] param [0, [], [[]]]) select {_x isEqualType "" && {_x regexMatch "\d{17}"}};
         _maxMembers = [_group getVariable ["gang_maxMembers",8]] param [0, 8, [0]];
+        //Sicherheitsphase 0.2 Welle 2: die Mitgliederliste ist eine Gruppenvariable, die jeder Client setzen
+        //kann. Der Server geht deshalb vom Stand der Datenbank aus und uebernimmt nur, was der Absender
+        //selbst darf: sich eintragen oder austragen, als Besitzer laut Datenbank Mitglieder entfernen.
+        //Alles andere wird still zurechtgerueckt (eine offene Einladung steht schon in der Gruppenvariable,
+        //ein Ablehnen waere also die falsche Antwort) und als [SECURITY] gemeldet.
+        if !(_caller isEqualTo 2) then {
+            private _senderUid = ([_caller] call TON_fnc_callerInfo) param [0, ""];
+            private _raw = ([format ["SELECT members FROM gangs WHERE id='%1' AND active='1'", _groupID], 2] call DB_fnc_asyncCall) param [0, ""];
+            if !(_raw isEqualType "") then {_raw = str _raw};
+            private _old = ((_raw regexReplace ["[^0-9]", " "]) splitString " ") select {_x regexMatch "\d{17}"};
+            private _final = +_old;
+            if (_senderUid in _members && {!(_senderUid in _final)}) then {_final pushBack _senderUid};
+            if (!(_senderUid in _members) && {_senderUid in _final}) then {_final deleteAt (_final find _senderUid)};
+            if (!(([format ["SELECT id FROM gangs WHERE id='%1' AND owner='%2' AND active='1'", _groupID, _senderUid], 2] call DB_fnc_asyncCall) isEqualTo [])) then {
+                {if (!(_x in _members)) then {_final deleteAt (_final find _x)}} forEach (+_old);
+            };
+            if (!((_members - _final) isEqualTo []) || {!((_final - _members) isEqualTo [])}) then {
+                [_caller, "TON_fnc_updateGang", format ["member list corrected: client sent %1 names, allowed are %2", count _members, count _final]] call TON_fnc_denyCaller;
+            };
+            _members = _final;
+            _group setVariable ["gang_members", _members, true];
+        };
         if (count _members > _maxMembers) then {
             _membersFinal = [];
             for "_i" from 0 to _maxMembers -1 do {

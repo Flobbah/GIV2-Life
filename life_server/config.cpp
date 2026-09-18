@@ -94,6 +94,7 @@ class CfgFunctions {
             class dutySwitch {};
             class managesc {};
             class cleanup {};
+            class fedSafe {};
             class huntingZone {};
             class getID {};
             class vehicleCreate {};

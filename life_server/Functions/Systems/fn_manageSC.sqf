@@ -12,26 +12,12 @@ _side = [_this,2,civilian,[west]] call BIS_fnc_param;
 if (isNull _unit) exitWith {};
 //Sicherheitsphase 0.1: nur eigene Einheit; beitreten nur dem Kanal der eigenen Fraktion
 if !([CALLER_OWNER, _unit, "", ([sideUnknown, _side] select _bool), "TON_fnc_manageSC"] call TON_fnc_checkCaller) exitWith {};
-switch (_side) do {
-    case west: {
-        if (_bool) then {
-            life_radio_west radioChannelAdd [_unit];
-        } else {
-            life_radio_west radioChannelRemove [_unit];
-        };
-    };
-    case civilian: {
-        if (_bool) then {
-            life_radio_civ radioChannelAdd [_unit];
-        } else {
-            life_radio_civ radioChannelRemove [_unit];
-        };
-    };
-    case independent: {
-        if (_bool) then {
-            life_radio_indep radioChannelAdd [_unit];
-        } else {
-            life_radio_indep radioChannelRemove [_unit];
-        };
-    };
+//Sicherheitsphase 0.2 Welle 2: Kanal-Nummer aus dem Serverspeicher
+private _channelVar = switch (_side) do {case west: {"life_radio_west"}; case independent: {"life_radio_indep"}; default {"life_radio_civ"}};
+private _channel = localNamespace getVariable [_channelVar, -1];
+if (_channel < 0) exitWith {};
+if (_bool) then {
+    _channel radioChannelAdd [_unit];
+} else {
+    _channel radioChannelRemove [_unit];
 };

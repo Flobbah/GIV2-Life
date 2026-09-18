@@ -4,6 +4,7 @@
     Author: Bryan "Tonic" Boardwine
     Description:
     Gateway to fn_vehTakeItem.sqf but for safe(s).
+    Sicherheitsphase 0.2 Welle 2: Den Bestand fuehrt der Server, ausgegeben wird erst nach seiner Zusage.
 */
 private ["_ctrl","_num","_safeInfo"];
 disableSerialization;
@@ -21,6 +22,18 @@ if (_num > _safeInfo) exitWith {[ format [localize "STR_Civ_IsntEnoughGold",_num
 _num = [_ctrl,_num,life_carryWeight,life_maxWeight] call life_fnc_calWeightDiff;
 if (_num isEqualTo 0) exitWith {[ localize "STR_NOTF_InvFull",true,"fast"] call life_fnc_notification_system};
 //Take it
-if (!([true,_ctrl,_num] call life_fnc_handleInv)) exitWith {[ localize "STR_NOTF_CouldntAdd",true,"fast"] call life_fnc_notification_system;};
-life_safeObj setVariable ["safe",_safeInfo - _num,true];
-[life_safeObj] call life_fnc_safeInventory;
+["TON_fnc_fedSafe", ["take", _num], {
+    params ["_data", "_ctx"];
+    _data params [["_got", 0], ["_left", 0]];
+    _ctx params ["_item"];
+    life_safeObj setVariable ["safe", _left]; //Anzeige sofort, der Server schickt denselben Wert nach
+    if (!([true,_item,_got] call life_fnc_handleInv)) exitWith {[ localize "STR_NOTF_CouldntAdd",true,"fast"] call life_fnc_notification_system;};
+    if (!isNull (findDisplay 3500)) then {[life_safeObj] call life_fnc_safeInventory};
+}, {
+    params ["_data"];
+    if (((_data param [0, ""]) isEqualTo "amount")) then {
+        [ format [localize "STR_Civ_IsntEnoughGold",(_data param [1, 0])],true,"fast"] call life_fnc_notification_system;
+    } else {
+        [ localize "STR_Civ_VaultEmpty",true,"fast"] call life_fnc_notification_system;
+    };
+}, [_ctrl]] call life_fnc_econRequest;

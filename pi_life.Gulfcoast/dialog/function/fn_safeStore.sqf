@@ -4,6 +4,8 @@
     Author: Bryan "Tonic" Boardwine
     Description:
     Gateway copy of fn_vehStoreItem but designed for the safe.
+    Sicherheitsphase 0.2 Welle 2: Den Bestand fuehrt der Server. Frueher stand hier ein getVariable
+    statt setVariable, eingelagertes Gold war also einfach weg.
 */
 private ["_ctrl","_num"];
 disableSerialization;
@@ -17,6 +19,13 @@ if (!(_ctrl isEqualTo "goldBar")) exitWith {[ localize "STR_Cop_OnlyGold",true,"
 if (_num > life_inv_goldbar) exitWith {[ format [localize "STR_Cop_NotEnoughGold",_num],true,"fast"] call life_fnc_notification_system;};
 //Store it.
 if (!([false,_ctrl,_num] call life_fnc_handleInv)) exitWith {[ localize "STR_Cop_CantRemove",false,"fast"] call life_fnc_notification_system;};
-_safeInfo = life_safeObj getVariable ["safe",0];
-life_safeObj getVariable ["safe",_safeInfo + _num,true];
-[life_safeObj] call life_fnc_safeInventory;
+["TON_fnc_fedSafe", ["store", _num], {
+    params ["_data"];
+    life_safeObj setVariable ["safe", (_data param [1, 0])];
+    if (!isNull (findDisplay 3500)) then {[life_safeObj] call life_fnc_safeInventory};
+}, {
+    params ["", "_ctx"];
+    _ctx params ["_item", "_amount"];
+    [true,_item,_amount] call life_fnc_handleInv; //Der Server hat abgelehnt, Gold zurueck ins Inventar
+    [ localize "STR_NOTF_ActionCancel",true,"fast"] call life_fnc_notification_system;
+}, [_ctrl, _num]] call life_fnc_econRequest;

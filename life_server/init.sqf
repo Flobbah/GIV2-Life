@@ -12,7 +12,7 @@ DB_Async_Active = false;
 DB_Async_ExtraLock = false;
 life_server_isReady = false;
 _extDBNotLoaded = "";
-serv_sv_use = [];
+localNamespace setVariable ["serv_sv_use", []]; //Sicherheitsphase 0.2 Welle 2: nicht mehr per publicVariable erreichbar
 publicVariable "life_server_isReady";
 life_save_civilian_position = if (LIFE_SETTINGS(getNumber,"save_civilian_position") isEqualTo 0) then {false} else {true};
 fn_whoDoneIt = compile preprocessFileLineNumbers "\life_server\Functions\Systems\fn_whoDoneIt.sqf";
@@ -92,11 +92,16 @@ life_medicLevel = 0;
 life_copLevel = 0;
 CONST(JxMxE_PublishVehicle,"false");
 /* Setup radio channels for west/independent/civilian */
-life_radio_west = radioChannelCreate [[0, 0.95, 1, 0.8], "Side Channel", "%UNIT_NAME", []];
-life_radio_civ = radioChannelCreate [[0, 0.95, 1, 0.8], "Side Channel", "%UNIT_NAME", []];
-life_radio_indep = radioChannelCreate [[0, 0.95, 1, 0.8], "Side Channel", "%UNIT_NAME", []];
+//Sicherheitsphase 0.2 Welle 2: die Kanal-Nummern gehoeren dem Server, sonst kann ein Client den Seitenfunk kapern
+localNamespace setVariable ["life_radio_west", radioChannelCreate [[0, 0.95, 1, 0.8], "Side Channel", "%UNIT_NAME", []]];
+localNamespace setVariable ["life_radio_civ", radioChannelCreate [[0, 0.95, 1, 0.8], "Side Channel", "%UNIT_NAME", []]];
+localNamespace setVariable ["life_radio_indep", radioChannelCreate [[0, 0.95, 1, 0.8], "Side Channel", "%UNIT_NAME", []]];
 /* Set the amount of gold in the federal reserve at mission start */
+//Sicherheitsphase 0.2 Welle 2: Bestand und Zustand fuehrt der Server (TON_fnc_fedSafe), am Objekt steht nur die Anzeige
+["server", "fedSafe", count playableUnits] call TON_fnc_serverSet;
+["server", "fedOpen", false] call TON_fnc_serverSet;
 fed_bank setVariable ["safe",count playableUnits,true];
+fed_bank setVariable ["safe_open",false,true];
 [] spawn TON_fnc_federalUpdate;
 /* Event handler for disconnecting players */
 addMissionEventHandler ["HandleDisconnect",{_this call TON_fnc_clientDisconnect; false;}];
@@ -122,11 +127,9 @@ cleanupFSM = [] execFSM "\life_server\FSM\cleanup.fsm";
 };
 [] spawn TON_fnc_initHouses;
 cleanup = [] spawn TON_fnc_cleanup;
-TON_fnc_playtime_values = [];
-TON_fnc_playtime_values_request = [];
-//Just incase the Headless Client connects before anyone else
-publicVariable "TON_fnc_playtime_values";
-publicVariable "TON_fnc_playtime_values_request";
+//Sicherheitsphase 0.2 Welle 2: Spielzeiten bleiben auf dem Server (frueher publicVariable, jeder Client konnte sie ueberschreiben)
+localNamespace setVariable ["TON_fnc_playtime_values", []];
+localNamespace setVariable ["TON_fnc_playtime_values_request", []];
 /* Setup the federal reserve building(s) */
 private _vaultHouse = [[["Gulfcoast", "Land_Research_house_V1_F"], ["Tanoa", "Land_Medevac_house_V1_F"]]] call TON_fnc_terrainSort;
 private _altisArray = [14778.333,12362.36,0];
