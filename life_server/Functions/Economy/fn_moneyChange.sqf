@@ -43,4 +43,15 @@ _wallet set [_index, _balance];
 [format ["UPDATE players SET %1='%2' WHERE pid='%3'", ["cash", "bankacc"] select _index, [_balance] call DB_fnc_numberSafe, _uid], 1] call DB_fnc_asyncCall;
 [_uid, 0, _account, _delta, _balance, _reason, _counterpart, _meta] call TON_fnc_moneyLog;
 [_uid, [0, _delta] select (_index isEqualTo 0), [0, _delta] select (_index isEqualTo 1)] call TON_fnc_walletPush;
+//Der Client erfaehrt die Buchung erst mit diesem Push. Speichert er in den naechsten Sekunden noch
+//seinen alten Stand - der Kauf loest die Speicherung ja sofort aus -, ist das kein Betrug, sondern
+//ein Wettlauf. TON_fnc_walletShadow sieht hier nach und korrigiert dann still (driftGraceSeconds).
+private _recent = localNamespace getVariable "life_econ_recent";
+if (isNil "_recent") then {
+    _recent = createHashMap;
+    localNamespace setVariable ["life_econ_recent", _recent];
+};
+(_recent getOrDefault [_uid, [-1e9, 0]]) params ["_since", "_sum"];
+if ((diag_tickTime - _since) > (getNumber (missionConfigFile >> "CfgEconomy" >> "driftGraceSeconds"))) then {_sum = 0};
+_recent set [_uid, [diag_tickTime, _sum + abs _delta]];
 true

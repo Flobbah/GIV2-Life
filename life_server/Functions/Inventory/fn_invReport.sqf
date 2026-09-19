@@ -46,5 +46,11 @@ private _seen = [];
 if !(_diff isEqualTo []) then {
     [_uid, _name, format ["report differs (item client/server): %1", _diff joinString ", "]] call TON_fnc_invWarn;
 };
+//Zaehler fuer die Zusammenfassung in TON_fnc_invSync: so ist im Log zu sehen, dass wirklich
+//verglichen wurde - auch Abweichungen, die TON_fnc_invWarn gerade wegen warnSeconds verschweigt.
+private _stats = localNamespace getVariable ["life_inv_stats", [0, 0]];
+_stats set [0, (_stats select 0) + 1];
+if !(_diff isEqualTo []) then {_stats set [1, (_stats select 1) + 1]};
+localNamespace setVariable ["life_inv_stats", _stats];
 //Schattenmodus: der Server uebernimmt, was der Client meldet
 if (!_enforce) then {_store set [_uid, _client]};

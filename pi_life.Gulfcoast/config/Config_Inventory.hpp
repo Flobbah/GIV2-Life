@@ -24,4 +24,7 @@ class CfgInventory {
     convert[] = { {"fuelFull","fuelEmpty"}, {"fuelEmpty","fuelFull"} };
     syncInterval = 120;   // Sekunden zwischen zwei Vollabgleichen je Spieler (unter 10 = aus)
     warnSeconds = 300;    // fruehestens nach so vielen Sekunden wieder eine [INVENTORY]-Zeile je Spieler
+    summaryCycles = 5;    // nach so vielen Abgleichen eine Zusammenfassung ins Log, auch wenn nichts
+                          // abweicht (0 = aus). Ohne sie heisst Stille im Log nur "nichts geloggt" -
+                          // nicht "geprueft und sauber", und genau das muss vor Modus 2 belegt sein.
 };

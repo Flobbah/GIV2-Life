@@ -39,6 +39,9 @@ class CfgEconomy {
     //Scharfschalten (Schritt 4, EconomyMode 2)
     resyncInterval = 60;        // Sekunden zwischen zwei Abgleichen: der Server schickt jedem Spieler seine Kontostaende (unter 5 = aus)
     driftLogSeconds = 60;       // fruehestens nach so vielen Sekunden wieder ein client_drift-Eintrag pro Spieler
+    driftGraceSeconds = 5;      // Schonfrist nach einer Buchung: speichert der Client in dieser Zeit noch seinen alten
+                                // Stand, wird still korrigiert statt protokolliert - er hatte die Gutschrift noch nicht.
+                                // Nur bis zur Hoehe des gerade Gebuchten, groessere Abweichungen kommen trotzdem ins Log.
     class EarningLimits {
         //Hoechstens so viel pro Spieler und Quelle in einer Stunde (gleitend). Zielkurve laut ECONOMY_BALANCE.md:
         //legal bis ca. 125k/h, illegal bis ca. 160k/h; die Grenzen lassen reichlich Luft.

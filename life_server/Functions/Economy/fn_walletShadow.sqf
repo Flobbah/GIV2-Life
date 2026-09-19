@@ -62,6 +62,16 @@ if (_enforce) exitWith {
     if (_drift isEqualTo []) exitWith {};
     //Der Client bekommt sofort die Werte des Servers zurueck
     [_uid] call TON_fnc_walletPush;
+    //Hat der Server gerade erst gebucht (Kauf, Gehalt, Strafe), speichert der Client oft noch seinen
+    //alten Stand, bevor der Push ankommt. Bis zur Hoehe des gerade Gebuchten ist das der Wettlauf und
+    //kein Fund - still korrigieren. Alles darueber bleibt im Log, ein erfundener Betrag faellt also
+    //nicht hinter einem Einkauf durch.
+    private _recent = localNamespace getVariable ["life_econ_recent", createHashMap];
+    (_recent getOrDefault [_uid, [-1e9, 0]]) params ["_since", "_sum"];
+    if ((diag_tickTime - _since) <= (getNumber (missionConfigFile >> "CfgEconomy" >> "driftGraceSeconds"))) then {
+        _drift = _drift select {abs (_x select 2) > _sum};
+    };
+    if (_drift isEqualTo []) exitWith {};
     private _store = localNamespace getVariable "life_econ_drift";
     if (isNil "_store") then {
         _store = createHashMap;
