@@ -14,7 +14,7 @@ createDialog "Life_FuelStat";
 life_action_inUse = true;
 private _fuelCost = LIFE_SETTINGS(getNumber,"fuel_cost");
 uiNamespace setVariable ["fuel_cost",_fuelCost];
-ctrlSetText [20301,"Fuel Station"];
+ctrlSetText [20301,localize "STR_Fuel_Title"];
 //Fetch the shop config.
 private _vehicleFuelList = [];
 {
@@ -25,7 +25,7 @@ uiNamespace setVariable ["fuel_list",_vehicleFuelList];
 private _control = (findDisplay 20300) displayCtrl 20302;
 lbClear _control;
 ctrlSetText [20322,format [localize "STR_Price_Fuel_Pump",_fuelCost]];
-ctrlSetText [20323,format ["Total : %1$",_fuelCost * 0.1]];
+ctrlSetText [20323,format [localize "STR_Fuel_Total",0]]; //noch nichts gewaehlt
 //Loop through
 {
     _x params ["_vehicle","_fuelLeft"];

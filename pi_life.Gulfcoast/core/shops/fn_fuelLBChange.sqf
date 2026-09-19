@@ -28,5 +28,6 @@ ctrlShow [20330,true];
 ];
 sliderSetRange [20901,(floor(_fuel * _fuelTank)),_fuelTank];
 sliderSetPosition [20901 ,(floor(_fuel * _fuelTank))];
-ctrlSetText [20323,format ["Total : %1$",(uiNamespace getVariable ["fuel_cost",0]) * ((SliderPosition 20901) -(floor(_fuel * _fuelTank))) ]];
+ctrlSetText [20324,format [localize "STR_Fuel_Amount",0]];
+ctrlSetText [20323,format [localize "STR_Fuel_Total",round ((uiNamespace getVariable ["fuel_cost",0]) * ((SliderPosition 20901) -(floor(_fuel * _fuelTank)))) ]];
 true;

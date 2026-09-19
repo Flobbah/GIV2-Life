@@ -1,96 +1,62 @@
+/*
+    File: shops.hpp
+    Description:
+    Waffen- und Ausruestungsladen im gemeinsamen Laden-Layout aus shop.hpp.
+    IDCs unveraendert: 38401 Titel, 38402 Auswahl (Laden/eigene Sachen), 38403 Liste,
+    38404 Beschreibung, 38405 Kaufen/Verkaufen, 38406 Magazine, 38407 Zubehoer.
+*/
 class life_weapon_shop {
     idd = 38400;
     movingEnable = 0;
     enableSimulation = 1;
+    onLoad = "[_this select 0] call life_fnc_shopStatus;";
     class controlsBackground {
-        class RscTitleBackground: Life_RscText {
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"};
-            idc = -1;
-            x = 0.1;
-            y = 0.2;
-            w = 0.32;
-            h = (1 / 25);
-        };
-        class MainBackground: Life_RscText {
-            colorBackground[] = {0,0,0,0.7};
-            idc = -1;
-            x = 0.1;
-            y = 0.2 + (11 / 250);
-            w = 0.32;
-            h = 0.6 - (22 / 250);
-        };
-        class Title: Life_RscTitle {
-            colorBackground[] = {0,0,0,0};
-            idc = 38401;
-            text = "";
-            x = 0.1;
-            y = 0.2;
-            w = 0.32;
-            h = (1 / 25);
-        };
-        class itemInfo: Life_RscStructuredText {
-            idc = 38404;
-            text = "";
-            sizeEx = 0.035;
-            x = 0.11;
-            y = 0.68;
-            w = 0.2;
-            h = 0.2;
-        };
-        class FilterList: Life_RscCombo {
-            idc = 38402;
-            onLBSelChanged = "_this call life_fnc_weaponShopFilter";
-            x = 0.11;
-            y = 0.64;
-            w = 0.3;
-            h = 0.035;
+        SHOP_FRAME(38401,"")
+        //Flaeche hinter der Beschreibung, damit die rechte Spalte nicht im Nichts steht
+        class InfoPanel : Life_RscShopPanel {
+            x = SH_X(14.2);
+            y = SH_Y(1.8);
+            w = SH_W(13.2);
+            h = SH_H(14.8);
         };
     };
     class controls {
-        class itemList: Life_RscListBox {
-            idc = 38403;
-            onLBSelChanged = "_this call life_fnc_weaponShopSelection";
-            sizeEx = 0.035;
-            x = 0.11;
-            y = 0.25;
-            w = 0.3;
-            h = 0.38;
+        class FilterList : Life_RscShopCombo {
+            idc = 38402;
+            y = SH_Y(1.8);
+            onLBSelChanged = "_this call life_fnc_weaponShopFilter";
         };
-        class ButtonBuySell: Life_RscButtonMenu {
+        class itemList : Life_RscShopList {
+            idc = 38403;
+            y = SH_Y(3.1);
+            h = SH_H(13.5);
+            onLBSelChanged = "_this call life_fnc_weaponShopSelection";
+        };
+        class itemInfo : Life_RscShopStructured {
+            idc = 38404;
+            x = SH_X(14.6);
+            y = SH_Y(2.1);
+            w = SH_W(12.4);
+            h = SH_H(14.2);
+        };
+        class ButtonBuySell : Life_RscShopButton {
             idc = 38405;
             text = "$STR_Global_Buy";
             onButtonClick = "[] spawn life_fnc_weaponShopBuySell; true";
-            x = 0.1;
-            y = 0.8 - (1 / 25);
-            w = (6.25 / 40);
-            h = (1 / 25);
+            x = SH_X(0.6);
         };
-        class ButtonClose: Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_Global_Close";
-            onButtonClick = "closeDialog 0;";
-            x = 0.1 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
-            y = 0.8 - (1 / 25);
-            w = (6.25 / 40);
-            h = (1 / 25);
-        };
-        class ButtonMags: Life_RscButtonMenu {
+        class ButtonMags : Life_RscShopButtonAlt {
             idc = 38406;
             text = "$STR_Global_Mags";
             onButtonClick = "_this call life_fnc_weaponShopMags; _this call life_fnc_weaponShopFilter";
-            x = 0.1;
-            y = 0.8 + (1 / 250 / (safezoneW / safezoneH));
-            w = (6.25 / 40);
-            h = (1 / 25);
+            x = SH_X(5.4);
         };
-        class ButtonAccs: Life_RscButtonMenu {
+        class ButtonAccs : ButtonMags {
             idc = 38407;
             text = "$STR_Global_Accs";
             onButtonClick = "_this call life_fnc_weaponShopAccs; _this call life_fnc_weaponShopFilter";
-            x = 0.1 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
-            y = 0.8 + (1 / 250 / (safezoneW / safezoneH));
-            w = (6.25 / 40);
-            h = (1 / 25);
+            x = SH_X(10.2);
         };
+        SHOP_CLOSE
     };
 };

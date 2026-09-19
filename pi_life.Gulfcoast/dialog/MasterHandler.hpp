@@ -3,6 +3,7 @@
 */
 #include "common.hpp"
 #include "phone.hpp"
+#include "shop.hpp"
 #include "shop_items.hpp"
 #include "player_inv.hpp"
 #include "map_filter.hpp"

@@ -46,8 +46,8 @@ switch _mode do {
                 _fueltank = 450;
             };
             _value = (parseNumber(_value toFixed 2));
-            ctrlSetText [20324,format ["Fuel : %1 liters",_value - (floor(_fuel * _fueltank))]];
-            ctrlSetText [20323,format ["Total : $%1",round ((uiNamespace getVariable ["fuel_cost",0]) * (_value -(floor(_fuel * _fueltank)))) ]];
+            ctrlSetText [20324,format [localize "STR_Fuel_Amount",_value - (floor(_fuel * _fueltank))]];
+            ctrlSetText [20323,format [localize "STR_Fuel_Total",round ((uiNamespace getVariable ["fuel_cost",0]) * (_value -(floor(_fuel * _fueltank)))) ]];
         } else {
             [ localize "STR_Select_Vehicle_Pump",true,"fast"] call life_fnc_notification_system;
         };

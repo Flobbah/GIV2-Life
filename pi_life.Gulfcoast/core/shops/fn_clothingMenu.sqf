@@ -175,96 +175,82 @@ if (LIFE_SETTINGS(getNumber,"clothing_noTP") isEqualTo 0) then {
 life_shop_cam cameraEffect ["TERMINATE","BACK"];
 camDestroy life_shop_cam;
 life_clothing_filter = 0;
-if (isNil "life_clothesPurchased") exitWith {
-    life_clothing_purchase = [-1,-1,-1,-1,-1];
-    if !(life_oldClothes isEqualTo "") then {player addUniform life_oldClothes;} else {removeUniform player};
-    if !(life_oldHat isEqualTo "") then {player addHeadgear life_oldHat} else {removeHeadgear player;};
-    if !(life_oldGlasses isEqualTo "") then {player addGoggles life_oldGlasses;} else {removeGoggles player};
-    if !(backpack player isEqualTo "") then {
-        if (life_oldBackpack isEqualTo "") then {
-            removeBackpack player;
-        } else {
-            removeBackpack player;
-            player addBackpack life_oldBackpack;
-            clearAllItemsFromBackpack player;
-            if (count life_oldBackpackItems > 0) then {
-                {
-                    [_x,true,true] call life_fnc_handleItem;
-                    true
-                } count life_oldBackpackItems;
-            };
-        };
-    };
-    if (count life_oldUniformItems > 0) then {
-        {
-            [_x,true,false,false,true] call life_fnc_handleItem;
-            true
-        } count life_oldUniformItems;
-    };
-    if (vest player != "") then {
-        if (life_oldVest isEqualTo "") then {
-            removeVest player;
-        } else {
-            player addVest life_oldVest;
-            if (count life_oldVestItems > 0) then {
-                {
-                    [_x,true,false,false,true] call life_fnc_handleItem;
-                    true
-                } count life_oldVestItems;
-            };
-        };
-    };
-    [] call life_fnc_playerSkins;
+//Beim Verlassen des Ladens:
+//  - Was gekauft wurde, bleibt an.
+//  - Jeder andere Platz kommt zurueck auf das, was vorher da war - samt Inhalt.
+//Wichtig: erst ausziehen, dann anziehen. addUniform, addVest und addHeadgear tun naemlich nichts,
+//solange noch etwas getragen wird. Genau daran lag es, dass man die Vorschau umsonst behielt und
+//dass ein leer gelassener Platz ("Entferne Kleidung") das alte Stueck endgueltig gekostet hat.
+private _bought = if (isNil "life_clothesPurchased") then {
+    [false,false,false,false,false]
+} else {
+    life_clothing_purchase apply {!(_x isEqualTo -1)}
 };
 life_clothesPurchased = nil;
-//Check uniform purchase.
-if ((life_clothing_purchase select 0) isEqualTo -1) then {
-    if (life_oldClothes != uniform player) then {player addUniform life_oldClothes;};
-};
-//Check hat
-if ((life_clothing_purchase select 1) isEqualTo -1) then {
-    if (life_oldHat != headgear player) then {
-        if (life_oldHat isEqualTo "") then {
-            removeHeadGear player;
-        } else {
-            player addHeadGear life_oldHat;
-        };
-    };
-};
-//Check glasses
-if ((life_clothing_purchase select 2) isEqualTo -1) then {
-    if (life_oldGlasses != goggles player) then {
-        if (life_oldGlasses isEqualTo "") then  {
-            removeGoggles player;
-        } else {
-            player addGoggles life_oldGlasses;
-        };
-    };
-};
-//Check Vest
-if ((life_clothing_purchase select 3) isEqualTo -1) then {
-    if (life_oldVest != vest player) then {
-        if (life_oldVest isEqualTo "") then {removeVest player;} else {
-            player addVest life_oldVest;
-            {
-                [_x,true,false,false,true] call life_fnc_handleItem;
-                true
-            } count life_oldVestItems;
-        };
-    };
-};
-//Check Backpack
-if ((life_clothing_purchase select 4) isEqualTo -1) then {
-    if (life_oldBackpack != backpack player) then {
-        if (life_oldBackpack isEqualTo "") then {removeBackpack player;} else {
-            removeBackpack player;
-            player addBackpack life_oldBackpack;
-            {
-                [_x,true,true] call life_fnc_handleItem;
-                true
-            } count life_oldBackpackItems;
-        };
-    };
-};
 life_clothing_purchase = [-1,-1,-1,-1,-1];
+private _refillUniform = false;
+private _refillVest = false;
+private _refillPack = false;
+
+//Uniform
+if (!(_bought select 0) && {!((uniform player) isEqualTo life_oldClothes)}) then {
+    if !(uniform player isEqualTo "") then {removeUniform player};
+    if !(life_oldClothes isEqualTo "") then {
+        //Ohne Lobby verteilt die Engine irgendeinen freien Slot - die Spielfigur kann also die
+        //Klasse eines Polizisten oder Sanitaeters haben, auch wenn man als Zivilist spielt. Fuer
+        //solche Klassen ist Zivilkleidung "nicht erlaubt", und addUniform tut dann stillschweigend
+        //nichts: die Vorschau war aus, die eigene Uniform kam nicht zurueck, weg war sie.
+        //forceAddUniform zieht sie unabhaengig von der Klasse an (genauso macht es fn_startLoadout).
+        if (player isUniformAllowed life_oldClothes) then {
+            player addUniform life_oldClothes;
+        } else {
+            player forceAddUniform life_oldClothes;
+        };
+        _refillUniform = true;
+    };
+};
+//Kopfbedeckung
+if (!(_bought select 1) && {!((headgear player) isEqualTo life_oldHat)}) then {
+    if !(headgear player isEqualTo "") then {removeHeadgear player};
+    if !(life_oldHat isEqualTo "") then {player addHeadgear life_oldHat};
+};
+//Brille
+if (!(_bought select 2) && {!((goggles player) isEqualTo life_oldGlasses)}) then {
+    if !(goggles player isEqualTo "") then {removeGoggles player};
+    if !(life_oldGlasses isEqualTo "") then {player addGoggles life_oldGlasses};
+};
+//Weste
+if (!(_bought select 3) && {!((vest player) isEqualTo life_oldVest)}) then {
+    if !(vest player isEqualTo "") then {removeVest player};
+    if !(life_oldVest isEqualTo "") then {
+        player addVest life_oldVest;
+        _refillVest = true;
+    };
+};
+//Rucksack
+if (!(_bought select 4) && {!((backpack player) isEqualTo life_oldBackpack)}) then {
+    if !(backpack player isEqualTo "") then {removeBackpack player};
+    if !(life_oldBackpack isEqualTo "") then {
+        player addBackpack life_oldBackpack;
+        clearAllItemsFromBackpack player;
+        _refillPack = true;
+    };
+};
+//Inhalte erst, wenn alle Behaelter wieder da sind - sonst sucht sich ein Gegenstand den falschen
+if (_refillUniform) then {
+    {[_x,true,false,false,true] call life_fnc_handleItem} forEach life_oldUniformItems;
+};
+if (_refillVest) then {
+    {[_x,true,false,false,true] call life_fnc_handleItem} forEach life_oldVestItems;
+};
+if (_refillPack) then {
+    {[_x,true,true] call life_fnc_handleItem} forEach life_oldBackpackItems;
+};
+//Eine Zeile ins Log, wenn man den Laden mit einer anderen Uniform verlaesst als man hereinkam -
+//nach einem Kauf ist das richtig so, sonst steht hier der Grund fuer eine verschwundene Uniform.
+if !((uniform player) isEqualTo life_oldClothes) then {
+    diag_log format ["[CLOTHING] Uniform vorher %1, jetzt %2 (gekauft: %3, Spielfigur %4)",
+        life_oldClothes, uniform player, _bought, typeOf player];
+};
+[] call life_fnc_playerSkins;
 [] call life_fnc_saveGear;

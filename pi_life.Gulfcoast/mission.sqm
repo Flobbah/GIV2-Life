@@ -2478,7 +2478,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=229;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=4.7683716e-07;
 					class CustomAttributes
 					{
@@ -2516,7 +2516,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=230;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					class CustomAttributes
 					{
 						class Attribute0
@@ -2553,7 +2553,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=231;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=4.7683716e-07;
 					class CustomAttributes
 					{
@@ -2591,7 +2591,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=232;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=4.7683716e-07;
 					class CustomAttributes
 					{
@@ -2629,7 +2629,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=233;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 					class CustomAttributes
 					{
@@ -2667,7 +2667,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=234;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=4.7683716e-07;
 					class CustomAttributes
 					{
@@ -2705,7 +2705,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=235;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item7
@@ -2726,7 +2726,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=236;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item8
@@ -2747,7 +2747,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=237;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item9
@@ -2768,7 +2768,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=238;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 				class Item10
@@ -2789,7 +2789,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=239;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 				class Item11
@@ -2810,7 +2810,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=240;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item12
@@ -2831,7 +2831,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=241;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item13
@@ -2852,7 +2852,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=242;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 				class Item14
@@ -2873,7 +2873,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=243;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-6.5326691e-05;
 				};
 				class Item15
@@ -2894,7 +2894,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=244;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item16
@@ -2915,7 +2915,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=245;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item17
@@ -2936,7 +2936,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=246;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 				class Item18
@@ -2957,7 +2957,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=247;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=4.7683716e-07;
 					class CustomAttributes
 					{
@@ -14063,7 +14063,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=540;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=5.3882599e-05;
 				};
 				class Item1
@@ -14084,7 +14084,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=541;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 				class Item2
@@ -14105,7 +14105,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=542;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-4.7683716e-07;
 				};
 				class Item3
@@ -14126,7 +14126,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=543;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 				class Item4
@@ -14147,7 +14147,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=544;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 				class Item5
@@ -14168,7 +14168,7 @@ class Mission
 						isPlayable=1;
 					};
 					id=545;
-					type="B_RangeMaster_F";
+					type="C_man_1";
 					atlOffset=-9.5367432e-07;
 				};
 			};

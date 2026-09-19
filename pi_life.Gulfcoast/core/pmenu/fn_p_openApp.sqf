@@ -21,5 +21,5 @@ missionNamespace setVariable ["life_phone_dialog", _class];
 closeDialog 0;
 [_class] spawn {
     uiSleep 0.05; //ein Dialog laesst sich nicht im selben Moment schliessen und oeffnen
-    createDialog (_this select 0);
+    (_this select 0) call life_fnc_p_openDialog;
 };

@@ -354,6 +354,7 @@ class Life_Client_Core {
         class p_openMenu {};
         class p_showPage {};
         class p_openApp {};
+        class p_openDialog {};
         class p_home {};
         class p_back {};
         class p_updateMenu {};
@@ -421,11 +422,13 @@ class Life_Client_Core {
         class fuelLBchange {};
         class fuelStatOpen {};
         class levelCheck {};
+        class shopStatus {};
         class vehicleShopBuy {};
         class vehicleShopLBChange {};
         class vehicleShopMenu {};
         class virt_buy {};
         class virt_menu {};
+        class virt_preview {};
         class virt_sell {};
         class virt_update {};
         class weaponShopAccs {};

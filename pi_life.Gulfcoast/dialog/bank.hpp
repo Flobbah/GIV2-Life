@@ -1,116 +1,87 @@
+/*
+    File: bank.hpp
+    Description:
+    Geldautomat im gemeinsamen Laden-Layout aus shop.hpp, als schmale Theke.
+    IDCs unveraendert: 2701 Kontostand, 2702 Betrag, 2703 Empfaenger, 2705/2706 Gangkasse.
+*/
 class Life_atm_management {
     idd = 2700;
-    name= "life_atm_menu";
+    name = "life_atm_menu";
     movingEnable = 0;
     enableSimulation = 1;
     class controlsBackground {
-        class Life_RscTitleBackground: Life_RscText {
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"};
-            idc = -1;
-            x = 0.35;
-            y = 0.2;
-            w = 0.3;
-            h = (1 / 25);
-        };
-        class MainBackground: Life_RscText {
-            colorBackground[] = {0, 0, 0, 0.7};
-            idc = -1;
-            x = 0.35;
-            y = 0.2 + (11 / 250);
-            w = 0.3;
-            h = 0.652 - (22 / 250);
-        };
+        SHOP_FRAME_NARROW(-1,"$STR_ATM_Title")
     };
     class controls {
-        class CashTitle: Life_RscStructuredText {
+        //Kontostand gross in der Mitte - der Automat ist der einzige Ort, wo man ihn braucht
+        class CashTitle : Life_RscShopStructured {
             idc = 2701;
-            text = "";
-            x = 0.39;
-            y = 0.26;
-            w = 0.3;
-            h = .14;
+            y = SH_Y(2.0);
+            w = SH_W(11.8);
+            h = SH_H(2.8);
+            size = SH_FONT(1.1);
         };
-        class Title: Life_RscTitle {
-            colorBackground[] = {0, 0, 0, 0};
-            idc = -1;
-            text = "$STR_ATM_Title";
-            x = 0.35;
-            y = 0.2;
-            w = 0.6;
-            h = (1 / 25);
+        class AmountLabel : Life_RscShopLabel {
+            text = "$STR_PM_AmountMoney";
+            y = SH_Y(5.2);
+            w = SH_W(3.2);
+            h = SH_H(1.0);
         };
-        class WithdrawButton: Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_ATM_Withdraw";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call life_fnc_bankWithdraw";
-            x = 0.425;
-            y = 0.46;
-            w = (6 / 40);
-            h = (1 / 25);
-        };
-        class DepositButton: Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_ATM_Deposit";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call life_fnc_bankDeposit";
-            x = 0.425;
-            y = 0.512;
-            w = (6 / 40);
-            h = (1 / 25);
-        };
-        class moneyEdit: Life_RscEdit {
+        class moneyEdit : Life_RscShopEdit {
             idc = 2702;
             text = "1";
-            sizeEx = 0.030;
-            x = 0.4;
-            y = 0.41;
-            w = 0.2;
-            h = 0.03;
+            x = SH_X(3.8);
+            y = SH_Y(5.2);
+            w = SH_W(8.6);
         };
-        class PlayerList: Life_RscCombo {
-            idc = 2703;
-            x = 0.4;
-            y = 0.58;
-            w = 0.2;
-            h = 0.03;
+        class WithdrawButton : Life_RscShopButton {
+            text = "$STR_ATM_Withdraw";
+            onButtonClick = "[] call life_fnc_bankWithdraw";
+            x = SH_X(0.6);
+            y = SH_Y(6.5);
+            w = SH_W(5.7);
         };
-        class TransferButton: Life_RscButtonMenu {
-            idc = -1;
+        class DepositButton : WithdrawButton {
+            text = "$STR_ATM_Deposit";
+            onButtonClick = "[] call life_fnc_bankDeposit";
+            x = SH_X(6.7);
+        };
+        class TransferLabel : Life_RscShopLabel {
             text = "$STR_ATM_Transfer";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call life_fnc_bankTransfer";
-            x = 0.425;
-            y = 0.63;
-            w = (6 / 40);
-            h = (1 / 25);
+            y = SH_Y(8.3);
+            w = SH_W(11.8);
         };
-        class GangWithdraw : TransferButton {
+        class PlayerList : Life_RscShopCombo {
+            idc = 2703;
+            y = SH_Y(9.3);
+            w = SH_W(11.8);
+        };
+        class TransferButton : Life_RscShopButton {
+            text = "$STR_ATM_Transfer";
+            onButtonClick = "[] call life_fnc_bankTransfer";
+            x = SH_X(0.6);
+            y = SH_Y(10.6);
+            w = SH_W(11.8);
+        };
+        class GangLabel : Life_RscShopLabel {
+            text = "$STR_ATM_GangBank";
+            y = SH_Y(12.4);
+            w = SH_W(11.8);
+        };
+        class GangWithdraw : Life_RscShopButtonAlt {
             idc = 2705;
             text = "$STR_ATM_WithdrawGang";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
             onButtonClick = "[false] call life_fnc_useGangBank";
-            x = 0.365;
-            y = 0.7;
-            w = 0.275;
+            x = SH_X(0.6);
+            y = SH_Y(13.4);
+            w = SH_W(5.7);
         };
-        class GangDeposit : TransferButton {
+        class GangDeposit : GangWithdraw {
             idc = 2706;
             text = "$STR_ATM_DepositGang";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
             onButtonClick = "[true] call life_fnc_useGangBank";
-            x = 0.365;
-            y = 0.752;
-            w = 0.275;
+            x = SH_X(6.7);
         };
-        class CloseButtonKey: Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_Global_Close";
-            onButtonClick = "closeDialog 0;";
-            x = 0.35;
-            y = 0.812;
-            w = (6.25 / 40);
-            h = (1 / 25);
-        };
+        SHOP_CLOSE_NARROW
     };
 };

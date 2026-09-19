@@ -27,7 +27,7 @@ if ((uiNamespace getVariable ["Weapon_Magazine",0]) isEqualTo 1 || {(uiNamespace
                 _count = {_x == _var} count (uiNamespace getVariable ["Magazine_Array",[]]);
                 if (_count > 0) then {
                     _itemInfo = [(_x select 0)] call life_fnc_fetchCfgDetails;
-                    _itemList lbAdd format ["%1",if (!((_x select 1) isEqualTo "")) then {(_x select 1)} else {(_itemInfo select 1)}];
+                    _itemList lbAdd format ["%1   $%2",if (!((_x select 1) isEqualTo "")) then {(_x select 1)} else {(_itemInfo select 1)},[(_x select 2)] call life_fnc_numberText];
                     _itemList lbSetData[(lbSize _itemList)-1,(_itemInfo select 0)];
                     _itemList lbSetPicture[(lbSize _itemList)-1,(_itemInfo select 2)];
                     _itemList lbSetValue[(lbSize _itemList)-1,(_x select 2)];
@@ -51,7 +51,7 @@ if ((uiNamespace getVariable ["Weapon_Magazine",0]) isEqualTo 1 || {(uiNamespace
                 _count = {_x == _var} count (uiNamespace getVariable ["Accessories_Array",[]]);
                 if (_count > 0) then {
                     _itemInfo = [(_x select 0)] call life_fnc_fetchCfgDetails;
-                    _itemList lbAdd format ["%1",if (!((_x select 1) isEqualTo "")) then {(_x select 1)} else {(_itemInfo select 1)}];
+                    _itemList lbAdd format ["%1   $%2",if (!((_x select 1) isEqualTo "")) then {(_x select 1)} else {(_itemInfo select 1)},[(_x select 2)] call life_fnc_numberText];
                     _itemList lbSetData[(lbSize _itemList)-1,(_itemInfo select 0)];
                     _itemList lbSetPicture[(lbSize _itemList)-1,(_itemInfo select 2)];
                     _itemList lbSetValue[(lbSize _itemList)-1,(_x select 2)];
@@ -75,7 +75,7 @@ if ((uiNamespace getVariable ["Weapon_Magazine",0]) isEqualTo 1 || {(uiNamespace
                 _bool = [_x] call life_fnc_levelCheck;
                 if (_bool) then {
                     _itemInfo = [_x select 0] call life_fnc_fetchCfgDetails;
-                    _itemList lbAdd format ["%1",if (!((_x select 1) isEqualTo "")) then {_x select 1} else {_itemInfo select 1}];
+                    _itemList lbAdd format ["%1   $%2",if (!((_x select 1) isEqualTo "")) then {_x select 1} else {_itemInfo select 1},[_x select 2] call life_fnc_numberText];
                     _itemList lbSetData[(lbSize _itemList)-1,_itemInfo select 0];
                     _itemList lbSetPicture[(lbSize _itemList)-1,_itemInfo select 2];
                     _itemList lbSetValue[(lbSize _itemList)-1,_x select 2];
@@ -124,10 +124,11 @@ if ((uiNamespace getVariable ["Weapon_Magazine",0]) isEqualTo 1 || {(uiNamespace
                                     _itemInfo = [_x] call life_fnc_fetchCfgDetails;
                                     _listedItems pushBack _x;
                                     _itemCount = {_x == (_itemInfo select 0)} count _config;
+                                    //Ankaufspreis gleich in der Zeile, damit man nicht jede Zeile einzeln anklicken muss
                                     if (_itemCount > 1) then {
-                                        _itemList lbAdd format ["[%2] %1",_itemInfo select 1,_itemCount];
+                                        _itemList lbAdd format ["%1 x%2   $%3",_itemInfo select 1,_itemCount,[(_z select 3)] call life_fnc_numberText];
                                     } else {
-                                        _itemList lbAdd format ["%1",_itemInfo select 1];
+                                        _itemList lbAdd format ["%1   $%2",_itemInfo select 1,[(_z select 3)] call life_fnc_numberText];
                                     };
                                     _itemList lbSetData[(lbSize _itemList)-1,_itemInfo select 0];
                                     _itemList lbSetPicture[(lbSize _itemList)-1,_itemInfo select 2];

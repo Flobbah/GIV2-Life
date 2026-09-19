@@ -123,7 +123,14 @@ if (_bool) then {
                                             _items = uniformItems player;
                                             removeUniform player;
                                         };
-                                        player addUniform _item;
+                                        //addUniform tut nichts, wenn die Kleidung fuer die Klasse der
+                                        //Spielfigur nicht vorgesehen ist - ohne Fehlermeldung. Dann
+                                        //stuende man ohne Uniform da (siehe fn_clothingMenu).
+                                        if (!(player isUniformAllowed _item)) then {
+                                            player forceAddUniform _item;
+                                        } else {
+                                            player addUniform _item;
+                                        };
                                         if (!isNil "_items") then {
                                             {player addItemToUniform _x} forEach _items;
                                         };

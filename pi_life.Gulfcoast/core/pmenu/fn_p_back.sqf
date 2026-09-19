@@ -25,5 +25,5 @@ missionNamespace setVariable ["life_phone_dialog", _value];
 closeDialog 0;
 [_value] spawn {
     uiSleep 0.05;
-    createDialog (_this select 0);
+    (_this select 0) call life_fnc_p_openDialog;
 };

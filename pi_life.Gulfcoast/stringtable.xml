@@ -3528,6 +3528,78 @@
             <Polish></Polish>
 			<Chinesesimp></Chinesesimp>
         </Key>
+        <Key ID="STR_Shop_ColsOffer">
+            <English>Shop inventory (price / weight)</English>
+            <German>Ladeninventar (Preis / Gewicht)</German>
+        </Key>
+        <Key ID="STR_Shop_ColsOwn">
+            <English>Your goods - load %1 / %2</English>
+            <German>Deine Ware - Traglast %1 / %2</German>
+        </Key>
+        <Key ID="STR_Shop_PreviewBuy">
+            <English>%1 x %2 = $%3, weight %4</English>
+            <German>%1 x %2 = $%3, Gewicht %4</German>
+        </Key>
+        <Key ID="STR_Shop_PreviewSell">
+            <English>%1 x %2 = $%3</English>
+            <German>%1 x %2 = $%3</German>
+        </Key>
+        <Key ID="STR_Shop_PreviewFits">
+            <English>Only %1 fit</English>
+            <German>Es passen nur %1</German>
+        </Key>
+        <Key ID="STR_Shop_PreviewCash">
+            <English>Not enough cash</English>
+            <German>Nicht genug Bargeld</German>
+        </Key>
+        <Key ID="STR_Shop_PreviewOwned">
+            <English>You only have %1</English>
+            <German>Du hast nur %1</German>
+        </Key>
+        <Key ID="STR_Shop_PreviewNoBuyer">
+            <English>This shop does not buy that</English>
+            <German>Dieser Laden kauft das nicht an</German>
+        </Key>
+        <Key ID="STR_Shop_Lacks">
+            <English>You are $%1 short</English>
+            <German>Es fehlen $%1</German>
+        </Key>
+        <Key ID="STR_Shop_Turn">
+            <English>Turn</English>
+            <German>Drehen</German>
+        </Key>
+        <Key ID="STR_ATM_GangBank">
+            <English>Gang funds</English>
+            <German>Gangkasse</German>
+        </Key>
+        <Key ID="STR_Fuel_Title">
+            <English>Fuel station</English>
+            <German>Tankstelle</German>
+        </Key>
+        <Key ID="STR_Fuel_Vehicles">
+            <English>Vehicles nearby</English>
+            <German>Fahrzeuge in der Naehe</German>
+        </Key>
+        <Key ID="STR_Fuel_Refuel">
+            <English>Refuel</English>
+            <German>Tanken</German>
+        </Key>
+        <Key ID="STR_Fuel_Amount">
+            <English>Amount: %1 litres</English>
+            <German>Menge: %1 Liter</German>
+        </Key>
+        <Key ID="STR_Fuel_Total">
+            <English>Total: $%1</English>
+            <German>Summe: $%1</German>
+        </Key>
+        <Key ID="STR_Shop_ConfirmRemoveTitle">
+            <English>Take off</English>
+            <German>Ablegen</German>
+        </Key>
+        <Key ID="STR_Shop_ConfirmRemove">
+            <English>You are taking off: %1.<br/>Those pieces are gone afterwards - there is no refund.<br/><br/>Continue?</English>
+            <German>Du legst ab: %1.<br/>Die Sachen sind danach weg, Geld zurueck gibt es dafuer nicht.<br/><br/>Fortfahren?</German>
+        </Key>
     </Package>
     <Package name="Spawn_Menu">
         <Key ID="STR_Spawn_Title">

@@ -1,135 +1,95 @@
+/*
+    File: shop_items.hpp
+    Description:
+    Markt (virtueller Laden) im gemeinsamen Laden-Layout aus shop.hpp.
+    IDCs unveraendert (2401 Angebot, 2402 eigene Ware, 2403 Titel, 2404/2405 Menge,
+    17999 Alles verkaufen); neu sind 2406/2410 (Vorschau), 2411/2412 (Spaltenkoepfe).
+*/
 class shops_menu {
     idd = 2400;
-    name= "shops_menu";
+    name = "shops_menu";
     movingEnable = 0;
     enableSimulation = 1;
+    onLoad = "[_this select 0] call life_fnc_shopStatus;";
     class controlsBackground {
-        class Life_RscTitleBackground: Life_RscText {
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"};
-            idc = -1;
-            x = 0.1;
-            y = 0.2;
-            w = 0.8;
-            h = (1 / 25);
+        SHOP_FRAME(2403,"")
+        class OfferLabel : Life_RscShopLabel {
+            idc = 2412;
+            text = "";
+            y = SH_Y(1.8);
         };
-        class MainBackground: Life_RscText {
-            colorBackground[] = {0, 0, 0, 0.7};
-            idc = -1;
-            x = 0.1;
-            y = 0.2 + (11 / 250);
-            w = 0.8;
-            h = 0.6 - (22 / 250);
-        };
-        class vasText: Life_RscText {
-            idc = -1;
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            text = "$STR_VS_SI";
-            sizeEx = 0.04;
-            x = 0.12;
-            y = 0.27;
-            w = 0.350;
-            h = 0.04;
-        };
-        class vasgText: Life_RscText {
-            idc = -1;
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            text = "$STR_VS_PI";
-            sizeEx = 0.04;
-            x = 0.53;
-            y = 0.27;
-            w = 0.350;
-            h = 0.04;
+        class OwnLabel : OfferLabel {
+            idc = 2411;
+            x = SH_X(14.2);
         };
     };
     class controls {
-        class itemList: Life_RscListBox {
+        class itemList : Life_RscShopList {
             idc = 2401;
-            text = "";
-            sizeEx = 0.030;
-            x = 0.12;
-            y = 0.31;
-            w = 0.350;
-            h = 0.340;
+            y = SH_Y(2.8);
+            h = SH_H(11.4);
+            onLBSelChanged = "[] call life_fnc_virt_preview;";
         };
-        class pItemlist: Life_RscListBox {
+        class pItemlist : itemList {
             idc = 2402;
-            text = "";
-            sizeEx = 0.030;
-            x = 0.53;
-            y = 0.31;
-            w = 0.350;
-            h = 0.340;
+            x = SH_X(14.2);
         };
-        class Title: Life_RscTitle {
-            colorBackground[] = {0, 0, 0, 0};
-            idc = 2403;
-            text = "";
-            x = 0.1;
-            y = 0.2;
-            w = 0.8;
-            h = (1 / 25);
+        class BuyAmountLabel : Life_RscShopLabel {
+            text = "$STR_PM_Amount";
+            x = SH_X(0.6);
+            y = SH_Y(14.4);
+            w = SH_W(2.8);
+            h = SH_H(1.1);
         };
-        class PlayersName: Title {
-            idc = 601;
-            style = 1;
-            text = "";
-        };
-        class buyEdit: Life_RscEdit {
+        class buyEdit : Life_RscShopEdit {
             idc = 2404;
             text = "1";
-            sizeEx = 0.030;
-            x = 0.12;
-            y = 0.66;
-            w = 0.35;
-            h = 0.03;
+            x = SH_X(3.4);
+            y = SH_Y(14.4);
+            w = SH_W(3.0);
+            h = SH_H(1.1);
+            onKeyUp = "[] call life_fnc_virt_preview;";
         };
-        class sellEdit: Life_RscEdit {
+        class SellAmountLabel : BuyAmountLabel {
+            x = SH_X(14.2);
+        };
+        class sellEdit : buyEdit {
             idc = 2405;
-            text = "1";
-            sizeEx = 0.030;
-            x = 0.53;
-            y = 0.66;
-            w = 0.35;
-            h = 0.03;
+            x = SH_X(17.0);
         };
-        class ButtonAddG: Life_RscButtonMenu {
-            idc = -1;
+        //Die drei Knoepfe stehen in der Fussleiste: "Alles verkaufen" passt in eine schmale Spalte
+        //nicht hinein, abgeschnittene Beschriftungen sehen nach Bastelei aus.
+        class ButtonAddG : Life_RscShopButton {
             text = "$STR_VS_BuyItem";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
             onButtonClick = "[] call life_fnc_virt_buy;";
-            x = 0.12 + (0.35 / 2) - ((6.25 / 40) / 2);
-            y = 0.70;
-            w = (6.25 / 40);
-            h = (1 / 25);
+            x = SH_X(0.6);
+            w = SH_W(6.6);
         };
-        class ButtonRemoveG: Life_RscButtonMenu {
-            idc = -1;
+        class ButtonRemoveG : Life_RscShopButtonSell {
             text = "$STR_VS_SellItem";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call life_fnc_virt_sell";
-            x = 0.5375;
-            y = 0.70;
-            w = 0.15625;
-            h = 0.04;
+            onButtonClick = "[] call life_fnc_virt_sell;";
+            x = SH_X(7.6);
+            w = SH_W(6.6);
         };
-        class ButtonRemoveAllG: Life_RscButtonMenu{
+        class ButtonRemoveAllG : ButtonRemoveG {
             idc = 17999;
             text = "$STR_VS_SellAll";
-            colorBackground[] = {"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])", "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])", "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])", 0.5};
-            onButtonClick = "[] call Life_fnc_virt_sellAll;";
-            x = 0.7125;
-            y = 0.7;
-            w = 0.15625;
-            h = 0.04;
+            onButtonClick = "[] call life_fnc_virt_sellAll;";
+            x = SH_X(14.6);
+            w = SH_W(7.8);
         };
-        class ButtonClose: Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_Global_Close";
-            onButtonClick = "closeDialog 0;";
-            x = 0.1;
-            y = 0.8 - (1 / 25);
-            w = (6.25 / 40);
-            h = (1 / 25);
+        //Vorschau: was der Einkauf kostet und wiegt, was der Verkauf bringt
+        class BuyPreview : Life_RscShopStructured {
+            idc = 2406;
+            x = SH_X(0.6);
+            y = SH_Y(15.7);
+            w = SH_W(13.2);
+            h = SH_H(1.2);
         };
+        class SellPreview : BuyPreview {
+            idc = 2410;
+            x = SH_X(14.2);
+        };
+        SHOP_CLOSE
     };
 };

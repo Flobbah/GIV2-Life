@@ -1,99 +1,65 @@
+/*
+    File: vehicleShop.hpp
+    Description:
+    Fahrzeughandel ohne 3D-Vorschau im gemeinsamen Laden-Layout aus shop.hpp. Wird nur genutzt,
+    wenn Life_Settings >> vehicleShop_3D auf false steht - sonst kommt vehicleShop3D.hpp.
+    IDCs unveraendert: 2301 Titel, 2302 Liste, 2303 Fahrzeugdaten, 2304 Farbe, 2309 Kaufen,
+    2330 Kopfzeile der Fahrzeugdaten (wird beim Oeffnen ausgeblendet).
+*/
 class Life_Vehicle_Shop_v2 {
     idd = 2300;
-    name="life_vehicle_shop";
-    movingEnabled = 0;
+    name = "life_vehicle_shop";
+    movingEnable = 0;
     enableSimulation = 1;
-    onLoad = "ctrlShow [2330,false];";
+    onLoad = "ctrlShow [2330,false]; [_this select 0] call life_fnc_shopStatus;";
     class controlsBackground {
-        class Life_RscTitleBackground : Life_RscText {
-            colorBackground[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])", "(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])", "(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])", "(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
-            idc = -1;
-            x = 0.1;
-            y = 0.2;
-            w = 0.8;
-            h = (1 / 25);
-        };
-        class MainBackground : Life_RscText {
-            colorBackground[] = {0,0,0,0.7};
-                idc = -1;
-                x = 0.1;
-                y = 0.2 + (11 / 250);
-                w = 0.8;
-                h = 0.7 - (22 / 250);
-        };
-        class Title : Life_RscTitle {
-            idc = 2301;
-            text = "";
-            x = 0.1;
-            y = 0.2;
-            w = 0.8;
-            h = (1 / 25);
-        };
-        class VehicleTitleBox : Life_RscText {
-            idc = -1;
+        SHOP_FRAME(2301,"")
+        class StockLabel : Life_RscShopLabel {
             text = "$STR_GUI_ShopStock";
-            colorBackground[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])", "(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])", "(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])", "(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
-            x = 0.11; y = 0.26;
-            w = 0.3;
-            h = (1 / 25);
+            y = SH_Y(1.8);
         };
-        class VehicleInfoHeader : Life_RscText {
+        class VehicleInfoHeader : Life_RscShopLabel {
             idc = 2330;
             text = "$STR_GUI_VehInfo";
-            colorBackground[] = {"(profileNamespace getVariable ['GUI_BCG_RGB_R',0.3843])", "(profileNamespace getVariable ['GUI_BCG_RGB_G',0.7019])", "(profileNamespace getVariable ['GUI_BCG_RGB_B',0.8862])", "(profileNamespace getVariable ['GUI_BCG_RGB_A',0.7])"};
-            x = 0.42; y = 0.26;
-            w = 0.46;
-            h = (1 / 25);
+            x = SH_X(14.2);
+            y = SH_Y(1.8);
         };
-        class CloseBtn : Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_Global_Close";
-            onButtonClick = "closeDialog 0;";
-            x = -0.06 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
-            y = 0.9 - (1 / 25);
-            w = (6.25 / 40);
-            h = (1 / 25);
-        };
-        class RentCar : Life_RscButtonMenu {
-            idc = -1;
-            text = "$STR_Global_RentVeh";
-            onButtonClick = "[false] spawn life_fnc_vehicleShopBuy;";
-            x = 0.1 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
-            y = 0.9 - (1 / 25);
-            w = (6.25 / 40);
-            h = (1 / 25);
-        };
-        class BuyCar : life_RscButtonMenu {
-            idc = 2309;
-            text = "$STR_Global_Buy";
-            onButtonClick = "[true] spawn life_fnc_vehicleShopBuy;";
-            x = 0.26 + (6.25 / 40) + (1 / 250 / (safezoneW / safezoneH));
-            y = 0.9 - (1 / 25);
-            w = (6.25 / 40);
-            h = (1 / 25);
+        class InfoPanel : Life_RscShopPanel {
+            x = SH_X(14.2);
+            y = SH_Y(2.8);
+            w = SH_W(13.2);
+            h = SH_H(13.8);
         };
     };
     class controls {
-        class VehicleList : Life_RscListBox {
+        class VehicleList : Life_RscShopList {
             idc = 2302;
-            text = "";
-            sizeEx = 0.04;
-            colorBackground[] = {0.1,0.1,0.1,0.9};
+            y = SH_Y(2.8);
+            h = SH_H(12.4);
             onLBSelChanged = "_this call life_fnc_vehicleShopLBChange";
-            x = 0.11; y = 0.302;
-            w = 0.303; h = 0.49;
         };
-        class ColorList : Life_RscCombo {
+        class ColorList : Life_RscShopCombo {
             idc = 2304;
-            x = 0.11; y = 0.8;
-            w = 0.303; h = 0.03;
+            y = SH_Y(15.4);
         };
-        class vehicleInfomationList : Life_RscStructuredText {
+        class vehicleInfomationList : Life_RscShopStructured {
             idc = 2303;
-            text = "";
-            sizeEx = 0.035;
-            x = 0.41; y = 0.3;
-            w = 0.5; h = 0.5;
+            x = SH_X(14.6);
+            y = SH_Y(3.1);
+            w = SH_W(12.4);
+            h = SH_H(13.2);
         };
+        class BuyCar : Life_RscShopButton {
+            idc = 2309;
+            text = "$STR_Global_Buy";
+            onButtonClick = "[true] spawn life_fnc_vehicleShopBuy;";
+            x = SH_X(0.6);
+        };
+        class RentCar : Life_RscShopButtonAlt {
+            text = "$STR_Global_RentVeh";
+            onButtonClick = "[false] spawn life_fnc_vehicleShopBuy;";
+            x = SH_X(5.4);
+        };
+        SHOP_CLOSE
     };
 };
