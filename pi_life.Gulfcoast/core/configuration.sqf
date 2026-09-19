@@ -62,7 +62,7 @@ life_firstSpawn = true;
 life_open_notifications = [];
 //Performance caches (see fn_revealObjects, fn_hudUpdate, fn_keyHandler)
 life_revealObjects_next = 0;
-life_hud_cache = [-1,-1,-1,-1,-1];
+life_hud_cache = [-1,-1,-1,-1,-1,-1,-1,-1]; //0-4 Geld und Spielerzahlen, 5-7 Warnstufe der drei Balken
 life_settings_disableCommanderView = LIFE_SETTINGS(getNumber,"disableCommanderView") isEqualTo 1;
 life_vehicleDoorSources = ["door_back_R","door_back_L","door_R","door_L","Door_L_source","Door_rear","Door_rear_source","Door_1_source","Door_2_source","Door_3_source","Door_LM","Door_RM","Door_LF","Door_RF","Door_LB","Door_RB","DoorL_Front_Open","DoorR_Front_Open","DoorL_Back_Open","DoorR_Back_Open"];
 //Farbkorrektur in der Nacht

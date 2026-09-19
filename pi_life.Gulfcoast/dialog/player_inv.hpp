@@ -77,21 +77,21 @@ class playerSettings {
             idc = 2013;
             text = "$STR_PM_App_Keys";
             x = PH_X(0.6);
-            y = PH_Y(7.8);
+            y = PH_Y(8.55);
             onButtonClick = "[""Life_key_management""] call life_fnc_p_openApp;";
         };
         class TilePhone : Life_RscPhoneTileCyan {
             idc = 2035;
             text = "$STR_PM_App_Phone";
             x = PH_X(3.8);
-            y = PH_Y(7.8);
+            y = PH_Y(8.55);
             onButtonClick = "[""Life_cell_phone""] call life_fnc_p_openApp;";
         };
         class TileSettings : Life_RscPhoneTileGrey {
             idc = 2036;
             text = "$STR_PM_App_Settings";
             x = PH_X(7.0);
-            y = PH_Y(7.8);
+            y = PH_Y(8.55);
             onButtonClick = "[] call life_fnc_settingsMenu;";
         };
         // Reihe 3: Karte, Navi, dann Gang (Zivilisten) bzw. Fahndung (Polizei) auf dem dritten Platz
@@ -99,28 +99,28 @@ class playerSettings {
             idc = 2011;
             text = "$STR_PM_App_Gang";
             x = PH_X(7.0);
-            y = PH_Y(10.8);
+            y = PH_Y(12.3);
             onButtonClick = "if (isNil ""life_action_gangInUse"") then {if (isNil {(group player) getVariable ""gang_owner""}) then {createDialog ""Life_Create_Gang_Diag"";} else {[] spawn life_fnc_gangMenu;};};";
         };
         class TileWanted : Life_RscPhoneTileIndigo {
             idc = 2012;
             text = "$STR_PM_App_Wanted";
             x = PH_X(7.0);
-            y = PH_Y(10.8);
+            y = PH_Y(12.3);
             onButtonClick = "[] call life_fnc_wantedMenu";
         };
         class TileMap : Life_RscPhoneTileOlive {
             idc = 2048;
             text = "$STR_PM_App_Map";
             x = PH_X(0.6);
-            y = PH_Y(10.8);
+            y = PH_Y(12.3);
             onButtonClick = "[""Life_Map_Filter""] call life_fnc_p_openApp;";
         };
         class TileNav : Life_RscPhoneTileNavy {
             idc = 2049;
             text = "$STR_PM_App_Nav";
             x = PH_X(3.8);
-            y = PH_Y(10.8);
+            y = PH_Y(12.3);
             onButtonClick = "[""Life_Navigation""] call life_fnc_p_openApp;";
         };
         // Reihe 4: Skills, Admin (nur fuer Admins)
@@ -128,14 +128,14 @@ class playerSettings {
             idc = 2047;
             text = "$STR_PM_App_Skills";
             x = PH_X(0.6);
-            y = PH_Y(13.8);
+            y = PH_Y(16.05);
             onButtonClick = "[""Life_Skills""] call life_fnc_p_openApp;";
         };
         class TileAdmin : Life_RscPhoneTileMagenta {
             idc = 2021;
             text = "$STR_PM_App_Admin";
             x = PH_X(3.8);
-            y = PH_Y(13.8);
+            y = PH_Y(16.05);
             onButtonClick = "closeDialog 0; createDialog ""life_admin_menu"";";
         };
         // Dock
@@ -143,7 +143,7 @@ class playerSettings {
             idc = 2054;
             text = "$STR_PM_App_Duty";
             x = PH_X(7.0);
-            y = PH_Y(13.8);
+            y = PH_Y(16.05);
             onButtonClick = "[""Life_Duty""] call life_fnc_p_openApp;";
         };
 

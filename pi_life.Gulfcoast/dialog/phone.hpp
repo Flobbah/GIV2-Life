@@ -13,7 +13,8 @@
     Innenbereich (Bildschirm): x 0.3 .. 10.2, y 0.45 .. 21.35
     Inhaltsbereich der Apps:   x 0.6 .. 9.9 (Breite 9.3), y ab 2.8 (unterhalb der App-Leiste)
 
-    Feste IDCs in jedem Telefon-Dialog: 2097 = Spielername (Statusleiste), 2098 = Uhrzeit.
+    Feste IDCs in jedem Telefon-Dialog: 2097 = Fraktion (Statusleiste rechts), 2098 = Uhrzeit.
+    Beides fuellt life_fnc_phoneStatus aus dem onLoad des jeweiligen Dialogs.
 */
 //Lage des Telefons: mittig am unteren Bildrand, mit etwas Luft nach unten fuer die Statusleiste.
 //Gerechnet wird ab der Mitte bzw. der Unterkante der Safezone, also am echten Bildrand.
@@ -134,10 +135,12 @@ class Life_RscPhoneBack : Life_RscPhoneButtonAlt {
 };
 
 /* ---------- App-Kacheln (Startbildschirm) ---------- */
+//Die vier Reihen fuellen den Bildschirm bis kurz ueber die Leiste - vorher blieb unten ein
+//Drittel leer. Reihenabstand in player_inv.hpp: 4.8 / 8.55 / 12.3 / 16.05.
 class Life_RscPhoneTile : Life_RscPhoneButton {
     w = PH_W(2.9);
-    h = PH_H(2.7);
-    sizeEx = PH_FONT(0.8);
+    h = PH_H(3.4);
+    sizeEx = PH_FONT(0.85);
 };
 class Life_RscPhoneTileTeal : Life_RscPhoneTile {
     colorBackground[] = {0.16, 0.55, 0.52, 0.95};
@@ -266,27 +269,43 @@ class Life_RscPhoneStructured : Life_RscStructuredText {
     class PhoneScreen : Life_RscPhoneScreen {}; \
     class PhoneStatusClock : Life_RscPhoneStatusClock {}; \
     class PhoneStatusName : Life_RscPhoneStatusName {};
-/* Feste Leiste unten: Home in der Mitte, Zurueck rechts daneben - wie bei einem Telefon.
-   Home schliesst auf der Startseite und fuehrt sonst dorthin, Zurueck geht eine Ebene hoch. */
-class Life_RscPhoneNavHome : Life_RscPhoneButtonAlt {
-    x = PH_X(3.95);
-    y = PH_Y(20.05);
-    w = PH_W(2.6);
-    h = PH_H(1.2);
-    onButtonClick = "[] call life_fnc_p_home;";
-};
-class Life_RscPhoneNavBack : Life_RscPhoneNavHome {
-    x = PH_X(7.3);
-    onButtonClick = "[] call life_fnc_p_back;";
-};
-class Life_RscPhoneNavSave : Life_RscPhoneNavHome {
+/* Feste Leiste unten: Speichern links, Zurueck rechts - beide nur mit Symbol, wie die
+   Navigationsleiste eines Telefons.
+
+   Einen eigenen Home-Knopf gibt es nicht mehr: Zurueck geht eine Ebene hoch, und wenn nichts mehr
+   da ist, macht es life_fnc_p_back selbst wie Home - auf der Startseite also schliessen. Zwei
+   Knoepfe fuer denselben Weg waren doppelt.
+
+   Die Symbole liegen im Spiel selbst (ui_f_data.pbo), es braucht also keine neuen Dateien im
+   Addon. Sie liegen als Bildfelder ueber den Knoepfen; ein Bildfeld faengt keine Klicks ab,
+   der Knopf darunter bekommt sie. */
+#define PHONE_ICON_SAVE "\a3\ui_f\data\gui\rsc\rscdisplayarcademap\icon_save_ca.paa"
+#define PHONE_ICON_BACK "\a3\ui_f\data\gui\rsccommon\rschtml\arrow_left_ca.paa"
+class Life_RscPhoneNavSave : Life_RscPhoneButtonAlt {
     x = PH_X(0.6);
+    y = PH_Y(20.05);
+    w = PH_W(4.25);
+    h = PH_H(1.2);
+    text = "";
+    tooltip = "$STR_PM_App_Sync";
     onButtonClick = "[] call SOCK_fnc_syncData;";
 };
+class Life_RscPhoneNavBack : Life_RscPhoneNavSave {
+    x = PH_X(5.65);
+    tooltip = "$STR_PM_Nav_Back";
+    onButtonClick = "[] call life_fnc_p_back;";
+};
+class Life_RscPhoneNavIcon : Life_RscPicture {
+    idc = -1;
+    y = PH_Y(20.25);
+    w = PH_W(0.8);
+    h = PH_H(0.8);
+};
 #define PHONE_NAVBAR \
-    class PhoneNavSave : Life_RscPhoneNavSave { text = "$STR_PM_App_Sync"; }; \
-    class PhoneNavHome : Life_RscPhoneNavHome { text = "$STR_PM_Nav_Home"; }; \
-    class PhoneNavBack : Life_RscPhoneNavBack { text = "$STR_PM_Nav_Back"; };
+    class PhoneNavSave : Life_RscPhoneNavSave {}; \
+    class PhoneNavBack : Life_RscPhoneNavBack {}; \
+    class PhoneNavSaveIcon : Life_RscPhoneNavIcon { x = PH_X(2.325); text = PHONE_ICON_SAVE; }; \
+    class PhoneNavBackIcon : Life_RscPhoneNavIcon { x = PH_X(7.375); text = PHONE_ICON_BACK; };
 //BACKCODE bleibt als Parameter erhalten, damit die Dialoge unveraendert bleiben; zurueck geht
 //es seit der festen Leiste unten ueber life_fnc_p_back.
 #define PHONE_APPBAR(TITLEIDC,TITLETEXT,BACKCODE) \

@@ -1,235 +1,186 @@
-////////////////////////////////////////////////////////
-// Authors: Kureo & Zalac                             //
-// Credit: Danny									  //
-////////////////////////////////////////////////////////
+/*
+    File: new_HUD.hpp
+    Description:
+    Dauerhafte Anzeige am unteren rechten Bildrand: Zustand (Leben, Hunger, Durst), Geld und die
+    Zahl der Spieler je Fraktion. Dazu die Navigationszeile unten in der Mitte (IDC 30).
+
+    Gefuellt wird sie von life_fnc_hudUpdate; die IDCs sind unveraendert:
+        1/4 Leben, 2/5 Hunger, 3/6 Durst (Balken/Text), 7 Konto, 8 Bargeld,
+        9 Polizei, 10 Rettungsdienst, 11 Zivilisten, 30 Navigationszeile.
+
+    Die Kachel ist 7.3 x 5.9 Rastereinheiten gross, mal HUD_SCALE (1.5) - also knapp ein Drittel der
+    Bildbreite - und haengt
+    mit einer halben Einheit Abstand in der unteren rechten Ecke. Gerechnet wird ab
+    safezoneX/Y + Breite/Hoehe, also ab dem echten Bildrand (siehe phone.hpp).
+    Urspruenglich von Kureo & Zalac, Credit: Danny - das Layout ist neu, die Aufteilung dieselbe.
+
+    Die Datei wird zweimal eingebunden (einmal ueber MasterHandler.hpp, einmal in RscTitles),
+    deshalb stehen die Makros hinter einer Abfrage.
+*/
+#ifndef HUD_X
+//Groesse der ganzen Kachel an einer Stelle: 1.0 waere das Raster von Telefon und Laeden, 1.5 ist
+//eineinhalbmal so gross. Positionen, Abstaende und Schriftgroessen haengen alle daran, die Kachel
+//bleibt also in sich stimmig und in der unteren rechten Ecke verankert.
+#define HUD_SCALE 1.5
+#define HUD_X(n) (safezoneX + safezoneW - (7.8 - (n)) * HUD_SCALE * GUI_GRID_CENTER_W)
+#define HUD_Y(n) (safezoneY + safezoneH - (6.4 - (n)) * HUD_SCALE * GUI_GRID_CENTER_H)
+#define HUD_W(n) ((n) * HUD_SCALE * GUI_GRID_CENTER_W)
+#define HUD_H(n) ((n) * HUD_SCALE * GUI_GRID_CENTER_H)
+#define HUD_FONT(n) (GUI_GRID_CENTER_H * HUD_SCALE * (n))
+#endif
+
 class new_HUD {
-	idd = 20099;
-	duration = 1e+1000;
-	movingEnable = 0;
-	fadein = 0;
-	fadeout = 0;
-	name = "playerHUD";
-	onLoad = "uiNamespace setVariable ['playerHUD',_this select 0]";
-	objects[] = {};
-	class controlsBackground {
-		// HUD Dx
-		
-		class BarraSfondoVita: Life_RscText {
-			colorBackground[] = {0.06,0.06,0.06,0.8};
-			idc = -1;
-			text = "";
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.749 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		class BarraSfondoFame: Life_RscText {
-			colorBackground[] = {0.06,0.06,0.06,0.8};
-			idc = -1;
-			text = "";
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.813624 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		class BarraSfondoSete: Life_RscText {
-			colorBackground[] = {0.06,0.06,0.06,0.8};
-			idc = -1;
-			text = "";
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.88081 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		class Vita_HUD: Life_RscPicture {
-			colorBackground[] = {0.02,0.06,0.06,1};
-			idc = -1;
-			text = "pi_data\hud\health.paa";
-			x = 0.883312 * safezoneW + safezoneX;
-			y = 0.737 * safezoneH + safezoneY;
-			w = 0.02751 * safezoneW;
-			h = 0.049 * safezoneH;
-		};
-		class Fame_HUD: Life_RscPicture {
-			idc = -1;
-			text = "pi_data\hud\food.paa";
-			x = 0.883312 * safezoneW + safezoneX;
-			y = 0.803 * safezoneH + safezoneY;
-			w = 0.02751 * safezoneW;
-			h = 0.049 * safezoneH;
-		};
-		class Sete_HUD: Life_RscPicture {
-			colorBackground[] = {0.02,0.06,0.06,1};
-			idc = -1;
-			text = "pi_data\hud\water.paa";
-			x = 0.883312 * safezoneW + safezoneX;
-			y = 0.869 * safezoneH + safezoneY;
-			w = 0.02751 * safezoneW;
-			h = 0.049 * safezoneH;
-		};
-		class Info_Progress_Salute: Life_RscProgress {
-			idc = 1;
-			onLoad = "(_this select 0) progressSetPosition 1";
-			colorBar[] = {1,0,0,1};
-			colorFrame[] = {0,0,0,1};
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.749 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		class Info_Progress_Fame: Life_RscProgress {
-			idc = 2;
-			onLoad = "(_this select 0) progressSetPosition 1";
-			colorBar[] = {1,0.4,0,1};
-			colorFrame[] = {0,0,0,1};
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.813624 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		class Info_Progress_Sete: Life_RscProgress {
-			idc = 3;
-			onLoad = "(_this select 0) progressSetPosition 1";
-			colorBar[] = {0.6,0.8,0.9,1};
-			colorFrame[] = {0,0,0,1};
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.88081 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-	};
-	class controls {
-		class Nav_Hud: Life_RscStructuredText {
-			idc = 30;
-			text = "";
-			x = 0.34 * safezoneW + safezoneX;
-			y = 0.955 * safezoneH + safezoneY;
-			w = 0.32 * safezoneW;
-			h = 0.035 * safezoneH;
-			colorBackground[] = {0, 0, 0, 0};
-		};
-		class Info_Salute: Life_RscText {
-			colorBackground[] = {0.06,0.06,0.06,0};
-			idc = 4;
-			text = "100%";
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.749 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		class Info_Fame: Life_RscText {
-			colorBackground[] = {0.06,0.06,0.06,0};
-			idc = 5;
-			text = "100%";
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.813624 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		class Info_Sete: Life_RscText {
-			colorBackground[] = {0.06,0.06,0.06,0};
-			idc = 6;
-			text = "100%";
-			x = 0.912312 * safezoneW + safezoneX;
-			y = 0.88081 * safezoneH + safezoneY;
-			w = 0.0864 * safezoneW;
-			h = 0.0275 * safezoneH;
-		};
-		// HUD Sx
-		class Banca_Icon: Life_RscPicture {
-			colorBackground[] = {0.02,0.06,0.06,1};
-			idc = -1;
-			text = "pi_data\hud\bank.paa";
-		    x = 0.85699097 * safezoneW + safezoneX;
-		    y = 0.932 * safezoneH + safezoneY;
-			w = 0.01796 * safezoneW;
-			h = 0.032 * safezoneH;
-		};
-		class Banca_Hud: Life_RscText {
-			idc = 7;
-			text = ""; 
-			colorText[] = {1,1,1,1};
-			colorBackground[] = {0.06,0.06,0.06,0.8};
-			x = 0.87607012 * safezoneW + safezoneX;
-			y = 0.938 * safezoneH + safezoneY;
-			w = 0.0515625 * safezoneW;
-			h = 0.022 * safezoneH;
-		};
-		class Cash_Icon: Life_RscPicture {
-			colorBackground[] = {0.02,0.06,0.06,1};
-			idc = -1;
-			text = "pi_data\hud\cash.paa";
-			x = 0.928813 * safezoneW + safezoneX;
-			y = 0.932 * safezoneH + safezoneY;
-			w = 0.01796 * safezoneW;
-			h = 0.032 * safezoneH;
-		};
-		class Cash_Hud: Life_RscText {
-			idc = 8;
-			text = ""; 
-			colorText[] = {1,1,1,1};
-			colorBackground[] = {0.06,0.06,0.06,0.8};
-			x = 0.947281 * safezoneW + safezoneX;
-			y = 0.938 * safezoneH + safezoneY;
-			w = 0.0515625 * safezoneW;
-			h = 0.022 * safezoneH;
-		};
-		class Polizia_Icon: Life_RscPicture {
-			colorBackground[] = {0.02,0.06,0.06,1};
-			idc = -1;
-			text = "pi_data\hud\cop.paa";
-			x = 0.84499997 * safezoneW + safezoneX;
-			y = 0.97 * safezoneH + safezoneY;
-			w = 0.01459 * safezoneW;
-			h = 0.026 * safezoneH;
-		};
-		class Polizia_Hud: Life_RscText {
-			idc = 9;
-			text = "7";
-			colorText[] = {1,1,1,1};
-			colorBackground[] = {0.06,0.06,0.06,0.8};
-			x = 0.8593125 * safezoneW + safezoneX;
-			y = 0.973 * safezoneH + safezoneY;
-			w = 0.0360937 * safezoneW;
-			h = 0.02 * safezoneH;
-		};
-		class Medici_Icon: Life_RscPicture {
-			colorBackground[] = {0.02,0.06,0.06,1};
-			idc = -1;
-			text = "pi_data\hud\med.paa";
-			x = 0.8965625 * safezoneW + safezoneX;
-			y = 0.97 * safezoneH + safezoneY;
-			w = 0.01459 * safezoneW;
-			h = 0.026 * safezoneH;
-		};
-		class Medici_Hud: Life_RscText {
-			idc = 10;
-			text = "5";
-			colorText[] = {1,1,1,1};
-			colorBackground[] = {0.06,0.06,0.06,0.8}; 
-			x = 0.911875 * safezoneW + safezoneX;
-			y = 0.973 * safezoneH + safezoneY;
-			w = 0.0360937 * safezoneW;
-			h = 0.02 * safezoneH;
-		};
-		class Civili_Icon: Life_RscPicture {
-			colorBackground[] = {0.02,0.06,0.06,1};
-			idc = -1;
-			text = "pi_data\hud\civ.paa";
-			x = 0.948125 * safezoneW + safezoneX;
-			y = 0.97 * safezoneH + safezoneY;
-			w = 0.01459 * safezoneW;
-			h = 0.026 * safezoneH;
-		};
-		class Civili_Hud: Life_RscText {
-			idc = 11;
-			text = "24";
-			colorText[] = {1,1,1,1};
-			colorBackground[] = {0.06,0.06,0.06,0.8}; 
-			x = 0.96337 * safezoneW + safezoneX;
-			y = 0.973 * safezoneH + safezoneY;
-			w = 0.0360937 * safezoneW;
-			h = 0.02 * safezoneH;
-		};
-	};
+    idd = 20099;
+    duration = 1e+1000;
+    movingEnable = 0;
+    fadein = 0;
+    fadeout = 0;
+    name = "playerHUD";
+    onLoad = "uiNamespace setVariable ['playerHUD',_this select 0]";
+    objects[] = {};
+    class controlsBackground {
+        //Eine gemeinsame Flaeche statt sechs einzelner Kaesten - durchscheinend, damit sie die
+        //Sicht nicht zumauert.
+        class HudCard : Life_RscText {
+            idc = -1;
+            x = HUD_X(0);
+            y = HUD_Y(0);
+            w = HUD_W(7.3);
+            h = HUD_H(5.9);
+            colorBackground[] = {0.10, 0.11, 0.14, 0.55};
+        };
+        class HealthIcon : Life_RscPicture {
+            idc = -1;
+            text = "pi_data\hud\health.paa";
+            x = HUD_X(0.25);
+            y = HUD_Y(0.3);
+            w = HUD_W(0.65);
+            h = HUD_H(0.65);
+        };
+        class FoodIcon : HealthIcon {
+            text = "pi_data\hud\food.paa";
+            y = HUD_Y(1.2);
+        };
+        class WaterIcon : HealthIcon {
+            text = "pi_data\hud\water.paa";
+            y = HUD_Y(2.1);
+        };
+        class HealthBar : Life_RscProgress {
+            idc = 1;
+            x = HUD_X(1.05);
+            y = HUD_Y(0.48);
+            w = HUD_W(4.0);
+            h = HUD_H(0.32);
+            colorFrame[] = {0, 0, 0, 0};
+            colorBackground[] = {0.16, 0.17, 0.21, 0.9};
+            colorBar[] = {0.78, 0.25, 0.25, 1};
+        };
+        class FoodBar : HealthBar {
+            idc = 2;
+            y = HUD_Y(1.38);
+            colorBar[] = {0.85, 0.55, 0.15, 1};
+        };
+        class WaterBar : HealthBar {
+            idc = 3;
+            y = HUD_Y(2.28);
+            colorBar[] = {0.25, 0.55, 0.85, 1};
+        };
+    };
+    class controls {
+        class Nav_Hud : Life_RscStructuredText {
+            idc = 30;
+            text = "";
+            x = 0.34 * safezoneW + safezoneX;
+            y = 0.955 * safezoneH + safezoneY;
+            w = 0.32 * safezoneW;
+            h = 0.035 * safezoneH;
+            colorBackground[] = {0, 0, 0, 0};
+        };
+        //Prozentwerte rechts neben den Balken; die Farbe setzt life_fnc_hudUpdate ab 30 bzw. 15 Prozent
+        class HealthText : Life_RscText {
+            idc = 4;
+            style = 1;
+            text = "100%";
+            x = HUD_X(5.1);
+            y = HUD_Y(0.25);
+            w = HUD_W(2.0);
+            h = HUD_H(0.75);
+            sizeEx = HUD_FONT(0.62);
+            colorText[] = {0.88, 0.90, 0.94, 1};
+            colorBackground[] = {0, 0, 0, 0};
+        };
+        class FoodText : HealthText {
+            idc = 5;
+            y = HUD_Y(1.15);
+        };
+        class WaterText : HealthText {
+            idc = 6;
+            y = HUD_Y(2.05);
+        };
+        //Konto und Bargeld je in einer eigenen Zeile - siebenstellige Betraege passen sonst nicht
+        class BankIcon : Life_RscPicture {
+            idc = -1;
+            text = "pi_data\hud\bank.paa";
+            x = HUD_X(0.25);
+            y = HUD_Y(3.1);
+            w = HUD_W(0.6);
+            h = HUD_H(0.6);
+        };
+        class BankText : Life_RscText {
+            idc = 7;
+            text = "";
+            x = HUD_X(1.05);
+            y = HUD_Y(3.05);
+            w = HUD_W(6.1);
+            h = HUD_H(0.7);
+            sizeEx = HUD_FONT(0.65);
+            colorText[] = {0.62, 0.84, 0.64, 1};
+            colorBackground[] = {0, 0, 0, 0};
+        };
+        class CashIcon : BankIcon {
+            text = "pi_data\hud\cash.paa";
+            y = HUD_Y(3.95);
+        };
+        class CashText : BankText {
+            idc = 8;
+            y = HUD_Y(3.9);
+        };
+        //Spieler je Fraktion
+        class CopIcon : Life_RscPicture {
+            idc = -1;
+            text = "pi_data\hud\cop.paa";
+            x = HUD_X(0.25);
+            y = HUD_Y(4.95);
+            w = HUD_W(0.55);
+            h = HUD_H(0.55);
+        };
+        class CopText : Life_RscText {
+            idc = 9;
+            text = "";
+            x = HUD_X(0.95);
+            y = HUD_Y(4.9);
+            w = HUD_W(1.5);
+            h = HUD_H(0.7);
+            sizeEx = HUD_FONT(0.62);
+            colorText[] = {0.88, 0.90, 0.94, 1};
+            colorBackground[] = {0, 0, 0, 0};
+        };
+        class MedIcon : CopIcon {
+            text = "pi_data\hud\med.paa";
+            x = HUD_X(2.5);
+        };
+        class MedText : CopText {
+            idc = 10;
+            x = HUD_X(3.2);
+        };
+        class CivIcon : CopIcon {
+            text = "pi_data\hud\civ.paa";
+            x = HUD_X(4.8);
+        };
+        class CivText : CopText {
+            idc = 11;
+            x = HUD_X(5.5);
+            w = HUD_W(1.8);
+        };
+    };
 };

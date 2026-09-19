@@ -13,10 +13,30 @@ private _dmg = damage player;
 LIFEctrl(1) progressSetPosition (1 - _dmg);
 LIFEctrl(2) progressSetPosition (life_hunger / 100);
 LIFEctrl(3) progressSetPosition (life_thirst / 100);
-LIFEctrl(4) ctrlSetText format ["%1%2",round((1 - _dmg) * 100),"%"];
+private _health = round ((1 - _dmg) * 100);
+LIFEctrl(4) ctrlSetText format ["%1%2",_health,"%"];
 LIFEctrl(5) ctrlSetText format ["%1%2",life_hunger,"%"];
 LIFEctrl(6) ctrlSetText format ["%1%2",life_thirst,"%"];
 private _cache = life_hud_cache;
+//Warnfarbe: ab 30 Prozent bernstein, ab 15 rot. Nur bei einem Wechsel neu setzen - das hier laeuft
+//jede Sekunde, so lange man auf dem Server ist.
+private _stufe = {
+    params ["_value"];
+    switch (true) do {
+        case (_value <= 15): {2};
+        case (_value <= 30): {1};
+        default {0};
+    };
+};
+private _farbe = [[0.88, 0.90, 0.94, 1], [0.90, 0.65, 0.25, 1], [0.90, 0.30, 0.30, 1]];
+{
+    _x params ["_ctrl", "_value", "_slot"];
+    private _now = [_value] call _stufe;
+    if !(_now isEqualTo (_cache select _slot)) then {
+        _cache set [_slot, _now];
+        LIFEctrl(_ctrl) ctrlSetTextColor (_farbe select _now);
+    };
+} forEach [[4, _health, 5], [5, life_hunger, 6], [6, life_thirst, 7]];
 if !(BANK isEqualTo (_cache select 0)) then {
     _cache set [0,BANK];
     LIFEctrl(7) ctrlSetText format ["%1$",[BANK] call life_fnc_numberText];

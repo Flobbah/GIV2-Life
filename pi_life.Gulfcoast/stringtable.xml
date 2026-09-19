@@ -2666,6 +2666,18 @@
         </Key>
     </Package>
     <Package name="Player_Menu">
+        <Key ID="STR_PM_Status_Civ">
+            <English>Civilian</English>
+            <German>Zivilist</German>
+        </Key>
+        <Key ID="STR_PM_Status_Cop">
+            <English>Police</English>
+            <German>Polizei</German>
+        </Key>
+        <Key ID="STR_PM_Status_Med">
+            <English>EMS</English>
+            <German>Rettungsdienst</German>
+        </Key>
         <Key ID="STR_PM_Title">
             <English>Player Menu</English>
             <Czech>Nabídka přehrávače</Czech>
@@ -2848,7 +2860,7 @@
         </Key>
         <Key ID="STR_PM_Nav_Back">
             <English>Back</English>
-            <German>Zurueck</German>
+            <German>Zurück</German>
         </Key>
         <Key ID="STR_PM_InvEmpty">
             <English>You are not carrying anything</English>
