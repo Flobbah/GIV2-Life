@@ -162,6 +162,7 @@ class CfgFunctions {
         };
         class Housing {
             file = "\life_server\Functions\Housing";
+            class houseDoor {};
             class addHouse {};
             class addContainer {};
             class deleteDBContainer {};

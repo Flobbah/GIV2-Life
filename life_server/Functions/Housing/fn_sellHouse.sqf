@@ -29,6 +29,13 @@ _house setVariable ["house_id",nil,true];
 _house setVariable ["house_owner",nil,true];
 [_house, "house_id"] call TON_fnc_serverSet;
 [_house, "house_owner"] call TON_fnc_serverSet;
+//Sicherheitsprüfung #7: Tueren setzt der Server selbst - er weiss ohnehin, wem das Haus gehoert
+private _numOfDoors = getNumber (configFile >> "CfgVehicles" >> (typeOf _house) >> "numberOfDoors");
+if (_numOfDoors < 1) then {_numOfDoors = 12};
+for "_i" from 1 to _numOfDoors do {
+    _house setVariable [format ["bis_disabled_Door_%1", _i], 0, true];
+};
+_house setVariable ["locked", false, true];
 _house setVariable ["garageBought",false,true];
 [_query,1] call DB_fnc_asyncCall;
 _house setVariable ["house_sold",nil,true];

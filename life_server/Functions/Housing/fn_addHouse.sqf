@@ -40,6 +40,13 @@ _queryResult = [_query,2] call DB_fnc_asyncCall;
 _house setVariable ["house_id",(_queryResult select 0),true];
 [_house, "house_id", _queryResult param [0, nil]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
 [_house, "house_owner", [_uid, ([_caller] call TON_fnc_callerInfo) param [3, ""]]] call TON_fnc_serverSet;
+//Sicherheitsprüfung #7: Tueren setzt der Server selbst - er weiss ohnehin, wem das Haus gehoert
+private _numOfDoors = getNumber (configFile >> "CfgVehicles" >> (typeOf _house) >> "numberOfDoors");
+if (_numOfDoors < 1) then {_numOfDoors = 12};
+for "_i" from 1 to _numOfDoors do {
+    _house setVariable [format ["bis_disabled_Door_%1", _i], 1, true];
+};
+_house setVariable ["locked", true, true];
 //Phase 0.3: Besitz zusaetzlich in asset_owners - die pid-Spalte bleibt vorerst die Quelle
 ["house", _queryResult param [0, 0], "player", _uid] call TON_fnc_assetOwn;
 if (ECONOMY_MODE >= 1 && {!(_caller isEqualTo 2)}) then {

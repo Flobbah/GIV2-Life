@@ -61,11 +61,12 @@ if (!alive player) exitWith {life_action_inUse = false;};
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
 life_action_inUse = false;
 _building animateSource [format ["Door_%1_source", _door], 0];
-_building setVariable [format ["bis_disabled_Door_%1",_door],1,true]; //Lock the door.
+//Sicherheitsprüfung #7: den Zustand setzt der Server (TON_fnc_houseDoor)
+[_building, _door, 1, "repair"] remoteExecCall ["TON_fnc_houseDoor",RSERV];
 _locked = true;
 for "_i" from 1 to _doors do {
     if ((_building getVariable [format ["bis_disabled_Door_%1",_i],0]) isEqualTo 0) exitWith {_locked = false};
 };
 if (_locked) then {
-    _building setVariable ["locked",true,true];
+    //Sicherheitsprüfung #7: "locked" fuehrt der Server nach (TON_fnc_houseDoor, Modus repair)
 };

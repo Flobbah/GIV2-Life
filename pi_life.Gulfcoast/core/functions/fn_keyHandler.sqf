@@ -272,15 +272,11 @@ switch (_code) do {
                     private _door = [_veh] call life_fnc_nearestDoor;
                     if (_door isEqualTo 0) exitWith {[ localize "STR_House_Door_NotNear",true,"fast"] call life_fnc_notification_system};
                     private _locked = _veh getVariable [format ["bis_disabled_Door_%1",_door],0];
-                    if (_locked isEqualTo 0) then {
-                        _veh setVariable [format ["bis_disabled_Door_%1",_door],1,true];
-                        _veh animateSource [format ["Door_%1_source", _door], 0];
-                        [localize "STR_House_Door_Lock",false,"fast"] call life_fnc_notification_system;
-                    } else {
-                        _veh setVariable [format ["bis_disabled_Door_%1",_door],0,true];
-                        _veh animateSource [format ["Door_%1_source", _door], 1];
-                        [localize "STR_House_Door_Unlock",false,"fast"] call life_fnc_notification_system;
-                    };
+                    //Sicherheitsprüfung #7: Tueren schaltet der Server (TON_fnc_houseDoor)
+                    private _want = [0, 1] select (_locked isEqualTo 0);
+                    [_veh, _door, _want, "own"] remoteExecCall ["TON_fnc_houseDoor",RSERV];
+                    _veh animateSource [format ["Door_%1_source", _door], [1, 0] select (_want isEqualTo 1)];
+                    [localize (["STR_House_Door_Unlock", "STR_House_Door_Lock"] select (_want isEqualTo 1)),false,"fast"] call life_fnc_notification_system;
                 };
             } else {
                 if (_veh in life_vehicles && {player distance _veh < 20}) then {

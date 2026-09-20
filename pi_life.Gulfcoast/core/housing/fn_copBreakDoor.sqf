@@ -49,4 +49,5 @@ if (!alive player) exitWith {life_action_inUse = false;};
 if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "STR_NOTF_ActionCancel","PLAIN"]; life_action_inUse = false;};
 life_action_inUse = false;
 _house animateSource [format ["Door_%1_source", _door], 1];
-_house setVariable [format ["bis_disabled_Door_%1",_door],0,true]; //Unlock the door.
+//Sicherheitsprüfung #7: den Zustand setzt der Server (TON_fnc_houseDoor)
+[_house, _door, 0, "force"] remoteExecCall ["TON_fnc_houseDoor",RSERV];

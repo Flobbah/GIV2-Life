@@ -28,7 +28,7 @@ if (_action) then {
     } else {
         [_house] remoteExecCall ["TON_fnc_sellHouse",RSERV];
     };
-    _house setVariable ["locked",false,true];
+    //Sicherheitsprüfung #7: "locked" setzt der Server beim Verkauf (TON_fnc_sellHouse)
     deleteMarkerLocal format ["house_%1",_house getVariable "uid"];
     _house setVariable ["uid",nil,true];
     if (ECONOMY_MODE isEqualTo 0) then { //ab Modus 1 zahlt der Server nach der Besitzpruefung (TON_fnc_sellHouse)
@@ -51,10 +51,7 @@ if (_action) then {
     if !(_index isEqualTo -1) then {
         life_houses deleteAt _index;
     };
-    _numOfDoors = FETCH_CONFIG2(getNumber,"CfgVehicles",(typeOf _house), "numberOfDoors");
-    for "_i" from 1 to _numOfDoors do {
-        _house setVariable [format ["bis_disabled_Door_%1",_i],0,true];
-    };
+    //Sicherheitsprüfung #7: Die Tueren oeffnet der Server beim Verkauf (TON_fnc_sellHouse)
     _containers = _house getVariable ["containers",[]];
     if (count _containers > 0) then {
         {

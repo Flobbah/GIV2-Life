@@ -12,9 +12,9 @@ _numberOfDoors = FETCH_CONFIG2(getNumber,"CfgVehicles",(typeOf _house), "numberO
 if (_numberOfDoors isEqualTo -1 || _numberOfDoors isEqualTo 0) exitWith {}; //MEH
 titleText [localize "STR_House_LockingUp","PLAIN"];
 sleep 3;
+//Sicherheitsprüfung #7: Tueren schaltet der Server (TON_fnc_houseDoor), er kennt den Besitzer
+[_house, 0, 1, "all"] remoteExecCall ["TON_fnc_houseDoor",RSERV];
 for "_i" from 1 to _numberOfDoors do {
     _house animateSource [format ["Door_%1_source", _i], 0];
-    _house setVariable [format ["bis_disabled_Door_%1",_i],1,true];
 };
-_house setVariable ["locked",true,true];
 titleText[localize "STR_House_LockedUp","PLAIN"];

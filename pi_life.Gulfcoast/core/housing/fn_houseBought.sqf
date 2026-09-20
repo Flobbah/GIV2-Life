@@ -13,7 +13,7 @@ params [["_house", objNull, [objNull]]];
 if (isNull _house) exitWith {};
 private _uid = getPlayerUID player;
 _house setVariable ["house_owner",[_uid,profileName],true];
-_house setVariable ["locked",true,true];
+//Sicherheitsprüfung #7: "locked" setzt der Server beim Kauf (TON_fnc_addHouse)
 _house setVariable ["containers",[],true];
 _house setVariable ["uid",floor(random 99999),true];
 life_vehicles pushBack _house;
@@ -23,7 +23,4 @@ private _houseName = FETCH_CONFIG2(getText,"CfgVehicles",(typeOf _house), "displ
 _marker setMarkerTextLocal _houseName;
 _marker setMarkerColorLocal "ColorBlue";
 _marker setMarkerTypeLocal "loc_Lighthouse";
-private _numOfDoors = FETCH_CONFIG2(getNumber,"CfgVehicles",(typeOf _house),"numberOfDoors");
-for "_i" from 1 to _numOfDoors do {
-    _house setVariable [format ["bis_disabled_Door_%1",_i],1,true];
-};
+//Sicherheitsprüfung #7: Die Tueren hat der Server beim Kauf schon verschlossen (TON_fnc_addHouse)

@@ -8,11 +8,7 @@
 private ["_house"];
 _house = param [0,objNull,[objNull]];
 if (isNull _house || !(_house isKindOf "House_F")) exitWith {};
+//Sicherheitsprüfung #7: das Lagerschloss schaltet der Server, er kennt den Besitzer
 _state = _house getVariable ["locked",true];
-if (_state) then {
-    _house setVariable ["locked",false,true];
-    titleText[localize "STR_House_StorageUnlock","PLAIN"];
-} else {
-    _house setVariable ["locked",true,true];
-    titleText[localize "STR_House_StorageLock","PLAIN"];
-};
+[_house, 0, [1, 0] select _state, "storage"] remoteExecCall ["TON_fnc_houseDoor",RSERV];
+titleText[localize (["STR_House_StorageLock", "STR_House_StorageUnlock"] select _state),"PLAIN"];

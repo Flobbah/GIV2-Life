@@ -81,8 +81,9 @@ if (life_boltcutter_uses >= 5) then {
     [false,"boltcutter",1] call life_fnc_handleInv;
     life_boltcutter_uses = 0;
 };
-_building setVariable [format ["bis_disabled_Door_%1",_door],0,true]; //Unlock the door.
-_building setVariable ["locked",false,true];
+//Sicherheitsprüfung #7: Ob der Balken durchlief, entscheidet der Client - eintragen tut es der
+//Server, der Abstand und Taktrate prueft und den Fall als [HOUSE] protokolliert.
+[_building, _door, 0, "force"] remoteExecCall ["TON_fnc_houseDoor",RSERV];
 if (LIFE_HC_ACTIVE) then {
     [getPlayerUID player,profileName,"459"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
 } else {
