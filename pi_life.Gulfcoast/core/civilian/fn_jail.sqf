@@ -15,9 +15,7 @@ if (isNull _unit) exitWith {}; //Dafuq?
 if !(_unit isEqualTo player) exitWith {}; //Dafuq?
 if (life_is_arrested) exitWith {}; //Dafuq i'm already arrested
 _illegalItems = LIFE_SETTINGS(getArray,"jail_seize_vItems");
-player setVariable ["restrained",false,true];
-player setVariable ["Escorting",false,true];
-player setVariable ["transporting",false,true];
+//Sicherheitsprüfung #7: den Gewahrsam beendet der Server, sobald der Polizist einliefert
 titleText[localize "STR_Jail_Warn","PLAIN"];
 [ localize "STR_Jail_LicenseNOTF",true,"fast"] call life_fnc_notification_system;
 player setPos (getMarkerPos "jail_marker");

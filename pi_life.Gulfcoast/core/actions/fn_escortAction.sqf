@@ -13,8 +13,8 @@ if (player distance _unit > 3) exitWith {};
 _unit attachTo [player,[0.1,1.1,0]];
 player setVariable ["escortingPlayer",_unit];
 player setVariable ["isEscorting",true];
-_unit setVariable ["transporting",false,true];
-_unit setVariable ["Escorting",true,true];
+//Sicherheitsprüfung #7: den Zustand setzt der Server (TON_fnc_custody), nicht der Client
+[_unit,"escort"] remoteExecCall ["TON_fnc_custody",RSERV];
 player reveal _unit;
 [_unit] spawn {
     _unit = _this select 0;

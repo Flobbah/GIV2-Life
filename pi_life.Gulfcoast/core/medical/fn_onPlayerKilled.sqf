@@ -19,9 +19,9 @@ if  !((vehicle _unit) isEqualTo _unit) then {
 //Set some vars
 _unit setVariable ["Revive",true,true];
 _unit setVariable ["name",profileName,true]; //Set my name so they can say my name.
-_unit setVariable ["restrained",false,true];
-_unit setVariable ["Escorting",false,true];
-_unit setVariable ["transporting",false,true];
+//Sicherheitsprüfung #7: Der Tod beendet den Gewahrsam - der Server traegt es ein, nachdem er
+//geprueft hat, dass der Spieler wirklich tot ist (TON_fnc_custody, Zustand "dead").
+[_unit,"dead"] remoteExecCall ["TON_fnc_custody",RSERV];
 _unit setVariable ["playerSurrender",false,true];
 _unit setVariable ["steam64id",(getPlayerUID player),true]; //Set the UID.
 //close the esc dialog

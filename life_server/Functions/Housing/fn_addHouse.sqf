@@ -40,6 +40,8 @@ _queryResult = [_query,2] call DB_fnc_asyncCall;
 _house setVariable ["house_id",(_queryResult select 0),true];
 [_house, "house_id", _queryResult param [0, nil]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
 [_house, "house_owner", [_uid, ([_caller] call TON_fnc_callerInfo) param [3, ""]]] call TON_fnc_serverSet;
+//Phase 0.3: Besitz zusaetzlich in asset_owners - die pid-Spalte bleibt vorerst die Quelle
+["house", _queryResult param [0, 0], "player", _uid] call TON_fnc_assetOwn;
 if (ECONOMY_MODE >= 1 && {!(_caller isEqualTo 2)}) then {
     [_house] remoteExecCall ["life_fnc_houseBought", _caller]; //Client richtet das Haus erst nach der Buchung ein
 };

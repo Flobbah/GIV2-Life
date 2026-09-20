@@ -25,5 +25,7 @@ if (ECONOMY_MODE >= 1) exitWith {
         ["STR_Garage_SoldCar", [[_price] call life_fnc_numberText]] remoteExecCall ["life_fnc_econResult", _unit];
     };
 };
+//Phase 0.3: Besitz endet auch in asset_owners
+["vehicle", _vid] call TON_fnc_assetRelease;
 _query = format ["UPDATE vehicles SET alive='0' WHERE pid='%1' AND id='%2'",_pid,_vid];
 _thread = [_query,1] call DB_fnc_asyncCall;

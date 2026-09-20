@@ -23,6 +23,8 @@ if (_houseID isEqualTo -1) then {
     //systemChat format [":SERVER:sellHouse: house_id is %1",_houseID];
     _query = format ["UPDATE houses SET owned='0', pos='[]' WHERE id='%1'",_houseID];
 };
+//Phase 0.3: Besitz endet auch in asset_owners
+if !(_houseID isEqualTo -1) then {["house", _houseID] call TON_fnc_assetRelease};
 _house setVariable ["house_id",nil,true];
 _house setVariable ["house_owner",nil,true];
 [_house, "house_id"] call TON_fnc_serverSet;

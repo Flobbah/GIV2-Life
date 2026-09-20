@@ -84,6 +84,7 @@ class Life_Client_Core {
         class admininfo {};
         class adminLicenseReceive {};
         class adminManage {};
+        class adminEconReport {};
         class adminMoneyLog {};
         class adminManageInfo {};
         class adminManageResult {};

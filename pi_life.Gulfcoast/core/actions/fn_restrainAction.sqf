@@ -14,7 +14,7 @@ if (SIDE_OF(_unit) isEqualTo west) exitWith {};
 if (player isEqualTo _unit) exitWith {};
 if (!isPlayer _unit) exitWith {};
 //Broadcast!
-_unit setVariable ["playerSurrender",false,true];
-_unit setVariable ["restrained",true,true];
+//Sicherheitsprüfung #7: den Zustand setzt der Server (TON_fnc_custody), nicht der Client
+[_unit,"restrain"] remoteExecCall ["TON_fnc_custody",RSERV];
 ["life_fnc_restrain",[player],_unit] call life_fnc_relaySend;
 ["life_fnc_broadcast",[0,"STR_NOTF_Restrained",true,[_unit getVariable ["realname", name _unit], profileName]],west] call life_fnc_relaySend;

@@ -10,9 +10,7 @@ _unit = _this select 0;
 _corpse = _this select 1;
 life_corpse = _corpse;
 //Set some vars on our new body.
-_unit setVariable ["restrained",false,true];
-_unit setVariable ["Escorting",false,true];
-_unit setVariable ["transporting",false,true];
+//Sicherheitsprüfung #7: Beim Tod hat der Server den Gewahrsam bereits beendet
 _unit setVariable ["playerSurrender",false,true];
 _unit setVariable ["steam64id",getPlayerUID player,true]; //Reset the UID.
 _unit setVariable ["realname",profileName,true]; //Reset the players name.

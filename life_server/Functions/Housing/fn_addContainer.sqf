@@ -33,4 +33,6 @@ if (INVENTORY_MODE >= 1 && {!(_caller isEqualTo 2)}) then {
     [_uid, _item, -1, "container_place"] call TON_fnc_invChange;
 };
 [_container, "container_id", _queryResult param [0, nil]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
+//Phase 0.3: Besitz zusaetzlich in asset_owners, die pid-Spalte bleibt vorerst die Quelle
+["container", _queryResult param [0, 0], "player", _uid] call TON_fnc_assetOwn;
 [_container, "container_owner", [_uid]] call TON_fnc_serverSet;

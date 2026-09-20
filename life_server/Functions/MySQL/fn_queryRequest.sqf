@@ -20,6 +20,9 @@ if !(_side in [west, civilian, independent]) exitWith {};
 if (LIFE_SETTINGS(getNumber,"player_deathLog") isEqualTo 1) then {
     _ownerID addMPEventHandler ["MPKilled", {_this call fn_whoDoneIt}];
 };
+//Sicherheitsprüfung #7: Der Gewahrsam gehoert dem Server. Beim Beitritt setzt er den
+//Ausgangszustand, damit der Client die drei Variablen nicht mehr selbst anfassen muss.
+[_ownerID, "release"] call TON_fnc_custodySet;
 _ownerID = owner _ownerID;
 _query = switch (_side) do {
     // West - 11 entries returned

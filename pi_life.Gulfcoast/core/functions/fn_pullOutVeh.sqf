@@ -8,8 +8,7 @@ RELAY_ONLY_REMOTE; //Sicherheitsphase 0.1b: Aufrufe anderer Spieler nur ueber de
 if (life_side isEqualTo west || (isNull objectParent player)) exitWith {};
 if (player getVariable "restrained") then {
     detach player;
-    player setVariable ["Escorting",false,true];
-    player setVariable ["transporting",false,true];
+    //Sicherheitsprüfung #7: den Zustand setzt der Server (TON_fnc_custody), nicht der Client
     life_disable_getOut = false;
     player action ["Eject", vehicle player];
     titleText[localize "STR_NOTF_PulledOut","PLAIN"];

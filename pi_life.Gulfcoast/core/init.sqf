@@ -45,9 +45,9 @@ switch (life_side) do {
     case civilian: {[] call life_fnc_initCiv;};
     case independent: {[] call life_fnc_initMedic;};
 };
-player setVariable ["restrained", false, true];
-player setVariable ["Escorting", false, true];
-player setVariable ["transporting", false, true];
+//Sicherheitsprüfung #7: restrained, Escorting und transporting setzt der Server beim Beitritt
+//(DB_fnc_queryRequest -> TON_fnc_custodySet). Ein Client, der sie anfasst, faellt dem
+//BattlEye-Filter auf.
 player setVariable ["playerSurrender", false, true];
 player setVariable ["realname", profileName, true];
 player setVariable ["life_side", life_side, true]; //Dienst-System: Fraktion fuer Mitspieler und Server sichtbar

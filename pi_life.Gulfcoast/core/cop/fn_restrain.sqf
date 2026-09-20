@@ -11,22 +11,9 @@ _cop = [_this,0,objNull,[objNull]] call BIS_fnc_param;
 _player = player;
 _vehicle = vehicle player;
 if (isNull _cop) exitWith {};
-//Monitor excessive restrainment
-[] spawn {
-    private "_time";
-    for "_i" from 0 to 1 step 0 do {
-        _time = time;
-        waitUntil {(time - _time) > (5 * 60)};
-        if (!(player getVariable ["restrained",false])) exitWith {};
-        if (!([west,getPos player,30] call life_fnc_nearUnits) && (player getVariable ["restrained",false]) && isNull objectParent player) exitWith {
-            player setVariable ["restrained",false,true];
-            player setVariable ["Escorting",false,true];
-            player setVariable ["transporting",false,true];
-            detach player;
-            titleText[localize "STR_Cop_ExcessiveRestrain","PLAIN"];
-        };
-    };
-};
+//Sicherheitsprüfung #7: Die vergessene Festnahme beendet der Server (TON_fnc_custodyWatch).
+//Frueher lief die Uhr hier im Client des Gefesselten - ein Cheater musste die Bedingung nur
+//erfuellen, um sich selbst zu befreien. Die Schleife unten merkt es, sobald der Server loest.
 titleText[format [localize "STR_Cop_Restrained",_cop getVariable ["realname",name _cop]],"PLAIN"];
 life_disable_getIn = true;
 life_disable_getOut = false;
@@ -36,16 +23,10 @@ while {player getVariable  "restrained"} do {
     };
     _state = vehicle player;
     waitUntil {animationState player != "AmovPercMstpSnonWnonDnon_Ease" || !(player getVariable "restrained") || vehicle player != _state};
-    if (!alive player) exitWith {
-        player setVariable ["restrained",false,true];
-        player setVariable ["Escorting",false,true];
-        player setVariable ["transporting",false,true];
-        detach _player;
-    };
-    if (!alive _cop) then {
-        player setVariable ["Escorting",false,true];
-        detach player;
-    };
+    //Der Tod beendet den Gewahrsam - eintragen tut das der Server
+    if (!alive player) exitWith {detach _player};
+    //Stirbt der begleitende Polizist, loest der Server das Begleiten (TON_fnc_custodyWatch)
+    if (!alive _cop) then {detach player};
     if (!(isNull objectParent player) && life_disable_getIn) then {
         player action["eject",vehicle player];
     };
@@ -73,7 +54,5 @@ while {player getVariable  "restrained"} do {
 //disableUserInput false;
 if (alive player) then {
     player switchMove "AmovPercMstpSlowWrflDnon_SaluteIn";
-    player setVariable ["Escorting",false,true];
-    player setVariable ["transporting",false,true];
     detach player;
 };

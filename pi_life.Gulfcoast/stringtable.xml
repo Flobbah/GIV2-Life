@@ -679,6 +679,18 @@
             <Polish>Markery</Polish>
 			<Chinesesimp>标记</Chinesesimp>
         </Key>
+        <Key ID="STR_Admin_MoneyReport">
+            <English>Report</English>
+            <German>Bericht</German>
+        </Key>
+        <Key ID="STR_Admin_ReportHead">
+            <English>Last %1 h: in $%2, out $%3, net $%4, %5 players</English>
+            <German>Letzte %1 h: herein $%2, heraus $%3, unterm Strich $%4, %5 Spieler</German>
+        </Key>
+        <Key ID="STR_Admin_ReportRows">
+            <English>%1 reasons over %2 h</English>
+            <German>%1 Gruende ueber %2 h</German>
+        </Key>
     </Package>
     <Package name="Admin_Notifications">
         <Key ID="STR_ANOTF_Query">

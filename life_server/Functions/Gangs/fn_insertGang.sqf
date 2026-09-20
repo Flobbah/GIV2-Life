@@ -47,7 +47,13 @@ if (!(count _queryResult isEqualTo 0)) then {
 } else {
     _query = format ["INSERT INTO gangs (owner, name, members) VALUES('%1','%2','%3')",_uid,_gangName,_gangMembers];
 };
-_queryResult = [_query,1] call DB_fnc_asyncCall;
+//Phase 0.3: Der Gangname kommt aus einem Textfeld. Als gebundener Parameter kann er die Anweisung
+//nicht mehr veraendern; ohne angemeldetes Protokoll greift der Weg von oben.
+if (count _queryResult isEqualTo 0) then {
+    ["gangInsert", [_uid, _gangName, _gangMembers], 2, {[_query, 2] call DB_fnc_asyncCall}] call DB_fnc_customCall;
+} else {
+    [_query, 1] call DB_fnc_asyncCall;
+};
 _group setVariable ["gang_name",_gangName,true];
 _group setVariable ["gang_owner",_uid,true];
 _group setVariable ["gang_bank",0,true];

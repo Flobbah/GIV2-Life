@@ -14,7 +14,8 @@ if (isNull _display) exitWith {};
 private _list = _display displayCtrl 9941;
 private _filter = ctrlText (_display displayCtrl 9942);
 private _info = _display displayCtrl 9943;
-_info ctrlSetText localize "STR_Admin_MoneyLoading";
+//9943 ist ein Strukturtext: ctrlSetText bleibt dort wirkungslos
+_info ctrlSetStructuredText parseText localize "STR_Admin_MoneyLoading";
 lbClear _list;
 ["TON_fnc_adminMoneyQuery", [_filter, 100], {
     disableSerialization;
@@ -51,10 +52,10 @@ lbClear _list;
         private _color = if (_delta >= 0) then {[0.7, 1, 0.7, 1]} else {[1, 0.6, 0.6, 1]};
         _list lbSetColor [(lbSize _list) - 1, _color];
     } forEach _rows;
-    (_display displayCtrl 9943) ctrlSetText format [localize "STR_Admin_MoneyRows", count _rows];
+    (_display displayCtrl 9943) ctrlSetStructuredText parseText format [localize "STR_Admin_MoneyRows", count _rows];
 }, {
     disableSerialization;
     private _display = findDisplay 9940;
     if (isNull _display) exitWith {};
-    (_display displayCtrl 9943) ctrlSetText localize "STR_Admin_MoneyDenied";
+    (_display displayCtrl 9943) ctrlSetStructuredText parseText localize "STR_Admin_MoneyDenied";
 }] call life_fnc_econRequest;

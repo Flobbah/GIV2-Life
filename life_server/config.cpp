@@ -16,6 +16,8 @@ class CfgFunctions {
             file = "\life_server\Functions\MySQL";
             class numberSafe {};
             class mresArray {};
+            class customCall {};
+            class sqlCustomTest {};
             class queryRequest{};
             class asyncCall{};
             class insertRequest{};
@@ -75,6 +77,15 @@ class CfgFunctions {
             class econEarnCheck {};
             class econIncome {};
             class econResync {};
+            class econReport {};
+        };
+        class Ownership {
+            file = "\life_server\Functions\Ownership";
+            class ownershipInit {};
+            class assetOwn {};
+            class assetRelease {};
+            class assetOwners {};
+            class assetOwned {};
         };
         class Inventory {
             file = "\life_server\Functions\Inventory";
@@ -122,6 +133,9 @@ class CfgFunctions {
             class dutySwitch {};
             class managesc {};
             class cleanup {};
+            class custody {};
+            class custodySet {};
+            class custodyWatch {};
             class fedSafe {};
             class huntingZone {};
             class getID {};

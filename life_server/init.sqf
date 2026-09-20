@@ -44,11 +44,22 @@ if (isNil {uiNamespace getVariable "life_sql_id"}) then {
         _extDBNotLoaded = [true, _exception];
     };
     if (_extDBNotLoaded isEqualType []) exitWith {};
+    //Phase 0.3: zweites Protokoll fuer vorbereitete Anweisungen (@extDB3\sql_custom\pilife.ini).
+    //Muss vor 9:LOCK stehen, danach nimmt extDB3 keine Protokolle mehr an. Schlaegt es fehl, laeuft
+    //alles wie bisher weiter - deshalb bewusst ohne throw, die Datenbankverbindung steht ja.
+    life_sql_custom_id = round(random(9999));
+    private _custom = EXTDB format ["9:ADD_DATABASE_PROTOCOL:%2:SQL_CUSTOM:%1:pilife.ini", life_sql_custom_id, EXTDB_SETTING(getText,"DatabaseName")];
+    if !(_custom isEqualTo "[1]") then {
+        diag_log format ["[SQLCUSTOM] protocol not added (%1) - prepared statements are off, the built queries keep working", _custom];
+        life_sql_custom_id = -1;
+    };
+    uiNamespace setVariable ["life_sql_custom_id", life_sql_custom_id];
     EXTDB "9:LOCK";
     diag_log "extDB3: Connected to Database";
 } else {
     life_sql_id = uiNamespace getVariable "life_sql_id";
     CONSTVAR(life_sql_id);
+    life_sql_custom_id = uiNamespace getVariable ["life_sql_custom_id", -1];
     diag_log "extDB3: Still Connected to Database";
 };
 if (_extDBNotLoaded isEqualType []) exitWith {
@@ -64,6 +75,9 @@ publicVariable "life_server_extDB_notLoaded";
 ["CALL deleteOldGangs",1] call DB_fnc_asyncCall;
 [] spawn TON_fnc_econInit; //Geld-Umbau Schritt 1: Kontostaende und Transaktionslog
 [] spawn TON_fnc_invInit; //Inventar-Umbau Paket 1: Kopie der virtuellen Inventare
+[] spawn TON_fnc_custodyWatch; //Sicherheitsprüfung #7: Gewahrsam gehoert dem Server
+[] spawn TON_fnc_ownershipInit; //Phase 0.3: Besitztabelle asset_owners
+[] spawn DB_fnc_sqlCustomTest; //Phase 0.3: beweist einmal, dass vorbereitete Anweisungen hier laufen
 _timeStamp = diag_tickTime;
 diag_log "----------------------------------------------------------------------------------------------------";
 diag_log "---------------------------------- Starting Altis Life Server Init ---------------------------------";

@@ -20,6 +20,8 @@ if (LIFE_HC_ACTIVE) then {
 };
 if (isNull _unit) exitWith {}; //Not valid
 detach _unit;
+//Sicherheitsprüfung #7: den Zustand setzt der Server (TON_fnc_custody), nicht der Client
+[_unit,"jail"] remoteExecCall ["TON_fnc_custody",RSERV];
 ["life_fnc_jail",[_unit,false],_unit] call life_fnc_relaySend;
 ["life_fnc_broadcast",[0,"STR_NOTF_Arrested_1",true, [_unit getVariable ["realname",name _unit], profileName]],RCLIENT] call life_fnc_relaySend;
 if (LIFE_SETTINGS(getNumber,"player_advancedLog") isEqualTo 1) then {

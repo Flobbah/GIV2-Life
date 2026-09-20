@@ -61,9 +61,8 @@ if (life_interrupted) exitWith {life_interrupted = false; titleText[localize "ST
 if (!([false,"lockpick",1] call life_fnc_handleInv)) exitWith {life_action_inUse = false;};
 life_action_inUse = false;
 if (!_isVehicle) then {
-    _curTarget setVariable ["restrained",false,true];
-    _curTarget setVariable ["Escorting",false,true];
-    _curTarget setVariable ["transporting",false,true];
+    //Sicherheitsprüfung #7: den Zustand setzt der Server (TON_fnc_custody), nicht der Client
+    [_curTarget,"pick"] remoteExecCall ["TON_fnc_custody",RSERV];
 } else {
     _dice = random(100);
     if (_dice < (30 + (["lockpick","bonus2PerLevel"] call life_fnc_skillBonus))) then { //Skill Dietrich: Erfolgschance
