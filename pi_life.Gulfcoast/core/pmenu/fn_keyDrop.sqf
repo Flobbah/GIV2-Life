@@ -27,8 +27,8 @@ if (objectParent player isEqualTo _vehicle && {locked _vehicle isEqualTo 2}) exi
 };
 life_vehicles = life_vehicles - [_vehicle];
 // Update vehicle owners
-private _owners = _vehicle getVariable ["vehicle_info_owners", []];
-_owners deleteAt _index;
-_vehicle setVariable ["vehicle_info_owners", _owners, true];
+//Sicherheitsprüfung #7: die Schluesselliste fuehrt der Server (TON_fnc_vehicleKeys)
+[_vehicle, "drop"] remoteExecCall ["TON_fnc_vehicleKeys",RSERV];
+//Die Anzeige am Fahrzeug schreibt der Server zurueck (TON_fnc_vehicleKeysSet)
 // Reload
 call life_fnc_keyMenu

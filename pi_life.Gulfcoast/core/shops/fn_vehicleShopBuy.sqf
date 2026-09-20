@@ -67,7 +67,7 @@ private _create = {
     [_vehicle,_colorIndex] call life_fnc_colorVehicle;
     [_vehicle] call life_fnc_clearVehicleAmmo;
     _vehicle setVariable ["trunk_in_use",false,true];
-    _vehicle setVariable ["vehicle_info_owners",[[getPlayerUID player,profileName]],true];
+    //Sicherheitsprüfung #7: die Schluesselliste fuehrt der Server (TON_fnc_vehicleKeys) - beim Kauf schon geschehen
     _vehicle disableTIEquipment true; //No Thermals.. They're cheap but addictive.
     //Side Specific actions.
     switch (life_side) do {
@@ -91,14 +91,21 @@ private _create = {
     life_vehicles pushBack _vehicle;
     //Always handle key management by the server
     [getPlayerUID player,life_side,_vehicle,1] remoteExecCall ["TON_fnc_keyManagement",RSERV];
+    private _registered = false;
     if (_mode) then {
         if !(_className in LIFE_SETTINGS(getArray,"vehicleShop_rentalOnly")) then {
+            _registered = true;
             if (LIFE_HC_ACTIVE) then {
                 [(getPlayerUID player),life_side,_vehicle,_colorIndex] remoteExecCall ["HC_fnc_vehicleCreate",HC_Life];
             } else {
                 [(getPlayerUID player),life_side,_vehicle,_colorIndex] remoteExecCall ["TON_fnc_vehicleCreate",RSERV];
             };
         };
+    };
+    //Sicherheitsprüfung #7: Beim Kauf vergibt TON_fnc_vehicleCreate den Schluessel. Miet- und
+    //Nur-Miete-Fahrzeuge stehen in keiner Datenbank - dafuer loest der Server die bezahlte Miete ein.
+    if (!_registered) then {
+        [_vehicle, "rent"] remoteExecCall ["TON_fnc_vehicleKeys",RSERV];
     };
     if (LIFE_SETTINGS(getNumber,"player_advancedLog") isEqualTo 1) then {
         if (LIFE_SETTINGS(getNumber,"battlEye_friendlyLogging") isEqualTo 1) then {

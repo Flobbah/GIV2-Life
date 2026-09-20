@@ -42,7 +42,7 @@ closeDialog 0;
     [_vehicle,_colorIndex] call life_fnc_colorVehicle;
     [_vehicle] call life_fnc_clearVehicleAmmo;
     _vehicle setVariable ["trunk_in_use",false,true];
-    _vehicle setVariable ["vehicle_info_owners",[[getPlayerUID player,profileName]],true];
+    //Sicherheitsprüfung #7: die Schluesselliste fuehrt der Server (TON_fnc_vehicleKeys) - beim Anlegen schon geschehen
     _vehicle disableTIEquipment true;
     //Side specific animations (same as the vehicle shop)
     switch (life_side) do {

@@ -70,7 +70,7 @@ class CfgRelay {
         class life_fnc_demoChargeTimer { scheduled = 1; condition = "(_unit distance2D fed_bank) < 150"; };
 
         /* Fahrzeuge, Objekte, Effekte */
-        class life_fnc_lockVehicle { target = "object"; objectArg = 0; distance = 30; };
+        class life_fnc_lockVehicle { target = "object"; objectArg = 0; distance = 30; condition = "[_args param [0, objNull, [objNull]], _uid] call TON_fnc_hasKey"; };
         class life_fnc_setFuel { target = "object"; objectArg = 0; distance = 50; };
         class life_fnc_simDisable { distance = 30; objectArg = 0; condition = "private _o = _args param [0, objNull, [objNull]]; !isNull _o && {!(_o isKindOf ""AllVehicles"")}"; };
         class life_fnc_lightHouse { distance = 60; objectArg = 0; condition = "(_args param [0, objNull, [objNull]]) isKindOf ""House_F"""; };

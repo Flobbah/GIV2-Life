@@ -133,6 +133,9 @@ class CfgFunctions {
             class dutySwitch {};
             class managesc {};
             class cleanup {};
+            class hasKey {};
+            class vehicleKeys {};
+            class vehicleKeysSet {};
             class custody {};
             class custodySet {};
             class custodyWatch {};

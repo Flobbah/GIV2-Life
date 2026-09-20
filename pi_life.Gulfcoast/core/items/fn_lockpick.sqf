@@ -69,6 +69,9 @@ if (!_isVehicle) then {
         titleText[localize "STR_ISTR_Lock_Success","PLAIN"];
         ["lockpick"] call life_fnc_skillAddXP;
         life_vehicles pushBack _curTarget;
+        //Sicherheitsprüfung #7: Ob das Schloss aufging, entscheidet der Wuerfel hier; eintragen
+        //tut es der Server, der Abstand und Taktrate prueft (TON_fnc_vehicleKeys).
+        [_curTarget, "pick"] remoteExecCall ["TON_fnc_vehicleKeys",RSERV];
         if (LIFE_HC_ACTIVE) then {
             [getPlayerUID player,profileName,"487"] remoteExecCall ["HC_fnc_wantedAdd",HC_Life];
         } else {

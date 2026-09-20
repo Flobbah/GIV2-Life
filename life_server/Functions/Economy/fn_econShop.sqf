@@ -120,6 +120,14 @@ if (_kind isEqualTo "vehicle" && {!(_amount isEqualTo 1)}) then {
     _paid pushBack [_item, diag_tickTime];
     [_uid, "vehiclesPaid", _paid] call TON_fnc_serverSet;
 };
+//Sicherheitsprüfung #7: Ein Mietfahrzeug legt der Client an, ohne den Server je davon zu
+//unterrichten - es steht in keiner Datenbank. Damit der Mieter trotzdem einen Schluessel bekommt
+//(und sonst niemand), merkt sich der Server die bezahlte Miete; TON_fnc_vehicleKeys loest sie ein.
+if (_kind isEqualTo "vehicle" && {_amount isEqualTo 1}) then {
+    private _rented = [_uid, "vehiclesRented", []] call TON_fnc_serverGet;
+    _rented pushBack [_item, diag_tickTime];
+    [_uid, "vehiclesRented", _rented] call TON_fnc_serverSet;
+};
 //Inventar-Umbau Paket 3: gekaufte virtuelle Gegenstaende bucht der Server
 if (_kind isEqualTo "virtual" && {INVENTORY_MODE >= 1}) then {[_uid, _item, _amount, "shop_buy"] call TON_fnc_invChange};
 [true, [_price]] call _answer;

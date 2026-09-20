@@ -151,7 +151,8 @@ _plate = _plate select [0,7];
 if ((toLower typeOf _vehicle) find "d3s_" == 0) then {
     [_vehicle, _plate] call d3s_fnc_setlicense;
 };
-_vehicle setVariable ["vehicle_info_owners",[[_pid,_name]],true];
+//Sicherheitsprüfung #7: setzt Liste und Anzeige in einem
+[_vehicle, [[_pid, _name]]] call TON_fnc_vehicleKeysSet;
 _vehicle setVariable ["dbInfo",[(_vInfo select 4),(_vInfo select 7)],true];
 [_vehicle, "dbInfo", [(_vInfo select 4),(_vInfo select 7)]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
 _vehicle disableTIEquipment true; //No Thermals.. They're cheap but addictive.

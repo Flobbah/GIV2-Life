@@ -48,5 +48,7 @@ _side = switch (_side) do {
 };
 _plate = round(random(1000000));
 [_uid,_side,_type,_classname,_color,_plate] call DB_fnc_insertVehicle;
+//Sicherheitsprüfung #7: Schluessel vergibt der Server (Liste im Serverspeicher, Anzeige am Objekt)
+[_vehicle, [[_uid, ([_caller] call TON_fnc_callerInfo) param [3, ""]]]] call TON_fnc_vehicleKeysSet;
 _vehicle setVariable ["dbInfo",[_uid,_plate],true];
 [_vehicle, "dbInfo", [_uid,_plate]] call TON_fnc_serverSet; //Sicherheitsphase 0.2
